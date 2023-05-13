@@ -13,11 +13,19 @@ import java.io.IOException;
 import java.io.InputStream;
 
 public class Firebase {
-    public Firebase() {
+    public static Firestore db;
 
+    /**
+     * This is a Singleton pattern, utilized to force all application uses a unique connection of Firestore,
+     * preventing memory issues and max-simultaneously connections error.
+     */
+    public void run() {
+        if (Firebase.db == null) {
+            this.instance();
+        }
     }
 
-    public static void main(String[] args) {
+    private void instance() {
         try {
             InputStream serviceAccount = new FileInputStream("../configs/serviceAccount.json");
             GoogleCredentials credentials = GoogleCredentials.fromStream(serviceAccount);
@@ -26,14 +34,11 @@ public class Firebase {
                     .build();
             FirebaseApp.initializeApp(options);
 
-            Firestore db = FirestoreClient.getFirestore();
+            Firebase.db = FirestoreClient.getFirestore();
         } catch (FileNotFoundException exception) {
             System.out.println("File not found");
-        }
-        catch (IOException exception) {
+        } catch (IOException exception) {
             System.out.println("Credentials error");
         }
-
-
     }
 }
