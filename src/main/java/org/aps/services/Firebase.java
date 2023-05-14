@@ -7,34 +7,33 @@ import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
 import com.google.firebase.cloud.FirestoreClient;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
+import java.nio.file.Paths;
 
 public class Firebase {
-    public static Firestore db;
+    public static Firestore repository;
 
     /**
      * This is a Singleton pattern, utilized to force all application uses a unique connection of Firestore,
      * preventing memory issues and max-simultaneously connections error.
      */
     public void run() {
-        if (Firebase.db == null) {
+        if (repository == null) {
             this.instance();
         }
     }
 
     private void instance() {
         try {
-            InputStream serviceAccount = new FileInputStream("../configs/serviceAccount.json");
+            String filepath = new File("./src/main/java/org/aps/configs/serviceAccount.json").getAbsolutePath();
+            InputStream serviceAccount = new FileInputStream(filepath);
             GoogleCredentials credentials = GoogleCredentials.fromStream(serviceAccount);
             FirebaseOptions options = new FirebaseOptions.Builder()
                     .setCredentials(credentials)
                     .build();
             FirebaseApp.initializeApp(options);
 
-            Firebase.db = FirestoreClient.getFirestore();
+            Firebase.repository = FirestoreClient.getFirestore();
         } catch (FileNotFoundException exception) {
             System.out.println("File not found");
         } catch (IOException exception) {
