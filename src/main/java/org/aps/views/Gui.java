@@ -8,17 +8,20 @@ import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.JTextArea;
 
 public class Gui {
     void runGUI() {
         JFrame frame = new JFrame();
-        frame.setLayout(new GridLayout(5,1));
+        frame.setLayout(new GridLayout(5, 1));
         frame.setSize(500, 500);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         topPanel(frame);
         searchPanel(frame);
+        tableFrame(frame);
         frame.setVisible(true);
     }
 
@@ -52,7 +55,7 @@ public class Gui {
 
     void searchPanel(JFrame frame) {
         Container ffContainer = new Container();
-        ffContainer.setLayout(new GridLayout(2,1));
+        ffContainer.setLayout(new GridLayout(2, 1));
         ffContainer.setPreferredSize(new Dimension(100, 50));
         JLabel ff = new JLabel("Fauna/Flora");
         JComboBox ffOption = new JComboBox<>();
@@ -62,7 +65,7 @@ public class Gui {
         ffContainer.add(ffOption);
 
         Container groupContainer = new Container();
-        groupContainer.setLayout(new GridLayout(2,1));
+        groupContainer.setLayout(new GridLayout(2, 1));
         groupContainer.setPreferredSize(new Dimension(100, 50));
         JLabel groupLabel = new JLabel("Grupo");
         JComboBox groupComboBox = new JComboBox<>();
@@ -70,7 +73,7 @@ public class Gui {
         groupContainer.add(groupComboBox);
 
         Container fmlContainer = new Container();
-        fmlContainer.setLayout(new GridLayout(2,1));
+        fmlContainer.setLayout(new GridLayout(2, 1));
         fmlContainer.setPreferredSize(new Dimension(175, 50));
         JLabel fmlLabel = new JLabel("Familia");
         JComboBox fmlComboBox = new JComboBox<>();
@@ -78,7 +81,7 @@ public class Gui {
         fmlContainer.add(fmlComboBox);
 
         Container especiesContainer = new Container();
-        especiesContainer.setLayout(new GridLayout(2,1));
+        especiesContainer.setLayout(new GridLayout(2, 1));
         especiesContainer.setPreferredSize(new Dimension(175, 50));
         JLabel especiesLabel = new JLabel("Espécie");
         JTextArea especiesTextArea = new JTextArea();
@@ -86,7 +89,7 @@ public class Gui {
         especiesContainer.add(especiesTextArea);
 
         Container biomeContainer = new Container();
-        biomeContainer.setLayout(new GridLayout(2,1));
+        biomeContainer.setLayout(new GridLayout(2, 1));
         biomeContainer.setPreferredSize(new Dimension(175, 50));
         JLabel biomeLabel = new JLabel("BIOMA");
         JTextArea biomeTextArea = new JTextArea();
@@ -94,7 +97,7 @@ public class Gui {
         biomeContainer.add(biomeTextArea);
 
         Container threatCatContainer = new Container();
-        threatCatContainer.setLayout(new GridLayout(2,1));
+        threatCatContainer.setLayout(new GridLayout(2, 1));
         threatCatContainer.setPreferredSize(new Dimension(175, 50));
         JLabel threatCatLabel = new JLabel("CATEGORIA DE AMEAÇA");
         JTextArea threatCatTextArea = new JTextArea();
@@ -102,7 +105,7 @@ public class Gui {
         threatCatContainer.add(threatCatTextArea);
 
         Container mainThreatsContainer = new Container();
-        mainThreatsContainer.setLayout(new GridLayout(2,1));
+        mainThreatsContainer.setLayout(new GridLayout(2, 1));
         mainThreatsContainer.setPreferredSize(new Dimension(175, 50));
         JLabel mainThreatsLabel = new JLabel("PRINCIPAIS AMEAÇAS");
         JTextArea mainThreatsTextArea = new JTextArea();
@@ -110,7 +113,7 @@ public class Gui {
         mainThreatsContainer.add(mainThreatsTextArea);
 
         Container commomNameContainer = new Container();
-        commomNameContainer.setLayout(new GridLayout(2,1));
+        commomNameContainer.setLayout(new GridLayout(2, 1));
         commomNameContainer.setPreferredSize(new Dimension(175, 50));
         JLabel commomNameLabel = new JLabel("NOME COMUM");
         JTextArea commomNameTextArea = new JTextArea();
@@ -118,13 +121,12 @@ public class Gui {
         commomNameContainer.add(commomNameTextArea);
 
         Container estatesOcurrenciesContainer = new Container();
-        estatesOcurrenciesContainer.setLayout(new GridLayout(2,1));
+        estatesOcurrenciesContainer.setLayout(new GridLayout(2, 1));
         estatesOcurrenciesContainer.setPreferredSize(new Dimension(175, 50));
         JLabel estatesOcurrenciesLabel = new JLabel("ESTADOS DE OCORRÊNCIA");
         JTextArea estatesOcurrenciesTextArea = new JTextArea();
         estatesOcurrenciesContainer.add(estatesOcurrenciesLabel);
         estatesOcurrenciesContainer.add(estatesOcurrenciesTextArea);
-
 
         Container btnContainer = new Container();
         btnContainer.setLayout(new GridLayout(2, 1));
@@ -137,8 +139,7 @@ public class Gui {
         clearBtn.setFocusable(false);
         btnContainer.add(searchBtn);
         btnContainer.add(clearBtn);
-        
-        
+
         JPanel midPanel = new JPanel();
         midPanel.setLayout(new FlowLayout(0, 40, 10));
         midPanel.add(ffContainer);
@@ -150,8 +151,7 @@ public class Gui {
         midPanel.add(mainThreatsContainer);
         midPanel.add(commomNameContainer);
         midPanel.add(estatesOcurrenciesContainer);
-        
-        
+
         JPanel searchPanel = new JPanel();
         searchPanel.setBorder(BorderFactory.createTitledBorder(" [ OPÇÕES PESQUISA ] "));
         searchPanel.setLayout(new BorderLayout(350, 10));
@@ -161,8 +161,34 @@ public class Gui {
         frame.add(searchPanel);
     }
 
-    void tablePanel(JFrame frame) {
-        // implement table 
+    void tableFrame(JFrame frame) {
+        // implement table
+
+        JPanel tablePanel = new JPanel(new GridLayout(1,1));
+        tablePanel.setPreferredSize(new Dimension(500, 0));
+
+        String[] columns = { "Fauna/Flora", "Grupo", "Familia", "Especie(Simplificado)", "Nome Comum",
+                "Categoria de Ameaça", "Bioma", "Principais Ameaças", "Estados de Ocorrência" };
+
+        Object [][] dados = {
+                { "Flora", "angiospermas", "salicacae", "abatia angeliana", "-", "Vulneravel(VU)", "Mata Atlantica",
+                        "perda de habitat/ degradacao(induzida por humanos)", "pr"
+                },
+                { "Flora", "angiospermas", "salicacae", "abatia angeliana", "-", "Vulneravel(VU)", "Mata Atlantica",
+                        "perda de habitat/ degradacao(induzida por humanos)", "pr"
+                },
+                {null,null,null,null,null,null,null,null,null}
+            
+            };
+
+        JTable x = new JTable(dados, columns);
+        JScrollPane y = new JScrollPane(x);
+
+        tablePanel.add(y);
+
+        frame.add(tablePanel);
+
+
     }
 
     public static void main(String[] args) {
