@@ -14,7 +14,8 @@ import javax.swing.JTextArea;
 
 
 public class Gui {
-    
+    Btn btn = new Btn( 150, 30, false);
+    Lbl lbl = new Lbl(150, 30, 0);
     void runGUI() {
         JFrame frame = new JFrame();
         frame.setLayout(new GridLayout(3, 1, 0, 10));
@@ -39,13 +40,13 @@ public class Gui {
         centerPanel.setPreferredSize(new Dimension(100, 100));
 
         //instace of btns
-        JButton conectBtn = new JButton("CONECTAR");
-        JButton syncBtn = new JButton("SINCRONIZAR DADOS");
-        conectBtn.setFocusable(false);
-        syncBtn.setFocusable(false);
+        // JButton conectBtn = new JButton("CONECTAR");
+        // JButton syncBtn = new JButton("SINCRONIZAR DADOS");
+        // conectBtn.setFocusable(false);
+        // syncBtn.setFocusable(false);
 
-        centerPanel.add(conectBtn);
-        centerPanel.add(syncBtn);
+        centerPanel.add(btn.newBtn("CONECTAR"));
+        centerPanel.add(btn.newBtn("SINCRONIZAR"));
         centerPanel.setBackground(Color.BLUE);
 
         // instace of panel for close btn
@@ -76,13 +77,13 @@ public class Gui {
         ffContainer.setPreferredSize(new Dimension(100, 50));
 
 
-        JLabel ff = new JLabel("Fauna/Flora"); // fauna lbl 
+        // JLabel ff = new JLabel("Fauna/Flora"); // fauna lbl 
         JComboBox<String> ffOption = new JComboBox<String>(); // fauna combobox options
         // adding option to combobox
         ffOption.addItem("Fauna");
         ffOption.addItem("Flora");
         //adding to the container 
-        ffContainer.add(ff);
+        ffContainer.add(lbl.create("FAUNA/FLORA"));
         ffContainer.add(ffOption);
 
         Container groupContainer = new Container();

@@ -6,7 +6,6 @@ import java.io.FileReader;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 
-import org.aps.implementations.Dado;
 
 
 public class Converter {
@@ -20,7 +19,7 @@ public class Converter {
     }
     int i = 0;
 
-    public ArrayList<Dado> csvToJson() {
+    public void csvToJson() {
         try {
 
             reader = new BufferedReader(new FileReader(file, StandardCharsets.UTF_8));
@@ -48,10 +47,10 @@ public class Converter {
                 String especieExclusivaBR = row[13];
                 String[] estadoOcorrencia = row[14].split(",");
 
-                Dado dados = new Dado(faunaFlora, grupo, familia, especieSimp, nomeComum, categoriaAmeaca,
-                siglaCategoriaAmeaca, bioma, principaisAmeacas, presencaAreasProt, pan, ordenamentoPesqueiro,
-                nivelProtecao, especieExclusivaBR, estadoOcorrencia);
-                data.add(dados);
+                // Dado dados = new Dado(faunaFlora, grupo, familia, especieSimp, nomeComum, categoriaAmeaca,
+                // siglaCategoriaAmeaca, bioma, principaisAmeacas, presencaAreasProt, pan, ordenamentoPesqueiro,
+                // nivelProtecao, especieExclusivaBR, estadoOcorrencia);
+                // data.add(dados);
                
             }
 
@@ -59,7 +58,7 @@ public class Converter {
             e.printStackTrace();
             
         }
-        return data;
+        // return data;
 
     }
     
