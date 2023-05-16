@@ -21,6 +21,7 @@ public class EndangeredSpecie {
     private String species;
     private ArrayList<ThreatCategory> threatCategories;
     private Type type;
+    private ArrayList<State> occurrenceStates;
 
     public EndangeredSpecie(
             String id,
@@ -36,7 +37,8 @@ public class EndangeredSpecie {
             ArrayList<ProtectionLevel> protectionLevels,
             String species,
             ArrayList<ThreatCategory> threatCategories,
-            Type type
+            Type type,
+            ArrayList<State> occurrenceStates
     ) {
         this.id = id;
         this.biomes = biomes;
@@ -52,6 +54,7 @@ public class EndangeredSpecie {
         this.species = species;
         this.threatCategories = threatCategories;
         this.type = type;
+        this.occurrenceStates = occurrenceStates;
     }
 
     public EndangeredSpecie() {}
@@ -99,6 +102,10 @@ public class EndangeredSpecie {
 
     public Type getType() {
         return type;
+    }
+
+    public ArrayList<State> getState() {
+        return occurrenceStates;
     }
 
     public boolean getFishingRegulation() { return fishingRegulation; }
@@ -159,7 +166,8 @@ public class EndangeredSpecie {
                 protectionLevels,
                 species,
                 threatCategories,
-                type
+                type,
+                occurrenceStates
         );
     }
 }
