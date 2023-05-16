@@ -14,7 +14,6 @@ public class Converter {
     String file = "APS3/src/main/java/org/aps/configs/lista-de-especies-ameacas-2020.csv";
     BufferedReader reader;
     String line = "";
-    ArrayList<Dado> data = new ArrayList<Dado>();
     
     public Converter() {
 

@@ -12,10 +12,12 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
 
+
 public class Gui {
+    
     void runGUI() {
         JFrame frame = new JFrame();
-        frame.setLayout(new GridLayout(5, 1));
+        frame.setLayout(new GridLayout(3, 1, 0, 10));
         frame.setSize(500, 500);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -27,40 +29,59 @@ public class Gui {
 
     // top panel is added at NORTH within frame
     void topPanel(JFrame frame) {
-        JPanel topPanelFrame = new JPanel(new BorderLayout(0, 0));
-        topPanelFrame.setBackground(Color.black);
-        // topPanelFrame.setPreferredSize(new Dimension(100, 100));
+        // top panel adds the main btns: Connect, Sync and Close
 
+        //instance of main frame
+        JPanel topPanelFrame = new JPanel(new BorderLayout(0, 0));
+
+        // instance of panel for btns: connect & sync
         JPanel centerPanel = new JPanel(new FlowLayout(1, 40, 40));
         centerPanel.setPreferredSize(new Dimension(100, 100));
 
+        //instace of btns
         JButton conectBtn = new JButton("CONECTAR");
         JButton syncBtn = new JButton("SINCRONIZAR DADOS");
         conectBtn.setFocusable(false);
         syncBtn.setFocusable(false);
 
+        centerPanel.add(conectBtn);
+        centerPanel.add(syncBtn);
+        centerPanel.setBackground(Color.BLUE);
+
+        // instace of panel for close btn
         JPanel sidePanel = new JPanel(new FlowLayout(1, 10, 40));
+        sidePanel.setBackground(Color.BLACK);
+
+        // close btn
         JButton closeBtn = new JButton("FECHAR");
         closeBtn.setFocusable(false);
 
-        centerPanel.add(conectBtn);
-        centerPanel.add(syncBtn);
-
         sidePanel.add(closeBtn);
 
+        //adding all to the top frame
         topPanelFrame.add(BorderLayout.CENTER, centerPanel);
         topPanelFrame.add(BorderLayout.EAST, sidePanel);
+        topPanelFrame.setPreferredSize(new Dimension(0, 10));
+
+        //adding to the mainFrame
         frame.add(BorderLayout.NORTH, topPanelFrame);
     }
 
     void searchPanel(JFrame frame) {
+        // searchPanel add all the search tools to the frame
+
+        //instance of Fauna container
         Container ffContainer = new Container();
         ffContainer.setLayout(new GridLayout(2, 1));
         ffContainer.setPreferredSize(new Dimension(100, 50));
-        JLabel ff = new JLabel("Fauna/Flora");
-        JComboBox ffOption = new JComboBox<>();
+
+
+        JLabel ff = new JLabel("Fauna/Flora"); // fauna lbl 
+        JComboBox<String> ffOption = new JComboBox<String>(); // fauna combobox options
+        // adding option to combobox
         ffOption.addItem("Fauna");
         ffOption.addItem("Flora");
+        //adding to the container 
         ffContainer.add(ff);
         ffContainer.add(ffOption);
 
@@ -68,7 +89,7 @@ public class Gui {
         groupContainer.setLayout(new GridLayout(2, 1));
         groupContainer.setPreferredSize(new Dimension(100, 50));
         JLabel groupLabel = new JLabel("Grupo");
-        JComboBox groupComboBox = new JComboBox<>();
+        JComboBox<String> groupComboBox = new JComboBox<String>();
         groupContainer.add(groupLabel);
         groupContainer.add(groupComboBox);
 
@@ -76,7 +97,7 @@ public class Gui {
         fmlContainer.setLayout(new GridLayout(2, 1));
         fmlContainer.setPreferredSize(new Dimension(175, 50));
         JLabel fmlLabel = new JLabel("Familia");
-        JComboBox fmlComboBox = new JComboBox<>();
+        JComboBox<String> fmlComboBox = new JComboBox<String>();
         fmlContainer.add(fmlLabel);
         fmlContainer.add(fmlComboBox);
 
@@ -129,19 +150,19 @@ public class Gui {
         estatesOcurrenciesContainer.add(estatesOcurrenciesTextArea);
 
         Container btnContainer = new Container();
-        btnContainer.setLayout(new GridLayout(2, 1));
-        btnContainer.setPreferredSize(new Dimension(175, 0));
+        btnContainer.setLayout(new FlowLayout(1));
+        btnContainer.setPreferredSize(new Dimension(150, 70));
         JButton searchBtn = new JButton("PESQUISAR");
         searchBtn.setFocusable(false);
-        searchBtn.setPreferredSize(new Dimension(5, 30));
+        searchBtn.setPreferredSize(new Dimension(150, 30));
         JButton clearBtn = new JButton("LIMPAR");
-        clearBtn.setPreferredSize(new Dimension(5, 30));
+        clearBtn.setPreferredSize(new Dimension(150, 30));
         clearBtn.setFocusable(false);
         btnContainer.add(searchBtn);
         btnContainer.add(clearBtn);
 
         JPanel midPanel = new JPanel();
-        midPanel.setLayout(new FlowLayout(0, 40, 10));
+        midPanel.setLayout(new GridLayout(2, 4, 70, 10));
         midPanel.add(ffContainer);
         midPanel.add(groupContainer);
         midPanel.add(fmlContainer);
@@ -154,9 +175,10 @@ public class Gui {
 
         JPanel searchPanel = new JPanel();
         searchPanel.setBorder(BorderFactory.createTitledBorder(" [ OPÇÕES PESQUISA ] "));
-        searchPanel.setLayout(new BorderLayout(350, 10));
-        searchPanel.add(BorderLayout.CENTER, midPanel);
-        searchPanel.add(BorderLayout.EAST, btnContainer);
+        searchPanel.setLayout(new FlowLayout(0, 50, 0));
+
+        searchPanel.add(midPanel);
+        searchPanel.add(btnContainer);
 
         frame.add(searchPanel);
     }
@@ -165,7 +187,8 @@ public class Gui {
         // implement table
 
         JPanel tablePanel = new JPanel(new GridLayout(1,1));
-        tablePanel.setPreferredSize(new Dimension(500, 0));
+
+        tablePanel.setPreferredSize(new Dimension(500, 500));
 
         String[] columns = { "Fauna/Flora", "Grupo", "Familia", "Especie(Simplificado)", "Nome Comum",
                 "Categoria de Ameaça", "Bioma", "Principais Ameaças", "Estados de Ocorrência" };
@@ -177,13 +200,20 @@ public class Gui {
                 { "Flora", "angiospermas", "salicacae", "abatia angeliana", "-", "Vulneravel(VU)", "Mata Atlantica",
                         "perda de habitat/ degradacao(induzida por humanos)", "pr"
                 },
+                {null,null,null,null,null,null,null,null,null},
+                {null,null,null,null,null,null,null,null,null},
+                {null,null,null,null,null,null,null,null,null},
+                {null,null,null,null,null,null,null,null,null},
+                {null,null,null,null,null,null,null,null,null},
+                {null,null,null,null,null,null,null,null,null},
                 {null,null,null,null,null,null,null,null,null}
             
             };
 
         JTable x = new JTable(dados, columns);
+        x.setCellSelectionEnabled(false);
+        x.setShowGrid(true);
         JScrollPane y = new JScrollPane(x);
-
         tablePanel.add(y);
 
         frame.add(tablePanel);
