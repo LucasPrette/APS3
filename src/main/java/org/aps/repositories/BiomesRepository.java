@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 public class BiomesRepository {
-    private final String collection = "biomes";
+    static final String collection = "biomes";
 
     public BiomesRepository() {
         new Firebase().run();
@@ -21,7 +21,7 @@ public class BiomesRepository {
 
     public ArrayList<Biome> find() {
         try {
-            ApiFuture<QuerySnapshot> query = Firebase.repository.collection(this.collection).get();
+            ApiFuture<QuerySnapshot> query = Firebase.repository.collection(collection).get();
             List<QueryDocumentSnapshot> documents = query.get().getDocuments();
 
             ArrayList<Biome> result = new ArrayList<Biome>();
@@ -40,7 +40,7 @@ public class BiomesRepository {
 
     public Biome findByName(String name) {
         try {
-            Query query = Firebase.repository.collection(this.collection).whereEqualTo("name", name).limit(1);
+            Query query = Firebase.repository.collection(collection).whereEqualTo("name", name).limit(1);
             List<QueryDocumentSnapshot> list = query.get().get().getDocuments();
             QueryDocumentSnapshot item = list.get(0);
 

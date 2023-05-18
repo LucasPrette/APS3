@@ -13,14 +13,14 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 public class GroupiesRepository {
-    private final String collection = "groupies";
+    static final String collection = "groupies";
     public GroupiesRepository() {
         new Firebase().run();
     }
 
     public ArrayList<Group> find() {
         try {
-            ApiFuture<QuerySnapshot> query = Firebase.repository.collection(this.collection).get();
+            ApiFuture<QuerySnapshot> query = Firebase.repository.collection(collection).get();
             List<QueryDocumentSnapshot> documents = query.get().getDocuments();
 
             ArrayList<Group> result = new ArrayList<Group>();
@@ -39,7 +39,7 @@ public class GroupiesRepository {
 
     public Group findByName(String name) {
         try {
-            Query query = Firebase.repository.collection(this.collection).whereEqualTo("name", name).limit(1);
+            Query query = Firebase.repository.collection(collection).whereEqualTo("name", name).limit(1);
             List<QueryDocumentSnapshot> list = query.get().get().getDocuments();
             QueryDocumentSnapshot item = list.get(0);
 

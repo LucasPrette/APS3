@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 public class ProtectionLevelsRepository {
-    private final String collection = "protection_levels";
+    static final String collection = "protection_levels";
 
     public ProtectionLevelsRepository() {
         new Firebase().run();
@@ -21,7 +21,7 @@ public class ProtectionLevelsRepository {
 
     public ArrayList<ProtectionLevel> find() {
         try {
-            ApiFuture<QuerySnapshot> query = Firebase.repository.collection(this.collection).get();
+            ApiFuture<QuerySnapshot> query = Firebase.repository.collection(collection).get();
             List<QueryDocumentSnapshot> documents = query.get().getDocuments();
 
             ArrayList<ProtectionLevel> result = new ArrayList<ProtectionLevel>();
@@ -40,7 +40,7 @@ public class ProtectionLevelsRepository {
 
     public ProtectionLevel findByName(String name) {
         try {
-            Query query = Firebase.repository.collection(this.collection).whereEqualTo("name", name).limit(1);
+            Query query = Firebase.repository.collection(collection).whereEqualTo("name", name).limit(1);
             List<QueryDocumentSnapshot> list = query.get().get().getDocuments();
             QueryDocumentSnapshot item = list.get(0);
 

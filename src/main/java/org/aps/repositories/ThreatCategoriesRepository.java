@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 public class ThreatCategoriesRepository {
-    private final String collection = "threat_categories";
+    static final String collection = "threat_categories";
 
     public ThreatCategoriesRepository() {
         new Firebase().run();
@@ -21,7 +21,7 @@ public class ThreatCategoriesRepository {
 
     public ArrayList<ThreatCategory> find() {
         try {
-            ApiFuture<QuerySnapshot> query = Firebase.repository.collection(this.collection).get();
+            ApiFuture<QuerySnapshot> query = Firebase.repository.collection(collection).get();
             List<QueryDocumentSnapshot> documents = query.get().getDocuments();
 
             ArrayList<ThreatCategory> result = new ArrayList<ThreatCategory>();
@@ -40,7 +40,7 @@ public class ThreatCategoriesRepository {
 
     public ThreatCategory findByName(String name) {
         try {
-            Query query = Firebase.repository.collection(this.collection).whereEqualTo("name", name).limit(1);
+            Query query = Firebase.repository.collection(collection).whereEqualTo("name", name).limit(1);
             List<QueryDocumentSnapshot> list = query.get().get().getDocuments();
             QueryDocumentSnapshot item = list.get(0);
 
