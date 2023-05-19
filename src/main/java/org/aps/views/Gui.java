@@ -35,19 +35,18 @@ public class Gui {
     JPanel topPanel() {
         // top panel adds the main btns: Connect, Sync and Close
 
-        // instance of main frame
         JPanel topPanelFrame = new JPanel(new GridBagLayout());
-        GridBagConstraints gbc = new GridBagConstraints();
+        GridBagConstraints gbc = new GridBagConstraints(); // gbc sets position, size, etc... within its layout
 
-        gbc.weightx = 1;
+        gbc.weightx = 1; // adds an extra space on X axis
         gbc.insets = new Insets(10, 50, 10, 50);
 
         // gbc.ipady = 0;
         // gbc.ipadx = 150;
 
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-        topPanelFrame.add(btn.newBtn("CONECTAR"), gbc);
+        gbc.gridx = 0; // object position on X axis grid
+        gbc.gridy = 0; //object position on Y axis grid
+        topPanelFrame.add(btn.newBtn("CONECTAR"), gbc); // adds a componet with gbc setting 
 
         gbc.gridx = 1;
         gbc.gridy = 0;
@@ -59,10 +58,10 @@ public class Gui {
 
         gbc.gridx = 0;
         gbc.gridy = 1;
-        gbc.ipadx = 100;
-        gbc.ipady = 5;
+        gbc.ipadx = 100;  // sets the size of the component on X axis
+        gbc.ipady = 5;    // sets the size of the component on Y axis
         gbc.fill = GridBagConstraints.HORIZONTAL;
-        gbc.gridwidth = 3;
+        gbc.gridwidth = 3; // tells the component to occupy X spaces within grid
         topPanelFrame.add(searchPanel(), gbc);
 
         return topPanelFrame;
