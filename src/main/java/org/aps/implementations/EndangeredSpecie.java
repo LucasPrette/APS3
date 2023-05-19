@@ -5,6 +5,7 @@ import com.google.cloud.firestore.QueryDocumentSnapshot;
 import org.aps.repositories.*;
 
 import java.util.ArrayList;
+import java.util.UUID;
 
 public class EndangeredSpecie {
     private String id;
@@ -41,6 +42,39 @@ public class EndangeredSpecie {
             ArrayList<State> occurrenceStates
     ) {
         this.id = id;
+        this.biomes = biomes;
+        this.countryExclusive = countryExclusive;
+        this.family = family;
+        this.fishingRegulation = fishingRegulation;
+        this.group = group;
+        this.mainThreats = mainThreats;
+        this.name = name;
+        this.pan = pan;
+        this.protectionLevels = protectionLevels;
+        this.protectedAreaPresence = protectedAreaPresence;
+        this.species = species;
+        this.threatCategories = threatCategories;
+        this.type = type;
+        this.occurrenceStates = occurrenceStates;
+    }
+
+    public EndangeredSpecie(
+            ArrayList<Biome> biomes,
+            Boolean countryExclusive,
+            String family,
+            boolean fishingRegulation,
+            Group group,
+            ArrayList<String> mainThreats,
+            String name,
+            boolean pan,
+            boolean protectedAreaPresence,
+            ArrayList<ProtectionLevel> protectionLevels,
+            String species,
+            ArrayList<ThreatCategory> threatCategories,
+            Type type,
+            ArrayList<State> occurrenceStates
+    ) {
+//        this.id = UUID.randomUUID().toString();
         this.biomes = biomes;
         this.countryExclusive = countryExclusive;
         this.family = family;
@@ -104,7 +138,7 @@ public class EndangeredSpecie {
         return type;
     }
 
-    public ArrayList<State> getState() {
+    public ArrayList<State> getOccurrenceStates() {
         return occurrenceStates;
     }
 

@@ -57,7 +57,7 @@ public class BiomesRepository {
 
     public Biome findByRef(DocumentReference ref) {
         try {
-            return Biome.repositoryMapper(ref.get().get());
+            return Biome.repositoryMapper(ref, ref.get().get());
         } catch (ExecutionException | InterruptedException exception) {
             System.out.println(exception.getMessage());
         }

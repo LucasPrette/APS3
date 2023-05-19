@@ -56,7 +56,7 @@ public class GroupiesRepository {
 
     public Group findByRef(DocumentReference ref) {
         try {
-            return Group.repositoryMapper(ref.get().get());
+            return Group.repositoryMapper(ref, ref.get().get());
         } catch (ExecutionException | InterruptedException exception) {
             System.out.println(exception.getMessage());
         }

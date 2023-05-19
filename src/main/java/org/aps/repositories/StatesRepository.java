@@ -57,7 +57,7 @@ public class StatesRepository {
 
     public State findByRef(DocumentReference ref) {
         try {
-            return State.repositoryMapper(ref.get().get());
+            return State.repositoryMapper(ref, ref.get().get());
         } catch (ExecutionException | InterruptedException exception) {
             System.out.println(exception.getMessage());
         }

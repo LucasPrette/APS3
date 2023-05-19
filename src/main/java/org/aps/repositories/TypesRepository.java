@@ -57,7 +57,7 @@ public class TypesRepository {
 
     public Type findByRef(DocumentReference ref) {
         try {
-            return Type.repositoryMapper(ref.get().get());
+            return Type.repositoryMapper(ref, ref.get().get());
         } catch (ExecutionException | InterruptedException exception) {
             System.out.println(exception.getMessage());
         }

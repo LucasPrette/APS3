@@ -57,7 +57,7 @@ public class ProtectionLevelsRepository {
 
     public ProtectionLevel findByRef(DocumentReference ref) {
         try {
-            return ProtectionLevel.repositoryMapper(ref.get().get());
+            return ProtectionLevel.repositoryMapper(ref, ref.get().get());
         } catch (ExecutionException | InterruptedException exception) {
             System.out.println(exception.getMessage());
         }

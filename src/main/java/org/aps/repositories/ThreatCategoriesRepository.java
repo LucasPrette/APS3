@@ -57,7 +57,7 @@ public class ThreatCategoriesRepository {
 
     public ThreatCategory findByRef(DocumentReference ref) {
         try {
-            return ThreatCategory.repositoryMapper(ref.get().get());
+            return ThreatCategory.repositoryMapper(ref, ref.get().get());
         } catch (ExecutionException | InterruptedException exception) {
             System.out.println(exception.getMessage());
         }
