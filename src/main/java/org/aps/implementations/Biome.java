@@ -5,7 +5,7 @@ import com.google.cloud.firestore.DocumentSnapshot;
 import com.google.cloud.firestore.QueryDocumentSnapshot;
 
 public class Biome {
-    private final String id;
+    private String id;
     private final String name;
     private DocumentReference ref = null;
 
@@ -17,6 +17,10 @@ public class Biome {
 
     public Biome(String id, String name) {
         this.id = id;
+        this.name = name;
+    }
+
+    public Biome(String name) {
         this.name = name;
     }
 

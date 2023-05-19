@@ -5,9 +5,13 @@ import com.google.cloud.firestore.DocumentSnapshot;
 import com.google.cloud.firestore.QueryDocumentSnapshot;
 
 public class Group {
-    private final String id;
+    private String id;
     private final String name;
     private DocumentReference ref;
+
+    public Group(String name) {
+        this.name = name;
+    }
 
     public Group(String id, String name) {
         this.id = id;

@@ -5,10 +5,14 @@ import com.google.cloud.firestore.DocumentSnapshot;
 import com.google.cloud.firestore.QueryDocumentSnapshot;
 
 public class State {
-    private final String id;
-    private final String name;
+    private String id;
+    private String name;
     private final String uf;
     private DocumentReference ref;
+
+    public State(String uf) {
+        this.uf = uf;
+    }
 
     public State(String id, String name, String uf) {
         this.id = id;

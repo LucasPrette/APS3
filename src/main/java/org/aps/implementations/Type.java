@@ -5,10 +5,13 @@ import com.google.cloud.firestore.DocumentSnapshot;
 import com.google.cloud.firestore.QueryDocumentSnapshot;
 
 public class Type {
-    private final String id;
+    private String id;
     private final String name;
     private DocumentReference ref;
 
+    public Type(String name) {
+        this.name = name;
+    }
     public Type(String id, String name) {
         this.id = id;
         this.name = name;

@@ -7,9 +7,13 @@ import com.google.cloud.firestore.QueryDocumentSnapshot;
 import java.util.Objects;
 
 public class ProtectionLevel {
-    private final String id;
+    private String id;
     private final int level;
     private DocumentReference ref;
+
+    public ProtectionLevel(int level) {
+        this.level = level;
+    }
 
     public ProtectionLevel(String id, int level) {
         this.id = id;

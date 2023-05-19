@@ -5,10 +5,15 @@ import com.google.cloud.firestore.DocumentSnapshot;
 import com.google.cloud.firestore.QueryDocumentSnapshot;
 
 public class ThreatCategory {
-    private final String id;
+    private String id;
     private final String name;
     private final String acronym;
     private DocumentReference ref;
+
+    public ThreatCategory(String name, String acronym) {
+        this.name = name;
+        this.acronym = acronym;
+    }
 
     public ThreatCategory(String id, String name, String acronym) {
         this.id = id;
