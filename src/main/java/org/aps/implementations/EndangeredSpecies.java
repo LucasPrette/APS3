@@ -6,7 +6,7 @@ import org.aps.repositories.*;
 
 import java.util.ArrayList;
 
-public class EndangeredSpecie {
+public class EndangeredSpecies {
     private String id;
     private ArrayList<Biome> biomes;
     private Boolean countryExclusive;
@@ -17,13 +17,13 @@ public class EndangeredSpecie {
     private String name;
     private boolean pan;
     private boolean protectedAreaPresence;
-    private ArrayList<ProtectionLevel> protectionLevels;
+    private ProtectionLevel protectionLevel;
     private String species;
-    private ArrayList<ThreatCategory> threatCategories;
+    private ThreatCategory threatCategory;
     private Type type;
     private ArrayList<State> occurrenceStates;
 
-    public EndangeredSpecie(
+    public EndangeredSpecies(
             String id,
             ArrayList<Biome> biomes,
             Boolean countryExclusive,
@@ -34,9 +34,9 @@ public class EndangeredSpecie {
             String name,
             boolean pan,
             boolean protectedAreaPresence,
-            ArrayList<ProtectionLevel> protectionLevels,
+            ProtectionLevel protectionLevel,
             String species,
-            ArrayList<ThreatCategory> threatCategories,
+            ThreatCategory threatCategory,
             Type type,
             ArrayList<State> occurrenceStates
     ) {
@@ -49,15 +49,47 @@ public class EndangeredSpecie {
         this.mainThreats = mainThreats;
         this.name = name;
         this.pan = pan;
-        this.protectionLevels = protectionLevels;
+        this.protectionLevel = protectionLevel;
         this.protectedAreaPresence = protectedAreaPresence;
         this.species = species;
-        this.threatCategories = threatCategories;
+        this.threatCategory = threatCategory;
         this.type = type;
         this.occurrenceStates = occurrenceStates;
     }
 
-    public EndangeredSpecie() {}
+    public EndangeredSpecies(
+            ArrayList<Biome> biomes,
+            Boolean countryExclusive,
+            String family,
+            boolean fishingRegulation,
+            Group group,
+            ArrayList<String> mainThreats,
+            String name,
+            boolean pan,
+            boolean protectedAreaPresence,
+            ProtectionLevel protectionLevel,
+            String species,
+            ThreatCategory threatCategory,
+            Type type,
+            ArrayList<State> occurrenceStates
+    ) {
+        this.biomes = biomes;
+        this.countryExclusive = countryExclusive;
+        this.family = family;
+        this.fishingRegulation = fishingRegulation;
+        this.group = group;
+        this.mainThreats = mainThreats;
+        this.name = name;
+        this.pan = pan;
+        this.protectionLevel = protectionLevel;
+        this.protectedAreaPresence = protectedAreaPresence;
+        this.species = species;
+        this.threatCategory = threatCategory;
+        this.type = type;
+        this.occurrenceStates = occurrenceStates;
+    }
+
+    public EndangeredSpecies() {}
 
     public String getId() {
         return id;
@@ -72,8 +104,8 @@ public class EndangeredSpecie {
         return biomes;
     }
 
-    public ArrayList<ProtectionLevel> getProtectionLevels() {
-        return protectionLevels;
+    public ProtectionLevel getProtectionLevel() {
+        return protectionLevel;
     }
 
     public String getSpecies() {
@@ -84,8 +116,8 @@ public class EndangeredSpecie {
         return mainThreats;
     }
 
-    public ArrayList<ThreatCategory> getThreatCategories() {
-        return threatCategories;
+    public ThreatCategory getThreatCategory() {
+        return threatCategory;
     }
 
     public Boolean getCountryExclusive() {
@@ -104,7 +136,7 @@ public class EndangeredSpecie {
         return type;
     }
 
-    public ArrayList<State> getState() {
+    public ArrayList<State> getOccurrenceStates() {
         return occurrenceStates;
     }
 
@@ -114,12 +146,12 @@ public class EndangeredSpecie {
 
     public boolean getProtectedAreaPresence() { return protectedAreaPresence; }
 
-    public static EndangeredSpecie repositoryMapper(QueryDocumentSnapshot document) {
+    public static EndangeredSpecies repositoryMapper(QueryDocumentSnapshot document) {
         ArrayList<DocumentReference> biomesRef = (ArrayList<DocumentReference>) document.get("biome");
         DocumentReference groupRef = (DocumentReference) document.get("group");
         ArrayList<DocumentReference> occurrenceStatesRef = (ArrayList<DocumentReference>) document.get("occurrence_states");
-        ArrayList<DocumentReference> protectionLevelsRef = (ArrayList<DocumentReference>) document.get("protection_level");
-        ArrayList<DocumentReference> threatCategoriesRef = (ArrayList<DocumentReference>) document.get("threat_category");
+        DocumentReference protectionLevelRef = (DocumentReference) document.get("protection_level");
+        DocumentReference threatCategoryRef = (DocumentReference) document.get("threat_category");
         DocumentReference typeRef = (DocumentReference) document.get("type");
 
         BiomesRepository biomesRepository = new BiomesRepository();
@@ -131,14 +163,12 @@ public class EndangeredSpecie {
 
         ArrayList<Biome> biomes = new ArrayList<Biome>();
         ArrayList<State> occurrenceStates = new ArrayList<State>();
-        ArrayList<ProtectionLevel> protectionLevels = new ArrayList<ProtectionLevel>();
-        ArrayList<ThreatCategory> threatCategories = new ArrayList<ThreatCategory>();
 
         biomesRef.forEach(ref -> biomes.add(biomesRepository.findByRef(ref)));
         Group group = groupiesRepository.findByRef(groupRef);
         occurrenceStatesRef.forEach(ref -> occurrenceStates.add(statesRepository.findByRef(ref)));
-        protectionLevelsRef.forEach(ref -> protectionLevels.add(protectionLevelsRepository.findByRef(ref)));
-        threatCategoriesRef.forEach(ref -> threatCategories.add(threatCategoriesRepository.findByRef(ref)));
+        ProtectionLevel protectionLevel = protectionLevelsRepository.findByRef(protectionLevelRef);
+        ThreatCategory threatCategory = threatCategoriesRepository.findByRef(threatCategoryRef);
         Type type = typesRepository.findByRef(typeRef);
 
         Boolean countryExclusive = document.getBoolean("country_exclusive");
@@ -152,7 +182,7 @@ public class EndangeredSpecie {
         String id = document.getId();
 
 
-        return new EndangeredSpecie(
+        return new EndangeredSpecies(
                 id,
                 biomes,
                 countryExclusive,
@@ -163,9 +193,9 @@ public class EndangeredSpecie {
                 name,
                 pan,
                 protectedAreaPresence,
-                protectionLevels,
+                protectionLevel,
                 species,
-                threatCategories,
+                threatCategory,
                 type,
                 occurrenceStates
         );

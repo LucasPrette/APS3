@@ -8,9 +8,8 @@ import com.google.firebase.FirebaseOptions;
 import com.google.firebase.cloud.FirestoreClient;
 
 import java.io.*;
-import java.nio.file.Paths;
 
-public class Firebase {
+public class FirebaseService {
     public static Firestore repository;
 
     /**
@@ -33,7 +32,7 @@ public class Firebase {
                     .build();
             FirebaseApp.initializeApp(options);
 
-            Firebase.repository = FirestoreClient.getFirestore();
+            FirebaseService.repository = FirestoreClient.getFirestore();
         } catch (FileNotFoundException exception) {
             System.out.println("File not found");
         } catch (IOException exception) {

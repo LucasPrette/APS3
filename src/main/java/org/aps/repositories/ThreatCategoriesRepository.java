@@ -6,7 +6,7 @@ import com.google.cloud.firestore.Query;
 import com.google.cloud.firestore.QueryDocumentSnapshot;
 import com.google.cloud.firestore.QuerySnapshot;
 import org.aps.implementations.ThreatCategory;
-import org.aps.services.Firebase;
+import org.aps.services.FirebaseService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,12 +16,12 @@ public class ThreatCategoriesRepository {
     static final String collection = "threat_categories";
 
     public ThreatCategoriesRepository() {
-        new Firebase().run();
+        new FirebaseService().run();
     }
 
     public ArrayList<ThreatCategory> find() {
         try {
-            ApiFuture<QuerySnapshot> query = Firebase.repository.collection(collection).get();
+            ApiFuture<QuerySnapshot> query = FirebaseService.repository.collection(collection).get();
             List<QueryDocumentSnapshot> documents = query.get().getDocuments();
 
             ArrayList<ThreatCategory> result = new ArrayList<ThreatCategory>();
@@ -40,7 +40,7 @@ public class ThreatCategoriesRepository {
 
     public ThreatCategory findByName(String name) {
         try {
-            Query query = Firebase.repository.collection(collection).whereEqualTo("name", name).limit(1);
+            Query query = FirebaseService.repository.collection(collection).whereEqualTo("name", name).limit(1);
             List<QueryDocumentSnapshot> list = query.get().get().getDocuments();
             QueryDocumentSnapshot item = list.get(0);
 
@@ -57,7 +57,7 @@ public class ThreatCategoriesRepository {
 
     public ThreatCategory findByRef(DocumentReference ref) {
         try {
-            return ThreatCategory.repositoryMapper(ref.get().get());
+            return ThreatCategory.repositoryMapper(ref, ref.get().get());
         } catch (ExecutionException | InterruptedException exception) {
             System.out.println(exception.getMessage());
         }
