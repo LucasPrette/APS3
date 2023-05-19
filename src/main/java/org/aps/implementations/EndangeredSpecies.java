@@ -6,7 +6,7 @@ import org.aps.repositories.*;
 
 import java.util.ArrayList;
 
-public class EndangeredSpecie {
+public class EndangeredSpecies {
     private String id;
     private ArrayList<Biome> biomes;
     private Boolean countryExclusive;
@@ -23,7 +23,7 @@ public class EndangeredSpecie {
     private Type type;
     private ArrayList<State> occurrenceStates;
 
-    public EndangeredSpecie(
+    public EndangeredSpecies(
             String id,
             ArrayList<Biome> biomes,
             Boolean countryExclusive,
@@ -57,7 +57,7 @@ public class EndangeredSpecie {
         this.occurrenceStates = occurrenceStates;
     }
 
-    public EndangeredSpecie(
+    public EndangeredSpecies(
             ArrayList<Biome> biomes,
             Boolean countryExclusive,
             String family,
@@ -89,7 +89,7 @@ public class EndangeredSpecie {
         this.occurrenceStates = occurrenceStates;
     }
 
-    public EndangeredSpecie() {}
+    public EndangeredSpecies() {}
 
     public String getId() {
         return id;
@@ -146,7 +146,7 @@ public class EndangeredSpecie {
 
     public boolean getProtectedAreaPresence() { return protectedAreaPresence; }
 
-    public static EndangeredSpecie repositoryMapper(QueryDocumentSnapshot document) {
+    public static EndangeredSpecies repositoryMapper(QueryDocumentSnapshot document) {
         ArrayList<DocumentReference> biomesRef = (ArrayList<DocumentReference>) document.get("biome");
         DocumentReference groupRef = (DocumentReference) document.get("group");
         ArrayList<DocumentReference> occurrenceStatesRef = (ArrayList<DocumentReference>) document.get("occurrence_states");
@@ -182,7 +182,7 @@ public class EndangeredSpecie {
         String id = document.getId();
 
 
-        return new EndangeredSpecie(
+        return new EndangeredSpecies(
                 id,
                 biomes,
                 countryExclusive,

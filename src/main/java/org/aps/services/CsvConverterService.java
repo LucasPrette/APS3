@@ -14,8 +14,8 @@ public class CsvConverterService {
     String file = "APS3/src/main/java/org/aps/configs/lista-de-especies-ameacas-2020.csv";
     String line = "";
 
-    public ArrayList<EndangeredSpecie> csvToJClass() {
-        ArrayList<EndangeredSpecie> result = new ArrayList<EndangeredSpecie>();
+    public ArrayList<EndangeredSpecies> csvToJClass() {
+        ArrayList<EndangeredSpecies> result = new ArrayList<EndangeredSpecies>();
 
         try {
             BufferedReader reader = new BufferedReader(new FileReader(file, StandardCharsets.UTF_8));
@@ -62,7 +62,7 @@ public class CsvConverterService {
                 }
 
                 ThreatCategory threatCategory = new ThreatCategory(threatCategoryName, threatCategoryAcronym);
-                EndangeredSpecie endangeredSpecie = new EndangeredSpecie(
+                EndangeredSpecies endangeredSpecies = new EndangeredSpecies(
                         biomes,
                         countryExclusive,
                         family,
@@ -79,7 +79,7 @@ public class CsvConverterService {
                         occurrenceStates
                 );
 
-                result.add(endangeredSpecie);
+                result.add(endangeredSpecies);
             }
         } catch (Exception e) {
             e.printStackTrace();
