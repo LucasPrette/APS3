@@ -10,215 +10,197 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.JTextArea;
-
+import javax.swing.JTextField;
 
 public class Gui {
-    Btn btn = new Btn( 150, 30, false);
+
+    Btn btn = new Btn(150, 30, false);
     Lbl lbl = new Lbl(150, 30, 0);
+
     void runGUI() {
         JFrame frame = new JFrame();
-        frame.setLayout(new GridLayout(3, 1, 0, 10));
-        frame.setSize(500, 500);
+        frame.setLayout(new BorderLayout(0, 50));
+        System.out.println(frame.getMaximumSize());
+        frame.setSize(750, 750);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        topPanel(frame);
-        searchPanel(frame);
-        tableFrame(frame);
+        frame.add(BorderLayout.NORTH, topPanel());
+        frame.add(BorderLayout.CENTER, tableFrame());
+        frame.add(BorderLayout.EAST, new JPanel());
+        frame.add(BorderLayout.WEST, new JPanel());
         frame.setVisible(true);
     }
 
     // top panel is added at NORTH within frame
-    void topPanel(JFrame frame) {
+    JPanel topPanel() {
         // top panel adds the main btns: Connect, Sync and Close
 
-        //instance of main frame
-        JPanel topPanelFrame = new JPanel(new BorderLayout(0, 0));
+        // instance of main frame
+        JPanel topPanelFrame = new JPanel(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
 
-        // instance of panel for btns: connect & sync
-        JPanel centerPanel = new JPanel(new FlowLayout(1, 40, 40));
-        centerPanel.setPreferredSize(new Dimension(100, 100));
+        gbc.weightx = 1;
+        gbc.insets = new Insets(10, 50, 10, 50);
 
-        //instace of btns
-        // JButton conectBtn = new JButton("CONECTAR");
-        // JButton syncBtn = new JButton("SINCRONIZAR DADOS");
-        // conectBtn.setFocusable(false);
-        // syncBtn.setFocusable(false);
+        // gbc.ipady = 0;
+        // gbc.ipadx = 150;
 
-        centerPanel.add(btn.newBtn("CONECTAR"));
-        centerPanel.add(btn.newBtn("SINCRONIZAR"));
-        centerPanel.setBackground(Color.BLUE);
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        topPanelFrame.add(btn.newBtn("CONECTAR"), gbc);
 
-        // instace of panel for close btn
-        JPanel sidePanel = new JPanel(new FlowLayout(1, 10, 40));
-        sidePanel.setBackground(Color.BLACK);
+        gbc.gridx = 1;
+        gbc.gridy = 0;
+        topPanelFrame.add(btn.newBtn("SINCRONIZAR"), gbc);
 
-        // close btn
-        JButton closeBtn = new JButton("FECHAR");
-        closeBtn.setFocusable(false);
+        gbc.gridx = 2;
+        gbc.gridy = 0;
+        topPanelFrame.add(btn.newBtn("FECHAR"), gbc);
 
-        sidePanel.add(closeBtn);
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        gbc.ipadx = 100;
+        gbc.ipady = 5;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.gridwidth = 3;
+        topPanelFrame.add(searchPanel(), gbc);
 
-        //adding all to the top frame
-        topPanelFrame.add(BorderLayout.CENTER, centerPanel);
-        topPanelFrame.add(BorderLayout.EAST, sidePanel);
-        topPanelFrame.setPreferredSize(new Dimension(0, 10));
-
-        //adding to the mainFrame
-        frame.add(BorderLayout.NORTH, topPanelFrame);
+        return topPanelFrame;
     }
 
-    void searchPanel(JFrame frame) {
-        // searchPanel add all the search tools to the frame
+    JPanel searchPanel() {
 
-        //instance of Fauna container
-        Container ffContainer = new Container();
-        ffContainer.setLayout(new GridLayout(2, 1));
-        ffContainer.setPreferredSize(new Dimension(100, 50));
+        JPanel searchPanel = new JPanel(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
 
+        searchPanel.setBorder(BorderFactory.createTitledBorder("Opções de Pesquisa"));
 
-        // JLabel ff = new JLabel("Fauna/Flora"); // fauna lbl 
-        JComboBox<String> ffOption = new JComboBox<String>(); // fauna combobox options
-        // adding option to combobox
-        ffOption.addItem("Fauna");
-        ffOption.addItem("Flora");
-        //adding to the container 
-        ffContainer.add(lbl.create("FAUNA/FLORA"));
-        ffContainer.add(ffOption);
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.weightx = 0.5;
+        gbc.gridwidth = 1;
+        gbc.gridheight = 1;
+        gbc.ipadx = 100;
+        gbc.ipady = 5;
+        gbc.insets = new Insets(0, 10, 5, 0);
 
-        Container groupContainer = new Container();
-        groupContainer.setLayout(new GridLayout(2, 1));
-        groupContainer.setPreferredSize(new Dimension(100, 50));
-        JLabel groupLabel = new JLabel("Grupo");
-        JComboBox<String> groupComboBox = new JComboBox<String>();
-        groupContainer.add(groupLabel);
-        groupContainer.add(groupComboBox);
+        // adding components
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        searchPanel.add(new JLabel("Fauna/Flora", null, 0), gbc);
 
-        Container fmlContainer = new Container();
-        fmlContainer.setLayout(new GridLayout(2, 1));
-        fmlContainer.setPreferredSize(new Dimension(175, 50));
-        JLabel fmlLabel = new JLabel("Familia");
-        JComboBox<String> fmlComboBox = new JComboBox<String>();
-        fmlContainer.add(fmlLabel);
-        fmlContainer.add(fmlComboBox);
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        searchPanel.add(new JComboBox<String>(), gbc);
 
-        Container especiesContainer = new Container();
-        especiesContainer.setLayout(new GridLayout(2, 1));
-        especiesContainer.setPreferredSize(new Dimension(175, 50));
-        JLabel especiesLabel = new JLabel("Espécie");
-        JTextArea especiesTextArea = new JTextArea();
-        especiesContainer.add(especiesLabel);
-        especiesContainer.add(especiesTextArea);
+        gbc.gridx = 1;
+        gbc.gridy = 0;
+        searchPanel.add(new JLabel("Familia", null, 0), gbc);
 
-        Container biomeContainer = new Container();
-        biomeContainer.setLayout(new GridLayout(2, 1));
-        biomeContainer.setPreferredSize(new Dimension(175, 50));
-        JLabel biomeLabel = new JLabel("BIOMA");
-        JTextArea biomeTextArea = new JTextArea();
-        biomeContainer.add(biomeLabel);
-        biomeContainer.add(biomeTextArea);
+        gbc.gridx = 1;
+        gbc.gridy = 1;
+        searchPanel.add(new JComboBox<>(), gbc);
 
-        Container threatCatContainer = new Container();
-        threatCatContainer.setLayout(new GridLayout(2, 1));
-        threatCatContainer.setPreferredSize(new Dimension(175, 50));
-        JLabel threatCatLabel = new JLabel("CATEGORIA DE AMEAÇA");
-        JTextArea threatCatTextArea = new JTextArea();
-        threatCatContainer.add(threatCatLabel);
-        threatCatContainer.add(threatCatTextArea);
+        gbc.gridx = 2;
+        gbc.gridy = 0;
+        searchPanel.add(new JLabel("Especie", null, 0), gbc);
 
-        Container mainThreatsContainer = new Container();
-        mainThreatsContainer.setLayout(new GridLayout(2, 1));
-        mainThreatsContainer.setPreferredSize(new Dimension(175, 50));
-        JLabel mainThreatsLabel = new JLabel("PRINCIPAIS AMEAÇAS");
-        JTextArea mainThreatsTextArea = new JTextArea();
-        mainThreatsContainer.add(mainThreatsLabel);
-        mainThreatsContainer.add(mainThreatsTextArea);
+        gbc.gridx = 2;
+        gbc.gridy = 1;
+        searchPanel.add(new TextField(), gbc);
 
-        Container commomNameContainer = new Container();
-        commomNameContainer.setLayout(new GridLayout(2, 1));
-        commomNameContainer.setPreferredSize(new Dimension(175, 50));
-        JLabel commomNameLabel = new JLabel("NOME COMUM");
-        JTextArea commomNameTextArea = new JTextArea();
-        commomNameContainer.add(commomNameLabel);
-        commomNameContainer.add(commomNameTextArea);
+        gbc.gridx = 3;
+        gbc.gridy = 0;
+        searchPanel.add(new JLabel("Bioma", null, 0), gbc);
 
-        Container estatesOcurrenciesContainer = new Container();
-        estatesOcurrenciesContainer.setLayout(new GridLayout(2, 1));
-        estatesOcurrenciesContainer.setPreferredSize(new Dimension(175, 50));
-        JLabel estatesOcurrenciesLabel = new JLabel("ESTADOS DE OCORRÊNCIA");
-        JTextArea estatesOcurrenciesTextArea = new JTextArea();
-        estatesOcurrenciesContainer.add(estatesOcurrenciesLabel);
-        estatesOcurrenciesContainer.add(estatesOcurrenciesTextArea);
+        gbc.gridx = 3;
+        gbc.gridy = 1;
+        searchPanel.add(new JTextField(), gbc);
 
-        Container btnContainer = new Container();
-        btnContainer.setLayout(new FlowLayout(1));
-        btnContainer.setPreferredSize(new Dimension(150, 70));
-        JButton searchBtn = new JButton("PESQUISAR");
-        searchBtn.setFocusable(false);
-        searchBtn.setPreferredSize(new Dimension(150, 30));
-        JButton clearBtn = new JButton("LIMPAR");
-        clearBtn.setPreferredSize(new Dimension(150, 30));
-        clearBtn.setFocusable(false);
-        btnContainer.add(searchBtn);
-        btnContainer.add(clearBtn);
+        gbc.gridx = 0;
+        gbc.gridy = 2;
+        searchPanel.add(new JLabel("Categoria ameaca", null, 0), gbc);
 
-        JPanel midPanel = new JPanel();
-        midPanel.setLayout(new GridLayout(2, 4, 70, 10));
-        midPanel.add(ffContainer);
-        midPanel.add(groupContainer);
-        midPanel.add(fmlContainer);
-        midPanel.add(especiesContainer);
-        midPanel.add(biomeContainer);
-        midPanel.add(threatCatContainer);
-        midPanel.add(mainThreatsContainer);
-        midPanel.add(commomNameContainer);
-        midPanel.add(estatesOcurrenciesContainer);
+        gbc.gridx = 0;
+        gbc.gridy = 3;
+        searchPanel.add(new JTextField(), gbc);
 
-        JPanel searchPanel = new JPanel();
-        searchPanel.setBorder(BorderFactory.createTitledBorder(" [ OPÇÕES PESQUISA ] "));
-        searchPanel.setLayout(new FlowLayout(0, 50, 0));
+        gbc.gridx = 1;
+        gbc.gridy = 2;
+        searchPanel.add(new JLabel("Principais ameacas", null, 0), gbc);
 
-        searchPanel.add(midPanel);
-        searchPanel.add(btnContainer);
+        gbc.gridx = 1;
+        gbc.gridy = 3;
+        searchPanel.add(new JTextField(), gbc);
 
-        frame.add(searchPanel);
+        gbc.gridx = 2;
+        gbc.gridy = 2;
+        searchPanel.add(new JLabel("Nome Comum", null, 0), gbc);
+
+        gbc.gridx = 2;
+        gbc.gridy = 3;
+        searchPanel.add(new JTextField(), gbc);
+
+        gbc.gridx = 3;
+        gbc.gridy = 2;
+        searchPanel.add(new JLabel("Estado de ocorrencia", null, 0), gbc);
+
+        gbc.gridx = 3;
+        gbc.gridy = 3;
+        searchPanel.add(new JTextField(), gbc);
+
+        gbc.fill = GridBagConstraints.VERTICAL;
+        gbc.gridx = 4;
+        gbc.gridy = 0;
+        gbc.gridheight = 2;
+        searchPanel.add(new JButton("PESQUISAR", null), gbc);
+
+        gbc.gridx = 4;
+        gbc.gridy = 2;
+        gbc.gridheight = 2;
+        searchPanel.add(new JButton("LIMPAR", null), gbc);
+
+        return searchPanel;
     }
 
-    void tableFrame(JFrame frame) {
+    JScrollPane tableFrame() {
+
         // implement table
 
-        JPanel tablePanel = new JPanel(new GridLayout(1,1));
+        JPanel tablePanel = new JPanel(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
 
         tablePanel.setPreferredSize(new Dimension(500, 500));
 
-        String[] columns = { "Fauna/Flora", "Grupo", "Familia", "Especie(Simplificado)", "Nome Comum",
+        String[] columnNames = { "Fauna/Flora", "Grupo", "Familia", "Especie(Simplificado)", "Nome Comum",
                 "Categoria de Ameaça", "Bioma", "Principais Ameaças", "Estados de Ocorrência" };
 
-        Object [][] dados = {
+        Object[][] data = {
                 { "Flora", "angiospermas", "salicacae", "abatia angeliana", "-", "Vulneravel(VU)", "Mata Atlantica",
                         "perda de habitat/ degradacao(induzida por humanos)", "pr"
                 },
                 { "Flora", "angiospermas", "salicacae", "abatia angeliana", "-", "Vulneravel(VU)", "Mata Atlantica",
                         "perda de habitat/ degradacao(induzida por humanos)", "pr"
                 },
-                {null,null,null,null,null,null,null,null,null},
-                {null,null,null,null,null,null,null,null,null},
-                {null,null,null,null,null,null,null,null,null},
-                {null,null,null,null,null,null,null,null,null},
-                {null,null,null,null,null,null,null,null,null},
-                {null,null,null,null,null,null,null,null,null},
-                {null,null,null,null,null,null,null,null,null}
-            
-            };
+                { null, null, null, null, null, null, null, null, null },
+                { null, null, null, null, null, null, null, null, null },
+                { null, null, null, null, null, null, null, null, null },
+                { null, null, null, null, null, null, null, null, null },
+                { null, null, null, null, null, null, null, null, null },
+                { null, null, null, null, null, null, null, null, null },
+                { null, null, null, null, null, null, null, null, null }
 
-        JTable x = new JTable(dados, columns);
-        x.setCellSelectionEnabled(false);
-        x.setShowGrid(true);
-        JScrollPane y = new JScrollPane(x);
-        tablePanel.add(y);
+        };
 
-        frame.add(tablePanel);
+        JTable table = new JTable(data, columnNames);
+        table.setRowHeight(32);
+        table.setAutoResizeMode(5);
+        table.setEnabled(false);
+        table.setDragEnabled(false);
+        table.setFocusable(false);
 
+        JScrollPane scrollTablePane = new JScrollPane(table);
+
+        return scrollTablePane;
 
     }
 
