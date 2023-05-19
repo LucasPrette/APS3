@@ -6,7 +6,7 @@ import com.google.cloud.firestore.Query;
 import com.google.cloud.firestore.QueryDocumentSnapshot;
 import com.google.cloud.firestore.QuerySnapshot;
 import org.aps.implementations.ProtectionLevel;
-import org.aps.services.Firebase;
+import org.aps.services.FirebaseService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,12 +16,12 @@ public class ProtectionLevelsRepository {
     static final String collection = "protection_levels";
 
     public ProtectionLevelsRepository() {
-        new Firebase().run();
+        new FirebaseService().run();
     }
 
     public ArrayList<ProtectionLevel> find() {
         try {
-            ApiFuture<QuerySnapshot> query = Firebase.repository.collection(collection).get();
+            ApiFuture<QuerySnapshot> query = FirebaseService.repository.collection(collection).get();
             List<QueryDocumentSnapshot> documents = query.get().getDocuments();
 
             ArrayList<ProtectionLevel> result = new ArrayList<ProtectionLevel>();
@@ -40,7 +40,7 @@ public class ProtectionLevelsRepository {
 
     public ProtectionLevel findByName(String name) {
         try {
-            Query query = Firebase.repository.collection(collection).whereEqualTo("name", name).limit(1);
+            Query query = FirebaseService.repository.collection(collection).whereEqualTo("name", name).limit(1);
             List<QueryDocumentSnapshot> list = query.get().get().getDocuments();
             QueryDocumentSnapshot item = list.get(0);
 

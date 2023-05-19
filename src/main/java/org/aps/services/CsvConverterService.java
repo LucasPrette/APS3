@@ -4,17 +4,15 @@ package org.aps.services;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
 
 
-
-public class Converter {
+public class CsvConverterService {
 
     String file = "APS3/src/main/java/org/aps/configs/lista-de-especies-ameacas-2020.csv";
     BufferedReader reader;
     String line = "";
     
-    public Converter() {
+    public CsvConverterService() {
 
     }
     int i = 0;
