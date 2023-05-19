@@ -3,7 +3,7 @@ package org.aps.views;
 import java.awt.*;
 import javax.swing.JButton;
 
-public class Btn {
+public class Btn extends JButton{
 
     private int width;
     private int height;

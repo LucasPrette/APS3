@@ -9,18 +9,18 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTable;
 import javax.swing.JTextField;
+import org.aps.views.AddDataTable;
 
 public class Gui {
 
     Btn btn = new Btn(150, 30, false);
     Lbl lbl = new Lbl(150, 30, 0);
+    Table table = new Table(40, false, false);
 
     void runGUI() {
         JFrame frame = new JFrame();
         frame.setLayout(new BorderLayout(0, 50));
-        System.out.println(frame.getMaximumSize());
         frame.setSize(750, 750);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -162,45 +162,12 @@ public class Gui {
     }
 
     JScrollPane tableFrame() {
+        AddDataTable t = new AddDataTable();
 
-        // implement table
-
-        JPanel tablePanel = new JPanel(new GridBagLayout());
-        GridBagConstraints gbc = new GridBagConstraints();
-
-        tablePanel.setPreferredSize(new Dimension(500, 500));
-
-        String[] columnNames = { "Fauna/Flora", "Grupo", "Familia", "Especie(Simplificado)", "Nome Comum",
-                "Categoria de Ameaça", "Bioma", "Principais Ameaças", "Estados de Ocorrência" };
-
-        Object[][] data = {
-                { "Flora", "angiospermas", "salicacae", "abatia angeliana", "-", "Vulneravel(VU)", "Mata Atlantica",
-                        "perda de habitat/ degradacao(induzida por humanos)", "pr"
-                },
-                { "Flora", "angiospermas", "salicacae", "abatia angeliana", "-", "Vulneravel(VU)", "Mata Atlantica",
-                        "perda de habitat/ degradacao(induzida por humanos)", "pr"
-                },
-                { null, null, null, null, null, null, null, null, null },
-                { null, null, null, null, null, null, null, null, null },
-                { null, null, null, null, null, null, null, null, null },
-                { null, null, null, null, null, null, null, null, null },
-                { null, null, null, null, null, null, null, null, null },
-                { null, null, null, null, null, null, null, null, null },
-                { null, null, null, null, null, null, null, null, null }
-
-        };
-
-        JTable table = new JTable(data, columnNames);
-        table.setRowHeight(32);
-        table.setAutoResizeMode(5);
-        table.setEnabled(false);
-        table.setDragEnabled(false);
-        table.setFocusable(false);
-
-        JScrollPane scrollTablePane = new JScrollPane(table);
+        JScrollPane scrollTablePane = new JScrollPane(t.addRowToJTable());    
 
         return scrollTablePane;
-
+        
     }
 
     public static void main(String[] args) {
