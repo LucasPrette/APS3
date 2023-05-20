@@ -1,15 +1,13 @@
 package org.aps.repositories;
 
 import com.google.api.core.ApiFuture;
-import com.google.cloud.firestore.DocumentReference;
-import com.google.cloud.firestore.Query;
-import com.google.cloud.firestore.QueryDocumentSnapshot;
-import com.google.cloud.firestore.QuerySnapshot;
+import com.google.cloud.firestore.*;
 import org.aps.implementations.ProtectionLevel;
 import org.aps.services.FirebaseService;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.ExecutionException;
 
 public class ProtectionLevelsRepository {
@@ -17,6 +15,36 @@ public class ProtectionLevelsRepository {
 
     public ProtectionLevelsRepository() {
         new FirebaseService().run();
+    }
+
+    public ProtectionLevel repositoryMapper(QueryDocumentSnapshot document) {
+        int level = Objects.requireNonNull(document.getLong("level")).intValue();
+        String id = document.getId();
+        DocumentReference ref = document.getReference();
+
+        return new ProtectionLevel(id, level, ref);
+    }
+
+    public ProtectionLevel repositoryMapper(DocumentSnapshot document) {
+        int level = Objects.requireNonNull(document.getLong("level")).intValue();
+        String id = document.getId();
+        DocumentReference ref = document.getReference();
+
+        return new ProtectionLevel(id, level, ref);
+    }
+
+    public ProtectionLevel repositoryMapper(DocumentReference ref, QueryDocumentSnapshot document) {
+        int level = Objects.requireNonNull(document.getLong("level")).intValue();
+        String id = document.getId();
+
+        return new ProtectionLevel(id, level, ref);
+    }
+
+    public ProtectionLevel repositoryMapper(DocumentReference ref, DocumentSnapshot document) {
+        int level = Objects.requireNonNull(document.getLong("level")).intValue();
+        String id = document.getId();
+
+        return new ProtectionLevel(id, level, ref);
     }
 
     public ArrayList<ProtectionLevel> findAll() {
@@ -27,7 +55,7 @@ public class ProtectionLevelsRepository {
             ArrayList<ProtectionLevel> result = new ArrayList<ProtectionLevel>();
 
             for (QueryDocumentSnapshot document : documents) {
-                result.add(ProtectionLevel.repositoryMapper(document));
+                result.add(this.repositoryMapper(document));
             }
 
             return result;
@@ -45,7 +73,7 @@ public class ProtectionLevelsRepository {
             QueryDocumentSnapshot item = list.get(0);
 
             if (item != null) {
-                return ProtectionLevel.repositoryMapper(item);
+                return this.repositoryMapper(item);
             }
 
         } catch (ExecutionException | InterruptedException exception) {
@@ -57,7 +85,7 @@ public class ProtectionLevelsRepository {
 
     public ProtectionLevel findByRef(DocumentReference ref) {
         try {
-            return ProtectionLevel.repositoryMapper(ref, ref.get().get());
+            return this.repositoryMapper(ref, ref.get().get());
         } catch (ExecutionException | InterruptedException exception) {
             System.out.println(exception.getMessage());
         }

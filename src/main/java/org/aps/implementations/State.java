@@ -40,38 +40,4 @@ public class State {
     public void setRef(DocumentReference ref) {
         this.ref = ref;
     }
-
-    public static State repositoryMapper(QueryDocumentSnapshot document) {
-        String name = document.getString("name");
-        String uf = document.getString("uf");
-        String id = document.getId();
-        DocumentReference ref = document.getReference();
-
-        return new State(id, name, uf, ref);
-    }
-
-    public static State repositoryMapper(DocumentSnapshot document) {
-        String name = document.getString("name");
-        String uf = document.getString("uf");
-        String id = document.getId();
-        DocumentReference ref = document.getReference();
-
-        return new State(id, name, uf, ref);
-    }
-
-    public static State repositoryMapper(DocumentReference ref, QueryDocumentSnapshot document) {
-        String name = document.getString("name");
-        String uf = document.getString("uf");
-        String id = document.getId();
-
-        return new State(id, name, uf, ref);
-    }
-
-    public static State repositoryMapper(DocumentReference ref, DocumentSnapshot document) {
-        String name = document.getString("name");
-        String uf = document.getString("uf");
-        String id = document.getId();
-
-        return new State(id, name, uf, ref);
-    }
 }

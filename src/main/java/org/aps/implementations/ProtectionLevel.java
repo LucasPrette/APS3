@@ -36,34 +36,4 @@ public class ProtectionLevel {
     public void setRef(DocumentReference ref) {
         this.ref = ref;
     }
-
-    public static ProtectionLevel repositoryMapper(QueryDocumentSnapshot document) {
-        int level = Objects.requireNonNull(document.getLong("level")).intValue();
-        String id = document.getId();
-        DocumentReference ref = document.getReference();
-
-        return new ProtectionLevel(id, level, ref);
-    }
-
-    public static ProtectionLevel repositoryMapper(DocumentSnapshot document) {
-        int level = Objects.requireNonNull(document.getLong("level")).intValue();
-        String id = document.getId();
-        DocumentReference ref = document.getReference();
-
-        return new ProtectionLevel(id, level, ref);
-    }
-
-    public static ProtectionLevel repositoryMapper(DocumentReference ref, QueryDocumentSnapshot document) {
-        int level = Objects.requireNonNull(document.getLong("level")).intValue();
-        String id = document.getId();
-
-        return new ProtectionLevel(id, level, ref);
-    }
-
-    public static ProtectionLevel repositoryMapper(DocumentReference ref, DocumentSnapshot document) {
-        int level = Objects.requireNonNull(document.getLong("level")).intValue();
-        String id = document.getId();
-
-        return new ProtectionLevel(id, level, ref);
-    }
 }

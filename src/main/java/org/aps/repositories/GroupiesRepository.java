@@ -1,10 +1,7 @@
 package org.aps.repositories;
 
 import com.google.api.core.ApiFuture;
-import com.google.cloud.firestore.DocumentReference;
-import com.google.cloud.firestore.Query;
-import com.google.cloud.firestore.QueryDocumentSnapshot;
-import com.google.cloud.firestore.QuerySnapshot;
+import com.google.cloud.firestore.*;
 import org.aps.implementations.Group;
 import org.aps.services.FirebaseService;
 
@@ -18,6 +15,36 @@ public class GroupiesRepository {
         new FirebaseService().run();
     }
 
+    public Group repositoryMapper(QueryDocumentSnapshot document) {
+        String name = document.getString("name");
+        String id = document.getId();
+        DocumentReference ref = document.getReference();
+
+        return new Group(id, name, ref);
+    }
+
+    public Group repositoryMapper(DocumentSnapshot document) {
+        String name = document.getString("name");
+        String id = document.getId();
+        DocumentReference ref = document.getReference();
+
+        return new Group(id, name, ref);
+    }
+
+    public Group repositoryMapper(DocumentReference ref, QueryDocumentSnapshot document) {
+        String name = document.getString("name");
+        String id = document.getId();
+
+        return new Group(id, name, ref);
+    }
+
+    public Group repositoryMapper(DocumentReference ref, DocumentSnapshot document) {
+        String name = document.getString("name");
+        String id = document.getId();
+
+        return new Group(id, name, ref);
+    }
+
     public ArrayList<Group> findAll() {
         try {
             ApiFuture<QuerySnapshot> query = FirebaseService.repository.collection(collection).get();
@@ -26,7 +53,7 @@ public class GroupiesRepository {
             ArrayList<Group> result = new ArrayList<Group>();
 
             for (QueryDocumentSnapshot document : documents) {
-                result.add(Group.repositoryMapper(document));
+                result.add(this.repositoryMapper(document));
             }
 
             return result;
@@ -44,7 +71,7 @@ public class GroupiesRepository {
             QueryDocumentSnapshot item = list.get(0);
 
             if (item != null) {
-                return Group.repositoryMapper(item);
+                return this.repositoryMapper(item);
             }
 
         } catch (ExecutionException | InterruptedException exception) {
@@ -56,7 +83,7 @@ public class GroupiesRepository {
 
     public Group findByRef(DocumentReference ref) {
         try {
-            return Group.repositoryMapper(ref, ref.get().get());
+            return this.repositoryMapper(ref, ref.get().get());
         } catch (ExecutionException | InterruptedException exception) {
             System.out.println(exception.getMessage());
         }

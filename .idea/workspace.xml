@@ -5,9 +5,21 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3233dfa5-70c8-43a9-b511-411a103a5acd" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/aps/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/aps/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/aps/implementations/Biome.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/aps/implementations/Biome.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/aps/implementations/EndangeredSpecies.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/aps/implementations/EndangeredSpecies.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/aps/implementations/Group.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/aps/implementations/Group.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/aps/implementations/ProtectionLevel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/aps/implementations/ProtectionLevel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/aps/implementations/State.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/aps/implementations/State.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/aps/implementations/ThreatCategory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/aps/implementations/ThreatCategory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/aps/implementations/Type.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/aps/implementations/Type.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/aps/repositories/BiomesRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/aps/repositories/BiomesRepository.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/aps/repositories/EndangeredSpeciesRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/aps/repositories/EndangeredSpeciesRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/aps/repositories/GroupiesRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/aps/repositories/GroupiesRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/aps/repositories/ProtectionLevelsRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/aps/repositories/ProtectionLevelsRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/aps/repositories/StatesRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/aps/repositories/StatesRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/aps/repositories/ThreatCategoriesRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/aps/repositories/ThreatCategoriesRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/aps/repositories/TypesRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/aps/repositories/TypesRepository.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

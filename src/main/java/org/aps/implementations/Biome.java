@@ -35,34 +35,4 @@ public class Biome {
     public void setRef(DocumentReference ref) {
         this.ref = ref;
     }
-
-    public static Biome repositoryMapper(DocumentReference ref, QueryDocumentSnapshot document) {
-        String name = document.getString("name");
-        String id = document.getId();
-
-        return new Biome(id, name, ref);
-    }
-
-    public static Biome repositoryMapper(DocumentReference ref, DocumentSnapshot document) {
-        String name = document.getString("name");
-        String id = document.getId();
-
-        return new Biome(id, name, ref);
-    }
-
-    public static Biome repositoryMapper(QueryDocumentSnapshot document) {
-        String name = document.getString("name");
-        String id = document.getId();
-        DocumentReference ref = document.getReference();
-
-        return new Biome(id, name, ref);
-    }
-
-    public static Biome repositoryMapper(DocumentSnapshot document) {
-        String name = document.getString("name");
-        String id = document.getId();
-        DocumentReference ref = document.getReference();
-
-        return new Biome(id, name, ref);
-    }
 }

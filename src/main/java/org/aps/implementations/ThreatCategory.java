@@ -41,38 +41,4 @@ public class ThreatCategory {
     public void setRef(DocumentReference ref) {
         this.ref = ref;
     }
-
-    public static ThreatCategory repositoryMapper(QueryDocumentSnapshot document) {
-        String name = document.getString("name");
-        String acronym = document.getString("acronym");
-        String id = document.getId();
-        DocumentReference ref = document.getReference();
-
-        return new ThreatCategory(id, name, acronym, ref);
-    }
-
-    public static ThreatCategory repositoryMapper(DocumentSnapshot document) {
-        String name = document.getString("name");
-        String acronym = document.getString("acronym");
-        String id = document.getId();
-        DocumentReference ref = document.getReference();
-
-        return new ThreatCategory(id, name, acronym, ref);
-    }
-
-    public static ThreatCategory repositoryMapper(DocumentReference ref, QueryDocumentSnapshot document) {
-        String name = document.getString("name");
-        String acronym = document.getString("acronym");
-        String id = document.getId();
-
-        return new ThreatCategory(id, name, acronym, ref);
-    }
-
-    public static ThreatCategory repositoryMapper(DocumentReference ref, DocumentSnapshot document) {
-        String name = document.getString("name");
-        String acronym = document.getString("acronym");
-        String id = document.getId();
-
-        return new ThreatCategory(id, name, acronym, ref);
-    }
 }
