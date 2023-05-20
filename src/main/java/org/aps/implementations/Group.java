@@ -13,11 +13,6 @@ public class Group {
         this.name = name;
     }
 
-    public Group(String id, String name) {
-        this.id = id;
-        this.name = name;
-    }
-
     public Group(String id, String name, DocumentReference ref) {
         this.id = id;
         this.name = name;
@@ -36,18 +31,24 @@ public class Group {
         return ref;
     }
 
+    public void setRef(DocumentReference ref) {
+        this.ref = ref;
+    }
+
     public static Group repositoryMapper(QueryDocumentSnapshot document) {
         String name = document.getString("name");
         String id = document.getId();
+        DocumentReference ref = document.getReference();
 
-        return new Group(id, name);
+        return new Group(id, name, ref);
     }
 
     public static Group repositoryMapper(DocumentSnapshot document) {
         String name = document.getString("name");
         String id = document.getId();
+        DocumentReference ref = document.getReference();
 
-        return new Group(id, name);
+        return new Group(id, name, ref);
     }
 
     public static Group repositoryMapper(DocumentReference ref, QueryDocumentSnapshot document) {

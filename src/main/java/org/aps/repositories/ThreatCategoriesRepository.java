@@ -19,7 +19,7 @@ public class ThreatCategoriesRepository {
         new FirebaseService().run();
     }
 
-    public ArrayList<ThreatCategory> find() {
+    public ArrayList<ThreatCategory> findAll() {
         try {
             ApiFuture<QuerySnapshot> query = FirebaseService.repository.collection(collection).get();
             List<QueryDocumentSnapshot> documents = query.get().getDocuments();

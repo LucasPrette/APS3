@@ -18,7 +18,7 @@ public class GroupiesRepository {
         new FirebaseService().run();
     }
 
-    public ArrayList<Group> find() {
+    public ArrayList<Group> findAll() {
         try {
             ApiFuture<QuerySnapshot> query = FirebaseService.repository.collection(collection).get();
             List<QueryDocumentSnapshot> documents = query.get().getDocuments();

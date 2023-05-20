@@ -2,14 +2,27 @@ package org.aps;
 
 import org.aps.implementations.EndangeredSpecies;
 import org.aps.repositories.EndangeredSpeciesRepository;
+import org.aps.services.CsvConverterService;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class Main {
-    public static void main(String[] args) {
+    private void populate() {
+        CsvConverterService csvConverterService = new CsvConverterService();
         EndangeredSpeciesRepository endangeredSpeciesRepository = new EndangeredSpeciesRepository();
 
-        endangeredSpeciesRepository.populate(new ArrayList<EndangeredSpecies>());
-//            System.out.println(endangeredSpeciesRepository.findAll().get(0).getBiomes().get(0).getId());
+        List<EndangeredSpecies> endangeredSpecies = csvConverterService.csvToJClass();
+
+        /**
+         * 0-100 => ok
+         * 100-500 => ok
+         * 500-1200 => ok
+         * 1200-1958 => ok
+         */
+        endangeredSpeciesRepository.populate(endangeredSpecies.subList(0, 100));
+    }
+
+    public static void main(String[] args) {
+        new Main().populate();
     }
 }

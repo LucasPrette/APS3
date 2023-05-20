@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
-
+import java.awt.List;
 
 class Teste {
     private Boolean type;
@@ -126,7 +126,6 @@ class Teste {
     }
 
 }
-
 
 public class AddDataTable {
     

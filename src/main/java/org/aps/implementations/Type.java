@@ -12,10 +12,6 @@ public class Type {
     public Type(String name) {
         this.name = name;
     }
-    public Type(String id, String name) {
-        this.id = id;
-        this.name = name;
-    }
 
     public Type(String id, String name, DocumentReference ref) {
         this.id = id;
@@ -36,31 +32,37 @@ public class Type {
         return ref;
     }
 
+    public void setRef(DocumentReference ref) {
+        this.ref = ref;
+    }
+
     public static Type repositoryMapper(QueryDocumentSnapshot document) {
         String name = document.getString("name");
         String id = document.getId();
+        DocumentReference ref = document.getReference();
 
-        return new Type(id, name);
+        return new Type(id, name, ref);
     }
 
     public static Type repositoryMapper(DocumentSnapshot document) {
         String name = document.getString("name");
         String id = document.getId();
+        DocumentReference ref = document.getReference();
 
-        return new Type(id, name);
+        return new Type(id, name, ref);
     }
 
     public static Type repositoryMapper(DocumentReference ref, QueryDocumentSnapshot document) {
         String name = document.getString("name");
         String id = document.getId();
 
-        return new Type(id, name);
+        return new Type(id, name, ref);
     }
 
     public static Type repositoryMapper(DocumentReference ref, DocumentSnapshot document) {
         String name = document.getString("name");
         String id = document.getId();
 
-        return new Type(id, name);
+        return new Type(id, name, ref);
     }
 }
