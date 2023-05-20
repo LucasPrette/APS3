@@ -8,6 +8,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class CsvConverterService {
@@ -15,7 +16,7 @@ public class CsvConverterService {
     String file = new File("./src/main/java/org/aps/configs/lista-de-especies-ameacas-2020.csv").getAbsolutePath();
     String line = "";
 
-    public ArrayList<EndangeredSpecies> csvToJClass() {
+    public List<EndangeredSpecies> csvToJClass() {
         ArrayList<EndangeredSpecies> result = new ArrayList<EndangeredSpecies>();
 
         try {
@@ -23,7 +24,7 @@ public class CsvConverterService {
             boolean isHeader = true;
 
             while ((line = reader.readLine()) != null) {
-                if (line.trim().length() == 0) {
+                if (this.isEmptyLine(line)) {
                     continue;
                 }
 
@@ -97,7 +98,7 @@ public class CsvConverterService {
             
         }
 
-        return result;
+        return this.removeItemsWithEmptyName(result);
     }
 
     private boolean convertStrToBool(String str) {
@@ -113,5 +114,23 @@ public class CsvConverterService {
                 .replace("; ", ",")
                 .replace("\"", "")
                 .replace(";;", ";");
+    }
+
+    private List<EndangeredSpecies> removeItemsWithEmptyName(List<EndangeredSpecies> endangeredSpecies) {
+        ArrayList<EndangeredSpecies> result = new ArrayList<EndangeredSpecies>();
+
+        for (int i = 0; i < endangeredSpecies.size(); i++) {
+            EndangeredSpecies current = endangeredSpecies.get(i);
+
+            if (current.getName().equals("-")) {
+                result.add(current);
+            }
+        }
+
+        return result;
+    }
+
+    private boolean isEmptyLine(String line) {
+        return line.trim().length() == 0;
     }
 }

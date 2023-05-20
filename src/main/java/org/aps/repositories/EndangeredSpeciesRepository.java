@@ -13,7 +13,9 @@ import org.aps.implementations.*;
 import org.aps.services.FirebaseService;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
 public class EndangeredSpeciesRepository {
@@ -21,7 +23,10 @@ public class EndangeredSpeciesRepository {
     public EndangeredSpeciesRepository() {
         new FirebaseService().run();
     }
-
+    /**
+     * TODO
+     * - mainThreats
+     */
     private List<EndangeredSpecies> injectRefs(List<EndangeredSpecies> endangeredSpeciesList) {
         // Prefers to get type refs once from Firestore instead of when pre-populating each endangered species
         ArrayList<Type> types = new TypesRepository().findAll();
@@ -107,12 +112,30 @@ public class EndangeredSpeciesRepository {
         return result;
     }
 
+    private Map<String, Object> storeMapper(EndangeredSpecies endangeredSpecies) {
+        Map<String, Object> result = new HashMap<>();
+
+//        result.put("biome", endangeredSpecies.getBiomes()); // TODO
+        result.put("country_exclusive", endangeredSpecies.getCountryExclusive());
+        result.put("family", endangeredSpecies.getFamily());
+        result.put("fishing_regulation", endangeredSpecies.getFishingRegulation());
+        result.put("group", endangeredSpecies.getGroup().getRef()); // TODO
+//        result.put("main_threats", endangeredSpecies.getMainThreats()); // TODO
+        result.put("name", endangeredSpecies.getName());
+//        result.put("occurrence_states", endangeredSpecies.getOccurrenceStates()); // TODO
+        result.put("pan", endangeredSpecies.getName());
+        result.put("protected_area_presence", endangeredSpecies.getProtectedAreaPresence());
+//        result.put("protection_level", endangeredSpecies.getProtectionLevels()); // TODO
+        result.put("species", endangeredSpecies.getSpecies());
+//        result.put("threat_category", endangeredSpecies.getThreatCategories()); // TODO
+        result.put("type", endangeredSpecies.getType().getRef()); // TODO
+
+        return result;
+    }
+
     public void populate(List<EndangeredSpecies> data) {
-        /**
-         * TODO
-         * - mainThreats
-         */
         try {
+//            ArrayList<EndangeredSpecies> uniqueData = new ArrayList<EndangeredSpecies>();
 //            QueryDocumentSnapshot docAlreadyExists = FirebaseService.repository.collection(collection).whereEqualTo("name", current.getName()).get().get().getDocuments().get(0);
 //
 //            if (docAlreadyExists != null) {
@@ -121,30 +144,11 @@ public class EndangeredSpeciesRepository {
 
             List<EndangeredSpecies> dataWithRefs = this.injectRefs(data);
 
-            System.out.println(dataWithRefs.size());
-
-//            Map<String, Object> docData = new HashMap<>();
+//            ArrayList<Map<String, Object>> parsedData = new ArrayList<Map<String, Object>>();
 //
-//            BiomesRepository biomesRepository = new BiomesRepository();
-
-//             ArrayList<DocumentReference> biomesRefs = new ArrayList<DocumentReference>();
-//
-//             current.getBiomes().forEach(item -> biomesRefs.add(item.getRef()));
-
-//            docData.put("biome", current.getBiomes().fo); // TODO
-//            docData.put("country_exclusive", current.getCountryExclusive());
-//            docData.put("family", current.getFamily());
-//            docData.put("fishing_regulation", current.getFishingRegulation());
-//            docData.put("group", current.getGroup()); // TODO
-//            docData.put("main_threats", current.getMainThreats()); // TODO
-//            docData.put("name", current.getName());
-//            docData.put("occurrence_states", current.getOccurrenceStates()); // TODO
-//            docData.put("pan", current.getName());
-//            docData.put("protected_area_presence", current.getProtectedAreaPresence());
-//            docData.put("protection_level", current.getProtectionLevels()); // TODO
-//            docData.put("species", current.getSpecies());
-//            docData.put("threat_category", current.getThreatCategories()); // TODO
-//            docData.put("type", current.getType()); // TODO
+//            for (EndangeredSpecies dataWithRef : dataWithRefs) {
+//                parsedData.add(this.storeMapper(dataWithRef));
+//            }
 //
 //            Firebase.repository.collection(collection).document().set(docData);
         } catch (Exception e) {
