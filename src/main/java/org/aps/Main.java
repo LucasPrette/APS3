@@ -9,18 +9,21 @@ import java.util.List;
 
 public class Main {
     private void populate() {
+        long startTime = System.nanoTime();
+        System.out.println("STARTED");
+        System.out.println(startTime);
+
         CsvConverterService csvConverterService = new CsvConverterService();
         EndangeredSpeciesRepository endangeredSpeciesRepository = new EndangeredSpeciesRepository();
 
         List<EndangeredSpecies> endangeredSpecies = csvConverterService.csvToJClass();
 
-        /**
-         * 0-100 => ok
-         * 100-500 => ok
-         * 500-1200 => ok
-         * 1200-1958 => ok
-         */
-        endangeredSpeciesRepository.populate(endangeredSpecies.subList(0, 10));
+        endangeredSpeciesRepository.populate(endangeredSpecies);
+
+        long endTime = System.nanoTime();
+        System.out.println("FINISHED");
+        System.out.println(endTime);
+        System.out.print("Total: " + (endTime - startTime));
     }
 
     public static void main(String[] args) {

@@ -6,9 +6,7 @@
 package org.aps.repositories;
 
 import com.google.api.core.ApiFuture;
-import com.google.cloud.firestore.Query;
-import com.google.cloud.firestore.QueryDocumentSnapshot;
-import com.google.cloud.firestore.QuerySnapshot;
+import com.google.cloud.firestore.*;
 import com.google.gson.JsonObject;
 import org.aps.implementations.*;
 import org.aps.services.FirebaseService;
@@ -24,10 +22,7 @@ public class EndangeredSpeciesRepository {
     public EndangeredSpeciesRepository() {
         new FirebaseService().run();
     }
-    /**
-     * TODO
-     * - mainThreats
-     */
+
     private List<EndangeredSpecies> injectRefs(List<EndangeredSpecies> endangeredSpeciesList) {
         // Prefers to get type refs once from Firestore instead of when pre-populating each endangered species
         ArrayList<Type> types = new TypesRepository().findAll();
@@ -116,55 +111,94 @@ public class EndangeredSpeciesRepository {
     private Map<String, Object> storeMapper(EndangeredSpecies endangeredSpecies) {
         Map<String, Object> result = new HashMap<>();
 
-//        result.put("biome", endangeredSpecies.getBiomes()); // TODO
+        ArrayList<DocumentReference> biomesRefs = new ArrayList<DocumentReference>();
+
+        for (Biome biome : endangeredSpecies.getBiomes()) {
+            biomesRefs.add(biome.getRef());
+        }
+
+        ArrayList<DocumentReference> statesRefs = new ArrayList<DocumentReference>();
+
+        for (State state : endangeredSpecies.getOccurrenceStates()) {
+            statesRefs.add(state.getRef());
+        }
+
+        result.put("biome", biomesRefs);
         result.put("country_exclusive", endangeredSpecies.getCountryExclusive());
         result.put("family", endangeredSpecies.getFamily());
         result.put("fishing_regulation", endangeredSpecies.getFishingRegulation());
-        result.put("group", endangeredSpecies.getGroup().getRef()); // TODO
-//        result.put("main_threats", endangeredSpecies.getMainThreats()); // TODO
+        result.put("group", endangeredSpecies.getGroup().getRef());
+        result.put("main_threats", endangeredSpecies.getMainThreats());
         result.put("name", endangeredSpecies.getName());
-//        result.put("occurrence_states", endangeredSpecies.getOccurrenceStates()); // TODO
+        result.put("occurrence_states", statesRefs);
         result.put("pan", endangeredSpecies.getName());
         result.put("protected_area_presence", endangeredSpecies.getProtectedAreaPresence());
-//        result.put("protection_level", endangeredSpecies.getProtectionLevels()); // TODO
+        result.put("protection_level", endangeredSpecies.getProtectionLevel().getRef());
         result.put("species", endangeredSpecies.getSpecies());
-//        result.put("threat_category", endangeredSpecies.getThreatCategories()); // TODO
-        result.put("type", endangeredSpecies.getType().getRef()); // TODO
+        result.put("threat_category", endangeredSpecies.getThreatCategory().getRef());
+        result.put("type", endangeredSpecies.getType().getRef());
 
         return result;
     }
 
-    public void populate(List<EndangeredSpecies> data) {
+    private List<EndangeredSpecies> removeExistingDocs(List<EndangeredSpecies> docs) {
+        // Aren't recommended make Firestore requests in a loop, but for project purposes is perfect
+        ArrayList<EndangeredSpecies> result = new ArrayList<EndangeredSpecies>();
+
         try {
-//            ArrayList<EndangeredSpecies> uniqueData = new ArrayList<EndangeredSpecies>();
-//            QueryDocumentSnapshot docAlreadyExists = FirebaseService.repository.collection(collection).whereEqualTo("name", current.getName()).get().get().getDocuments().get(0);
-//
-//            if (docAlreadyExists != null) {
-//                return;
-//            }
+            for (EndangeredSpecies doc : docs) {
+                List<QueryDocumentSnapshot> docAlreadyExists = FirebaseService.repository.collection(collection).whereEqualTo("name", doc.getName()).get().get().getDocuments();
 
-            List<EndangeredSpecies> dataWithRefs = this.injectRefs(data);
+                if (docAlreadyExists.size() == 0) {
+                    result.add(doc);
+                }
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
 
-//            System.out.println(dataWithRefs.size());
+        return result;
+    }
 
+    private void batchInsert(List<Map<String, Object>> list) {
+        try {
+            WriteBatch batch = FirebaseService.repository.batch();
+
+            for (Map<String, Object> item : list) {
+                DocumentReference ref = FirebaseService.repository.collection("endangered_species").document();
+
+                batch.set(ref, item);
+            }
+
+            batch.commit().get();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public void populate(List<EndangeredSpecies> endangeredSpecies) {
+        try {
+            List<EndangeredSpecies> nonRegisteredEndangeredSpecies = this.removeExistingDocs(endangeredSpecies);
+            List<EndangeredSpecies> dataWithRefs = this.injectRefs(nonRegisteredEndangeredSpecies);
             ArrayList<Map<String, Object>> parsedData = new ArrayList<Map<String, Object>>();
-//
+
             for (EndangeredSpecies dataWithRef : dataWithRefs) {
                 parsedData.add(this.storeMapper(dataWithRef));
             }
 
-            System.out.println(dataWithRefs.get(1).getName());
-//            System.out.println(parsedData.get(0).toString());
-//
-//            Firebase.repository.collection(collection).document().set(docData);
+            // Batch insert is limited to 500 operations per commit
+            if (parsedData.size() >= 500) {
+                // Aren't recommended make DB Firestore requests in a loop, but for project purposes is perfect
+             for (int i = 0; i < parsedData.size(); i += 500) {
+                 this.batchInsert(parsedData.subList(i, i + 500));
+             }
+             return;
+            }
+
+            this.batchInsert(parsedData);
         } catch (Exception e) {
-//            do nothing
             System.out.println(e.getMessage());
         }
-
-        // https://firebase.google.com/docs/firestore/manage-data/add-data
-//        https://firebase.google.com/docs/firestore/manage-data/transactions#transactions
-//        https://firebase.google.com/docs/firestore/manage-data/transactions#batched-writes
     }
 
     public ArrayList<EndangeredSpecies> findAll() {
