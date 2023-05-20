@@ -5,18 +5,21 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
-import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
-import javax.swing.plaf.basic.BasicTabbedPaneUI.TabbedPaneLayout;
+
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
+import javax.swing.text.html.HTML;
 
 import org.aps.repositories.EndangeredSpeciesRepository;
 import org.aps.services.CsvConverterService;
+
+import com.google.api.client.util.Data;
 
 
 public class Gui {
@@ -25,7 +28,7 @@ public class Gui {
     Lbl lbl = new Lbl(20, 30, 0);
     Table table = new Table(40, false, false);
     TextField textField = new TextField();
-
+    DefaultTableModel dtm;
     JTable normalTable;
     
     JFrame frame = new JFrame();
@@ -45,6 +48,7 @@ public class Gui {
 
     // top panel is added at NORTH within frame
     JPanel topPanel() {
+
         // top panel adds the main btns: Connect, Sync and Close
 
         JPanel topPanelFrame = new JPanel(new GridBagLayout());
@@ -57,7 +61,8 @@ public class Gui {
         // gbc.ipadx = 150;
 
         gbc.gridx = 0; // object position on X axis grid
-        gbc.gridy = 0; //object position on Y axis grid;
+        gbc.gridy = 0; //object position on Y axis grid
+
         topPanelFrame.add(btn.newBtn("CONECTAR", new ActionListener() {
             public void actionPerformed (ActionEvent e ) {
                 CsvConverterService Json = new CsvConverterService();
@@ -119,6 +124,7 @@ public class Gui {
         gbc.gridy = 1;
         searchPanel.add(new JComboBox<String>(), gbc);
 
+
         gbc.gridx = 1;
         gbc.gridy = 0;
         searchPanel.add(lbl.create("Familia"), gbc);
@@ -127,13 +133,16 @@ public class Gui {
         gbc.gridy = 1;
         searchPanel.add(new JComboBox<>(), gbc);
 
+
         gbc.gridx = 2;
         gbc.gridy = 0;
         searchPanel.add(lbl.create("Especie"), gbc);
 
         gbc.gridx = 2;
         gbc.gridy = 1;
-        searchPanel.add(textField.create(), gbc);
+        JTextField specieTxt = new JTextField();
+        searchPanel.add(specieTxt, gbc);
+
 
         gbc.gridx = 3;
         gbc.gridy = 0;
@@ -141,7 +150,9 @@ public class Gui {
 
         gbc.gridx = 3;
         gbc.gridy = 1;
-        searchPanel.add(textField.create(), gbc);
+        JTextField biomeTxt = new JTextField();
+        searchPanel.add(biomeTxt, gbc);
+
 
         gbc.gridx = 0;
         gbc.gridy = 2;
@@ -149,7 +160,9 @@ public class Gui {
 
         gbc.gridx = 0;
         gbc.gridy = 3;
-        searchPanel.add(textField.create(), gbc);
+        JTextField threatCategoryTxt = new JTextField();
+        searchPanel.add(threatCategoryTxt, gbc);
+
 
         gbc.gridx = 1;
         gbc.gridy = 2;
@@ -157,7 +170,9 @@ public class Gui {
 
         gbc.gridx = 1;
         gbc.gridy = 3;
-        searchPanel.add(textField.create(), gbc);
+        JTextField mainThreatTxt = new JTextField();
+        searchPanel.add(mainThreatTxt, gbc);
+
 
         gbc.gridx = 2;
         gbc.gridy = 2;
@@ -165,7 +180,9 @@ public class Gui {
 
         gbc.gridx = 2;
         gbc.gridy = 3;
-        searchPanel.add(textField.create(), gbc);
+        JTextField nameTxt = new JTextField();
+        searchPanel.add(nameTxt, gbc);
+
 
         gbc.gridx = 3;
         gbc.gridy = 2;
@@ -173,19 +190,25 @@ public class Gui {
 
         gbc.gridx = 3;
         gbc.gridy = 3;
-        searchPanel.add(textField.create(), gbc);
+        JTextField occurrenceEstateTxt = new JTextField();
+        searchPanel.add(occurrenceEstateTxt, gbc);
 
         gbc.fill = GridBagConstraints.VERTICAL;
         gbc.gridx = 4;
         gbc.gridy = 0;
         gbc.gridheight = 2;
 
-
+        
         tableFrame();
         searchPanel.add(btn.newBtn("PESQUISAR", new ActionListener() {
             public void actionPerformed (ActionEvent e) {
+                
+                AddDataTable t = new AddDataTable();
+                dtm = t.addRowToJTable();
+                normalTable.setModel(t.addRowToJTable());
                 normalTable.setVisible(true);
                 
+
             }
         }), gbc);
 
@@ -196,7 +219,12 @@ public class Gui {
 
         searchPanel.add(btn.newBtn("LIMPAR", new ActionListener() {
             public void actionPerformed (ActionEvent e ) {
-                normalTable.setModel(null);
+                while (dtm.getRowCount() > 0) {
+                    dtm.removeRow(0);
+                    normalTable.setModel(dtm);
+                    normalTable.repaint();
+                }
+        
 
             }
         }), gbc);
@@ -205,13 +233,8 @@ public class Gui {
     }
 
     void tableFrame() {
-        AddDataTable t = new AddDataTable();
         normalTable = new JTable();
-        normalTable.setModel(t.addRowToJTable());
-        normalTable.setVisible(false);
-        
         scrollTablePane = new JScrollPane(normalTable);
-
         frame.add(scrollTablePane);
     }
 

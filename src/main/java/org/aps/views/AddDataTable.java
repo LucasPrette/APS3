@@ -117,8 +117,8 @@ class Teste {
 
     public ArrayList<Teste> faker() {
         ArrayList<Teste> list = new ArrayList<Teste>();
-        for(int i = 0; i < 1001; i++){
-            Teste t = new Teste(true, "Grupo" + i, "Familia" + i, "specie" + i, "-", "VU", "mata atlantica", "PR","ameaça" +i);
+        for(int i = 0; i < 10000; i++){
+            Teste t = new Teste(true, "Grupos" + i, "Familia" + i, "specie" + i, "-", "VU", "mata atlantica", "PR","ameaça" +i);
             list.add(t);
         }
 
@@ -129,7 +129,7 @@ class Teste {
 
 public class AddDataTable {
     
-    public TableModel addRowToJTable() {
+    public DefaultTableModel addRowToJTable() {
         Teste n = new Teste();
 
         ArrayList<Teste> endangeredSpecies = n.faker();
@@ -149,7 +149,7 @@ public class AddDataTable {
 
         
 
-        for (int i = 0; i < 100; i++) {
+        for (int i = 0; i < 10000; i++) {
             values.add(
                 new String[] 
                 {
@@ -166,7 +166,7 @@ public class AddDataTable {
                 );
         }
 
-        TableModel tableModel = new DefaultTableModel(values.toArray(new Object[][] {}), columns.toArray());
+        DefaultTableModel tableModel = new DefaultTableModel(values.toArray(new Object[][] {}), columns.toArray());
 
         return tableModel;
     }

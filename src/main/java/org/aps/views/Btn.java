@@ -6,11 +6,30 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 
-public class Btn extends JButton{
+public class Btn {
 
     private int width;
     private int height;
     private Boolean focusable;
+    private TextField textField;
+
+    public Btn() {};
+
+    public Btn
+    (
+
+    int width, 
+    int height,
+    boolean focusable,
+    TextField textField
+
+    )
+    {
+        this.width = width;
+        this.height = height;
+        this.focusable = focusable;
+        this.textField = textField;
+    }
 
 
     public Btn
@@ -23,6 +42,10 @@ public class Btn extends JButton{
         this.width = width;
         this.height = height;
         this.focusable = focusable;
+    }
+
+    public TextField getTextField() {
+        return textField;
     }
 
     public int getWidth() {
