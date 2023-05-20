@@ -4,6 +4,7 @@ package org.aps.services;
 import org.aps.implementations.*;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
@@ -11,21 +12,30 @@ import java.util.ArrayList;
 
 public class CsvConverterService {
 
-    String file = "APS3/src/main/java/org/aps/configs/lista-de-especies-ameacas-2020.csv";
+    String file = new File("./src/main/java/org/aps/configs/lista-de-especies-ameacas-2020.csv").getAbsolutePath();
     String line = "";
 
     public ArrayList<EndangeredSpecies> csvToJClass() {
         ArrayList<EndangeredSpecies> result = new ArrayList<EndangeredSpecies>();
 
+        int i = 0;
+
         try {
             BufferedReader reader = new BufferedReader(new FileReader(file, StandardCharsets.UTF_8));
+            boolean isHeader = true;
 
             while ((line = reader.readLine()) != null) {
                 if (line.trim().length() == 0) {
                     continue;
                 }
 
-                String[] attributes = line.replace("; ", ",").split(";");
+                // Assume the first line as a header of CSV
+                if (isHeader) {
+                    isHeader = false;
+                    continue;
+                }
+
+                String[] attributes = this.sanitizeBufferedLine(line).split(";");
 
                 Type type = new Type(this.sanitize(attributes[0]).toLowerCase());
                 Group group = new Group(this.sanitize(attributes[1]));
@@ -79,9 +89,12 @@ public class CsvConverterService {
                         occurrenceStates
                 );
 
+                i++;
                 result.add(endangeredSpecies);
             }
         } catch (Exception e) {
+            System.out.println(i);
+            System.out.println(e.getMessage());
             e.printStackTrace();
             
         }
@@ -95,5 +108,12 @@ public class CsvConverterService {
 
     private String sanitize(String str) {
         return str.trim();
+    }
+
+    private String sanitizeBufferedLine(String str) {
+        return str
+                .replace("; ", ",")
+                .replace("\"", "")
+                .replace(";;", ";");
     }
 }
