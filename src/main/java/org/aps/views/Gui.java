@@ -24,7 +24,7 @@ public class Gui {
     JFrame frame = new JFrame();
     JScrollPane scrollTablePane;
 
-    void runGUI() {
+    public void runGUI() {
         frame.setLayout(new BorderLayout(0, 50));
         
         frame.setSize(750, 750);

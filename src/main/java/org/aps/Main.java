@@ -3,6 +3,7 @@ package org.aps;
 import org.aps.implementations.EndangeredSpecies;
 import org.aps.repositories.EndangeredSpeciesRepository;
 import org.aps.services.CsvConverterService;
+import org.aps.views.Gui;
 
 import java.util.List;
 
@@ -22,7 +23,11 @@ public class Main {
         endangeredSpeciesRepository.populate(endangeredSpecies.subList(0, 100));
     }
 
+//    public static void main(String[] args) {
+//        new Main().populate();
+//    }
+
     public static void main(String[] args) {
-        new Main().populate();
+        new Gui().runGUI();
     }
 }
