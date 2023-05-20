@@ -27,7 +27,7 @@ public class Main {
     }
 
     public static void main(String[] args) {
-        new Main().populate();
+        new Gui().runGUI();
     }
 
 //    public static void main(String[] args) {
