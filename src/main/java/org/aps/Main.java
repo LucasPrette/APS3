@@ -20,14 +20,14 @@ public class Main {
          * 500-1200 => ok
          * 1200-1958 => ok
          */
-        endangeredSpeciesRepository.populate(endangeredSpecies.subList(0, 100));
+        endangeredSpeciesRepository.populate(endangeredSpecies.subList(0, 10));
+    }
+
+    public static void main(String[] args) {
+        new Main().populate();
     }
 
 //    public static void main(String[] args) {
-//        new Main().populate();
+//        new Gui().runGUI();
 //    }
-
-    public static void main(String[] args) {
-        new Gui().runGUI();
-    }
 }

@@ -9,6 +9,7 @@ import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.Query;
 import com.google.cloud.firestore.QueryDocumentSnapshot;
 import com.google.cloud.firestore.QuerySnapshot;
+import com.google.gson.JsonObject;
 import org.aps.implementations.*;
 import org.aps.services.FirebaseService;
 
@@ -144,11 +145,16 @@ public class EndangeredSpeciesRepository {
 
             List<EndangeredSpecies> dataWithRefs = this.injectRefs(data);
 
-//            ArrayList<Map<String, Object>> parsedData = new ArrayList<Map<String, Object>>();
+//            System.out.println(dataWithRefs.size());
+
+            ArrayList<Map<String, Object>> parsedData = new ArrayList<Map<String, Object>>();
 //
-//            for (EndangeredSpecies dataWithRef : dataWithRefs) {
-//                parsedData.add(this.storeMapper(dataWithRef));
-//            }
+            for (EndangeredSpecies dataWithRef : dataWithRefs) {
+                parsedData.add(this.storeMapper(dataWithRef));
+            }
+
+            System.out.println(dataWithRefs.get(1).getName());
+//            System.out.println(parsedData.get(0).toString());
 //
 //            Firebase.repository.collection(collection).document().set(docData);
         } catch (Exception e) {

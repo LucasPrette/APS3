@@ -8,7 +8,6 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/aps/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/aps/Main.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/aps/repositories/EndangeredSpeciesRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/aps/repositories/EndangeredSpeciesRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/aps/services/CsvConverterService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/aps/services/CsvConverterService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

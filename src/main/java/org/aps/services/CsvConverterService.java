@@ -122,7 +122,7 @@ public class CsvConverterService {
         for (int i = 0; i < endangeredSpecies.size(); i++) {
             EndangeredSpecies current = endangeredSpecies.get(i);
 
-            if (current.getName().equals("-")) {
+            if (!current.getName().equals("-")) {
                 result.add(current);
             }
         }
