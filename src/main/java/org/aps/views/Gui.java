@@ -13,6 +13,10 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.plaf.basic.BasicTabbedPaneUI.TabbedPaneLayout;
+
+import org.aps.repositories.EndangeredSpeciesRepository;
+import org.aps.services.CsvConverterService;
 
 
 public class Gui {
@@ -21,10 +25,13 @@ public class Gui {
     Lbl lbl = new Lbl(20, 30, 0);
     Table table = new Table(40, false, false);
     TextField textField = new TextField();
+
+    JTable normalTable;
+    
     JFrame frame = new JFrame();
     JScrollPane scrollTablePane;
 
-    void runGUI() {
+    public void runGUI() {
         frame.setLayout(new BorderLayout(0, 50));
         
         frame.setSize(750, 750);
@@ -53,9 +60,13 @@ public class Gui {
         gbc.gridy = 0; //object position on Y axis grid;
         topPanelFrame.add(btn.newBtn("CONECTAR", new ActionListener() {
             public void actionPerformed (ActionEvent e ) {
+                CsvConverterService Json = new CsvConverterService();
+                EndangeredSpeciesRepository endSpeciesRepo = new EndangeredSpeciesRepository();
+
+                endSpeciesRepo.populate(Json.csvToJClass());
 
             }
-        }), gbc); // adds a componet with gbc setting 
+        }), gbc); // adds a componet within gbc setting 
 
         gbc.gridx = 1;
         gbc.gridy = 0;
@@ -169,10 +180,11 @@ public class Gui {
         gbc.gridy = 0;
         gbc.gridheight = 2;
 
+
+        tableFrame();
         searchPanel.add(btn.newBtn("PESQUISAR", new ActionListener() {
             public void actionPerformed (ActionEvent e) {
-                
-                frame.add(tableFrame());
+                normalTable.setVisible(true);
                 
             }
         }), gbc);
@@ -181,9 +193,10 @@ public class Gui {
         gbc.gridx = 4;
         gbc.gridy = 2;
         gbc.gridheight = 2;
+
         searchPanel.add(btn.newBtn("LIMPAR", new ActionListener() {
             public void actionPerformed (ActionEvent e ) {
-
+                normalTable.setModel(null);
 
             }
         }), gbc);
@@ -191,14 +204,18 @@ public class Gui {
         return searchPanel;
     }
 
-    JScrollPane tableFrame() {
+    void tableFrame() {
         AddDataTable t = new AddDataTable();
+        normalTable = new JTable();
+        normalTable.setModel(t.addRowToJTable());
+        normalTable.setVisible(false);
         
-        scrollTablePane = new JScrollPane(table.create(t.addRowToJTable()));
-        return scrollTablePane;
+        scrollTablePane = new JScrollPane(normalTable);
+
+        frame.add(scrollTablePane);
     }
 
-    public static void main(String[] args) {
-        new Gui().runGUI();
-    }
+    // public static void main(String[] args) {
+    //     new Gui().runGUI();
+    // }
 }

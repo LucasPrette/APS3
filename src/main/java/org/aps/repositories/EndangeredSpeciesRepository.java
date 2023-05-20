@@ -143,7 +143,7 @@ public class EndangeredSpeciesRepository {
 //            }
 
             List<EndangeredSpecies> dataWithRefs = this.injectRefs(data);
-
+            System.out.println(dataWithRefs.size());
 //            ArrayList<Map<String, Object>> parsedData = new ArrayList<Map<String, Object>>();
 //
 //            for (EndangeredSpecies dataWithRef : dataWithRefs) {
