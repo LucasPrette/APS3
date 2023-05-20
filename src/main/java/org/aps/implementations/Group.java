@@ -34,34 +34,4 @@ public class Group {
     public void setRef(DocumentReference ref) {
         this.ref = ref;
     }
-
-    public static Group repositoryMapper(QueryDocumentSnapshot document) {
-        String name = document.getString("name");
-        String id = document.getId();
-        DocumentReference ref = document.getReference();
-
-        return new Group(id, name, ref);
-    }
-
-    public static Group repositoryMapper(DocumentSnapshot document) {
-        String name = document.getString("name");
-        String id = document.getId();
-        DocumentReference ref = document.getReference();
-
-        return new Group(id, name, ref);
-    }
-
-    public static Group repositoryMapper(DocumentReference ref, QueryDocumentSnapshot document) {
-        String name = document.getString("name");
-        String id = document.getId();
-
-        return new Group(id, name, ref);
-    }
-
-    public static Group repositoryMapper(DocumentReference ref, DocumentSnapshot document) {
-        String name = document.getString("name");
-        String id = document.getId();
-
-        return new Group(id, name, ref);
-    }
 }

@@ -1,10 +1,7 @@
 package org.aps.repositories;
 
 import com.google.api.core.ApiFuture;
-import com.google.cloud.firestore.DocumentReference;
-import com.google.cloud.firestore.Query;
-import com.google.cloud.firestore.QueryDocumentSnapshot;
-import com.google.cloud.firestore.QuerySnapshot;
+import com.google.cloud.firestore.*;
 import org.aps.implementations.ThreatCategory;
 import org.aps.services.FirebaseService;
 
@@ -19,6 +16,40 @@ public class ThreatCategoriesRepository {
         new FirebaseService().run();
     }
 
+    public ThreatCategory repositoryMapper(QueryDocumentSnapshot document) {
+        String name = document.getString("name");
+        String acronym = document.getString("acronym");
+        String id = document.getId();
+        DocumentReference ref = document.getReference();
+
+        return new ThreatCategory(id, name, acronym, ref);
+    }
+
+    public ThreatCategory repositoryMapper(DocumentSnapshot document) {
+        String name = document.getString("name");
+        String acronym = document.getString("acronym");
+        String id = document.getId();
+        DocumentReference ref = document.getReference();
+
+        return new ThreatCategory(id, name, acronym, ref);
+    }
+
+    public ThreatCategory repositoryMapper(DocumentReference ref, QueryDocumentSnapshot document) {
+        String name = document.getString("name");
+        String acronym = document.getString("acronym");
+        String id = document.getId();
+
+        return new ThreatCategory(id, name, acronym, ref);
+    }
+
+    public ThreatCategory repositoryMapper(DocumentReference ref, DocumentSnapshot document) {
+        String name = document.getString("name");
+        String acronym = document.getString("acronym");
+        String id = document.getId();
+
+        return new ThreatCategory(id, name, acronym, ref);
+    }
+
     public ArrayList<ThreatCategory> findAll() {
         try {
             ApiFuture<QuerySnapshot> query = FirebaseService.repository.collection(collection).get();
@@ -27,7 +58,7 @@ public class ThreatCategoriesRepository {
             ArrayList<ThreatCategory> result = new ArrayList<ThreatCategory>();
 
             for (QueryDocumentSnapshot document : documents) {
-                result.add(ThreatCategory.repositoryMapper(document));
+                result.add(this.repositoryMapper(document));
             }
 
             return result;
@@ -45,7 +76,7 @@ public class ThreatCategoriesRepository {
             QueryDocumentSnapshot item = list.get(0);
 
             if (item != null) {
-                return ThreatCategory.repositoryMapper(item);
+                return this.repositoryMapper(item);
             }
 
         } catch (ExecutionException | InterruptedException exception) {
@@ -57,7 +88,7 @@ public class ThreatCategoriesRepository {
 
     public ThreatCategory findByRef(DocumentReference ref) {
         try {
-            return ThreatCategory.repositoryMapper(ref, ref.get().get());
+            return this.repositoryMapper(ref, ref.get().get());
         } catch (ExecutionException | InterruptedException exception) {
             System.out.println(exception.getMessage());
         }

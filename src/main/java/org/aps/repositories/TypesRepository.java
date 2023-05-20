@@ -1,10 +1,7 @@
 package org.aps.repositories;
 
 import com.google.api.core.ApiFuture;
-import com.google.cloud.firestore.DocumentReference;
-import com.google.cloud.firestore.Query;
-import com.google.cloud.firestore.QueryDocumentSnapshot;
-import com.google.cloud.firestore.QuerySnapshot;
+import com.google.cloud.firestore.*;
 import org.aps.implementations.Type;
 import org.aps.services.FirebaseService;
 
@@ -19,6 +16,36 @@ public class TypesRepository {
         new FirebaseService().run();
     }
 
+    public Type repositoryMapper(QueryDocumentSnapshot document) {
+        String name = document.getString("name");
+        String id = document.getId();
+        DocumentReference ref = document.getReference();
+
+        return new Type(id, name, ref);
+    }
+
+    public Type repositoryMapper(DocumentSnapshot document) {
+        String name = document.getString("name");
+        String id = document.getId();
+        DocumentReference ref = document.getReference();
+
+        return new Type(id, name, ref);
+    }
+
+    public Type repositoryMapper(DocumentReference ref, QueryDocumentSnapshot document) {
+        String name = document.getString("name");
+        String id = document.getId();
+
+        return new Type(id, name, ref);
+    }
+
+    public Type repositoryMapper(DocumentReference ref, DocumentSnapshot document) {
+        String name = document.getString("name");
+        String id = document.getId();
+
+        return new Type(id, name, ref);
+    }
+
     public ArrayList<Type> findAll() {
         try {
             ApiFuture<QuerySnapshot> query = FirebaseService.repository.collection(collection).get();
@@ -27,7 +54,7 @@ public class TypesRepository {
             ArrayList<Type> result = new ArrayList<Type>();
 
             for (QueryDocumentSnapshot document : documents) {
-                result.add(Type.repositoryMapper(document));
+                result.add(this.repositoryMapper(document));
             }
 
             return result;
@@ -45,7 +72,7 @@ public class TypesRepository {
             QueryDocumentSnapshot item = list.get(0);
 
             if (item != null) {
-                return Type.repositoryMapper(item);
+                return this.repositoryMapper(item);
             }
 
         } catch (ExecutionException | InterruptedException exception) {
@@ -57,7 +84,7 @@ public class TypesRepository {
 
     public Type findByRef(DocumentReference ref) {
         try {
-            return Type.repositoryMapper(ref, ref.get().get());
+            return this.repositoryMapper(ref, ref.get().get());
         } catch (ExecutionException | InterruptedException exception) {
             System.out.println(exception.getMessage());
         }

@@ -6,9 +6,9 @@
 package org.aps.repositories;
 
 import com.google.api.core.ApiFuture;
-import com.google.cloud.firestore.Query;
-import com.google.cloud.firestore.QueryDocumentSnapshot;
-import com.google.cloud.firestore.QuerySnapshot;
+import com.google.cloud.firestore.*;
+import com.google.firebase.internal.NonNull;
+import com.google.gson.JsonObject;
 import org.aps.implementations.*;
 import org.aps.services.FirebaseService;
 
@@ -23,10 +23,62 @@ public class EndangeredSpeciesRepository {
     public EndangeredSpeciesRepository() {
         new FirebaseService().run();
     }
-    /**
-     * TODO
-     * - mainThreats
-     */
+
+    public EndangeredSpecies repositoryMapper(QueryDocumentSnapshot document) {
+        ArrayList<DocumentReference> biomesRef = (ArrayList<DocumentReference>) document.get("biome");
+        DocumentReference groupRef = (DocumentReference) document.get("group");
+        ArrayList<DocumentReference> occurrenceStatesRef = (ArrayList<DocumentReference>) document.get("occurrence_states");
+        DocumentReference protectionLevelRef = (DocumentReference) document.get("protection_level");
+        DocumentReference threatCategoryRef = (DocumentReference) document.get("threat_category");
+        DocumentReference typeRef = (DocumentReference) document.get("type");
+
+        BiomesRepository biomesRepository = new BiomesRepository();
+        GroupiesRepository groupiesRepository = new GroupiesRepository();
+        StatesRepository statesRepository = new StatesRepository();
+        ProtectionLevelsRepository protectionLevelsRepository = new ProtectionLevelsRepository();
+        ThreatCategoriesRepository threatCategoriesRepository = new ThreatCategoriesRepository();
+        TypesRepository typesRepository = new TypesRepository();
+
+        ArrayList<Biome> biomes = new ArrayList<Biome>();
+        ArrayList<State> occurrenceStates = new ArrayList<State>();
+
+        biomesRef.forEach(ref -> biomes.add(biomesRepository.findByRef(ref)));
+        Group group = groupiesRepository.findByRef(groupRef);
+        occurrenceStatesRef.forEach(ref -> occurrenceStates.add(statesRepository.findByRef(ref)));
+        ProtectionLevel protectionLevel = protectionLevelsRepository.findByRef(protectionLevelRef);
+        ThreatCategory threatCategory = threatCategoriesRepository.findByRef(threatCategoryRef);
+        Type type = typesRepository.findByRef(typeRef);
+
+        Boolean countryExclusive = document.getBoolean("country_exclusive");
+        String family = document.getString("family");
+        Boolean fishingRegulation = document.getBoolean("fishing_regulation");
+        ArrayList<String> mainThreats = (ArrayList<String>) document.get("main_threats");
+        String name = document.getString("name");
+        Boolean pan = document.getBoolean("pan");
+        Boolean protectedAreaPresence = document.getBoolean("protected_area_presence");
+        String species = document.getString("species");
+        String id = document.getId();
+
+
+        return new EndangeredSpecies(
+                id,
+                biomes,
+                countryExclusive,
+                family,
+                fishingRegulation,
+                group,
+                mainThreats,
+                name,
+                pan,
+                protectedAreaPresence,
+                protectionLevel,
+                species,
+                threatCategory,
+                type,
+                occurrenceStates
+        );
+    }
+
     private List<EndangeredSpecies> injectRefs(List<EndangeredSpecies> endangeredSpeciesList) {
         // Prefers to get type refs once from Firestore instead of when pre-populating each endangered species
         ArrayList<Type> types = new TypesRepository().findAll();
@@ -115,50 +167,96 @@ public class EndangeredSpeciesRepository {
     private Map<String, Object> storeMapper(EndangeredSpecies endangeredSpecies) {
         Map<String, Object> result = new HashMap<>();
 
-//        result.put("biome", endangeredSpecies.getBiomes()); // TODO
+        ArrayList<DocumentReference> biomesRefs = new ArrayList<DocumentReference>();
+
+        for (Biome biome : endangeredSpecies.getBiomes()) {
+            biomesRefs.add(biome.getRef());
+        }
+
+        ArrayList<DocumentReference> statesRefs = new ArrayList<DocumentReference>();
+
+        for (State state : endangeredSpecies.getOccurrenceStates()) {
+            statesRefs.add(state.getRef());
+        }
+
+        result.put("biome", biomesRefs);
         result.put("country_exclusive", endangeredSpecies.getCountryExclusive());
         result.put("family", endangeredSpecies.getFamily());
         result.put("fishing_regulation", endangeredSpecies.getFishingRegulation());
-        result.put("group", endangeredSpecies.getGroup().getRef()); // TODO
-//        result.put("main_threats", endangeredSpecies.getMainThreats()); // TODO
+        result.put("group", endangeredSpecies.getGroup().getRef());
+        result.put("main_threats", endangeredSpecies.getMainThreats());
         result.put("name", endangeredSpecies.getName());
-//        result.put("occurrence_states", endangeredSpecies.getOccurrenceStates()); // TODO
+        result.put("occurrence_states", statesRefs);
         result.put("pan", endangeredSpecies.getName());
         result.put("protected_area_presence", endangeredSpecies.getProtectedAreaPresence());
-//        result.put("protection_level", endangeredSpecies.getProtectionLevels()); // TODO
+        result.put("protection_level", endangeredSpecies.getProtectionLevel().getRef());
         result.put("species", endangeredSpecies.getSpecies());
-//        result.put("threat_category", endangeredSpecies.getThreatCategories()); // TODO
-        result.put("type", endangeredSpecies.getType().getRef()); // TODO
+        result.put("threat_category", endangeredSpecies.getThreatCategory().getRef());
+        result.put("type", endangeredSpecies.getType().getRef());
 
         return result;
     }
 
-    public void populate(List<EndangeredSpecies> data) {
-        try {
-//            ArrayList<EndangeredSpecies> uniqueData = new ArrayList<EndangeredSpecies>();
-//            QueryDocumentSnapshot docAlreadyExists = FirebaseService.repository.collection(collection).whereEqualTo("name", current.getName()).get().get().getDocuments().get(0);
-//
-//            if (docAlreadyExists != null) {
-//                return;
-//            }
+    private List<EndangeredSpecies> removeExistingDocs(List<EndangeredSpecies> docs) {
+        // Aren't recommended make Firestore requests in a loop, but for project purposes is perfect
+        ArrayList<EndangeredSpecies> result = new ArrayList<EndangeredSpecies>();
 
-            List<EndangeredSpecies> dataWithRefs = this.injectRefs(data);
-            System.out.println(dataWithRefs.size());
-//            ArrayList<Map<String, Object>> parsedData = new ArrayList<Map<String, Object>>();
-//
-//            for (EndangeredSpecies dataWithRef : dataWithRefs) {
-//                parsedData.add(this.storeMapper(dataWithRef));
-//            }
-//
-//            Firebase.repository.collection(collection).document().set(docData);
+        try {
+            for (EndangeredSpecies doc : docs) {
+                List<QueryDocumentSnapshot> docAlreadyExists = FirebaseService.repository.collection(collection).whereEqualTo("name", doc.getName()).get().get().getDocuments();
+
+                if (docAlreadyExists.size() == 0) {
+                    result.add(doc);
+                }
+            }
         } catch (Exception e) {
-//            do nothing
             System.out.println(e.getMessage());
         }
 
-        // https://firebase.google.com/docs/firestore/manage-data/add-data
-//        https://firebase.google.com/docs/firestore/manage-data/transactions#transactions
-//        https://firebase.google.com/docs/firestore/manage-data/transactions#batched-writes
+        return result;
+    }
+
+    private void batchInsert(List<Map<String, Object>> list) {
+        try {
+            WriteBatch batch = FirebaseService.repository.batch();
+
+            for (Map<String, Object> item : list) {
+                DocumentReference ref = FirebaseService.repository.collection("endangered_species").document();
+
+                batch.set(ref, item);
+            }
+
+            batch.commit().get();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public void populate(List<EndangeredSpecies> endangeredSpecies) {
+        try {
+            List<EndangeredSpecies> nonRegisteredEndangeredSpecies = this.removeExistingDocs(endangeredSpecies);
+            List<EndangeredSpecies> dataWithRefs = this.injectRefs(nonRegisteredEndangeredSpecies);
+            ArrayList<Map<String, Object>> parsedData = new ArrayList<Map<String, Object>>();
+
+            for (EndangeredSpecies dataWithRef : dataWithRefs) {
+                parsedData.add(this.storeMapper(dataWithRef));
+            }
+
+            System.out.println(parsedData.size());
+
+            // Batch insert is limited to 500 operations per commit
+            if (parsedData.size() >= 500) {
+                // Aren't recommended make DB Firestore requests in a loop, but for project purposes is perfect
+             for (int i = 0; i < parsedData.size(); i += 500) {
+                 this.batchInsert(parsedData.subList(i, i + 500));
+             }
+             return;
+            }
+
+            this.batchInsert(parsedData);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     public ArrayList<EndangeredSpecies> findAll() {
@@ -169,7 +267,7 @@ public class EndangeredSpeciesRepository {
             ArrayList<EndangeredSpecies> result = new ArrayList<EndangeredSpecies>();
 
             for (QueryDocumentSnapshot document : documents) {
-                result.add(EndangeredSpecies.repositoryMapper(document));
+                result.add(this.repositoryMapper(document));
             }
 
             return result;
@@ -187,7 +285,7 @@ public class EndangeredSpeciesRepository {
             List<QueryDocumentSnapshot> list = query.get().get().getDocuments();
             ArrayList<EndangeredSpecies> result = new ArrayList<EndangeredSpecies>();
 
-            list.forEach(item -> result.add(EndangeredSpecies.repositoryMapper(item)));
+            list.forEach(item -> result.add(this.repositoryMapper(item)));
 
             return result;
         } catch (ExecutionException | InterruptedException exception) {
@@ -203,7 +301,7 @@ public class EndangeredSpeciesRepository {
             List<QueryDocumentSnapshot> list = query.get().get().getDocuments();
             ArrayList<EndangeredSpecies> result = new ArrayList<EndangeredSpecies>();
 
-            list.forEach(item -> result.add(EndangeredSpecies.repositoryMapper(item)));
+            list.forEach(item -> result.add(this.repositoryMapper(item)));
 
             return result;
         } catch (ExecutionException | InterruptedException exception) {
@@ -219,7 +317,7 @@ public class EndangeredSpeciesRepository {
             List<QueryDocumentSnapshot> list = query.get().get().getDocuments();
             ArrayList<EndangeredSpecies> result = new ArrayList<EndangeredSpecies>();
 
-            list.forEach(item -> result.add(EndangeredSpecies.repositoryMapper(item)));
+            list.forEach(item -> result.add(this.repositoryMapper(item)));
 
             return result;
         } catch (ExecutionException | InterruptedException exception) {
@@ -235,7 +333,7 @@ public class EndangeredSpeciesRepository {
             List<QueryDocumentSnapshot> list = query.get().get().getDocuments();
             ArrayList<EndangeredSpecies> result = new ArrayList<EndangeredSpecies>();
 
-            list.forEach(item -> result.add(EndangeredSpecies.repositoryMapper(item)));
+            list.forEach(item -> result.add(this.repositoryMapper(item)));
 
             return result;
         } catch (ExecutionException | InterruptedException exception) {
@@ -251,7 +349,7 @@ public class EndangeredSpeciesRepository {
             List<QueryDocumentSnapshot> list = query.get().get().getDocuments();
             ArrayList<EndangeredSpecies> result = new ArrayList<EndangeredSpecies>();
 
-            list.forEach(item -> result.add(EndangeredSpecies.repositoryMapper(item)));
+            list.forEach(item -> result.add(this.repositoryMapper(item)));
 
             return result;
         } catch (ExecutionException | InterruptedException exception) {
@@ -267,7 +365,7 @@ public class EndangeredSpeciesRepository {
             List<QueryDocumentSnapshot> list = query.get().get().getDocuments();
             ArrayList<EndangeredSpecies> result = new ArrayList<EndangeredSpecies>();
 
-            list.forEach(item -> result.add(EndangeredSpecies.repositoryMapper(item)));
+            list.forEach(item -> result.add(this.repositoryMapper(item)));
 
             return result;
         } catch (ExecutionException | InterruptedException exception) {
@@ -283,7 +381,7 @@ public class EndangeredSpeciesRepository {
             List<QueryDocumentSnapshot> list = query.get().get().getDocuments();
             ArrayList<EndangeredSpecies> result = new ArrayList<EndangeredSpecies>();
 
-            list.forEach(item -> result.add(EndangeredSpecies.repositoryMapper(item)));
+            list.forEach(item -> result.add(this.repositoryMapper(item)));
 
             return result;
         } catch (ExecutionException | InterruptedException exception) {
@@ -299,7 +397,7 @@ public class EndangeredSpeciesRepository {
             List<QueryDocumentSnapshot> list = query.get().get().getDocuments();
             ArrayList<EndangeredSpecies> result = new ArrayList<EndangeredSpecies>();
 
-            list.forEach(item -> result.add(EndangeredSpecies.repositoryMapper(item)));
+            list.forEach(item -> result.add(this.repositoryMapper(item)));
 
             return result;
         } catch (ExecutionException | InterruptedException exception) {
@@ -316,7 +414,7 @@ public class EndangeredSpeciesRepository {
             QueryDocumentSnapshot item = list.get(0);
 
             if (item != null) {
-                return EndangeredSpecies.repositoryMapper(item);
+                return this.repositoryMapper(item);
             }
         } catch (ExecutionException | InterruptedException exception) {
             System.out.println(exception.getMessage());
