@@ -1,62 +1,175 @@
 package org.aps.views;
 
 import java.util.ArrayList;
-import java.util.Scanner;
-
-import javax.swing.JFrame;
-import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
-import java.awt.List;
 
-import org.aps.implementations.EndangeredSpecie;
+
+class Teste {
+    private Boolean type;
+    private String grupo;
+    private String familia;
+    private String specie;
+    private String name;
+    private String category;
+    private String bioma;
+    private String threat;
+    private String occurrence;
+
+
+    public Teste () {};
+
+    public Teste
+    (
+        Boolean type,
+        String grupo,
+        String familia,
+        String specie,
+        String name,
+        String category,
+        String bioma,
+        String occurrence,
+        String threat
+    )
+    {
+        this.type = type;
+        this.grupo = grupo;
+        this.familia = familia;
+        this.specie = specie;
+        this.name = name;
+        this.category = category;
+        this.bioma = bioma;
+        this.occurrence = occurrence;
+        this.threat = threat;
+    }
+
+    public String getBioma() {
+        return bioma;
+    }
+    public String getCategory() {
+        return category;
+    }
+    public String getFamilia() {
+        return familia;
+    }
+    public String getGrupo() {
+        return grupo;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getOccurrence() {
+        return occurrence;
+    }
+
+    public String getSpecie() {
+        return specie;
+    }
+
+    public Boolean getType() {
+        return type;
+    }
+    
+    public String getThreat() {
+        return threat;
+    }
+
+    public void setBioma(String bioma) {
+        this.bioma = bioma;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    public void setFamilia(String familia) {
+        this.familia = familia;
+    }
+
+    public void setGrupo(String grupo) {
+        this.grupo = grupo;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setOccurrence(String occurrence) {
+        this.occurrence = occurrence;
+    }
+
+    public void setSpecie(String specie) {
+        this.specie = specie;
+    }
+
+    public void setType(Boolean type) {
+        this.type = type;
+    }
+
+    public void setThreat(String threat) {
+        this.threat = threat;
+    }
+
+
+
+    public ArrayList<Teste> faker() {
+        ArrayList<Teste> list = new ArrayList<Teste>();
+        for(int i = 0; i < 1001; i++){
+            Teste t = new Teste(true, "Grupo" + i, "Familia" + i, "specie" + i, "-", "VU", "mata atlantica", "PR","ameaça" +i);
+            list.add(t);
+        }
+
+        return list;
+    }
+
+}
+
 
 public class AddDataTable {
-    // ArrayList<EndangeredSpecie> endangeredSpecies;
     
-    public JTable addRowToJTable() {
+    public TableModel addRowToJTable() {
+        Teste n = new Teste();
 
-
+        ArrayList<Teste> endangeredSpecies = n.faker();
 
         ArrayList<String> columns = new ArrayList<String>();
         ArrayList<String[]> values = new ArrayList<String[]>();
 
-        columns.add("col1");
-        columns.add("col2");
-        columns.add("col3");
+        columns.add("Fauna/Flora");
+        columns.add("Grupo");
+        columns.add("Familia");
+        columns.add("Especie(simplificado)");
+        columns.add("Nome comum");
+        columns.add("Categoria ameaça");
+        columns.add("Bioma");
+        columns.add("Principais ameaças");
+        columns.add("Estados de Ocorrências");
+
+        
 
         for (int i = 0; i < 100; i++) {
-            values.add(new String[] {"val"+i,"val"+i,"val"+i});
+            values.add(
+                new String[] 
+                {
+                    String.valueOf(endangeredSpecies.get(i).getType()),
+                    endangeredSpecies.get(i).getGrupo(),
+                    endangeredSpecies.get(i).getFamilia(),
+                    endangeredSpecies.get(i).getSpecie(),
+                    endangeredSpecies.get(i).getName(),
+                    endangeredSpecies.get(i).getCategory(),
+                    endangeredSpecies.get(i).getBioma(),
+                    endangeredSpecies.get(i).getThreat(),
+                    endangeredSpecies.get(i).getOccurrence()
+                }
+                );
         }
 
         TableModel tableModel = new DefaultTableModel(values.toArray(new Object[][] {}), columns.toArray());
-        JTable table = new JTable(tableModel);
 
-        // Table tbe = new Table(35, false, false);
-        // JTable table = tbe.create();
-
-        // DefaultTableModel model = (DefaultTableModel) table.getModel();
-        // table.setModel(model);
-
-        // Object rowData[] = new Object[9];
-        
-        // for(int i = 0; i < test.size(); i++) {
-        //     rowData[0] = test.get(i).getType();
-        //     rowData[1] = test.get(i).getGroup();
-        //     rowData[2] = test.get(i).getFamily();
-        //     rowData[3] = test.get(i).getSpecies();
-        //     rowData[4] = test.get(i).getName();
-        //     rowData[5] = test.get(i).getThreatCategories();
-        //     rowData[6] = test.get(i).getBiomes();
-        //     rowData[7] = test.get(i).getMainThreats();
-        //     rowData[8] = test.get(i).getOccurrenceStates();
-
-        //     model.addRow(rowData);
-        //     model.addColumn(model, rowData);
-        // }
-
-        return table;
+        return tableModel;
     }
 
 }

@@ -1,6 +1,8 @@
 package org.aps.views;
 
 import javax.swing.JTable;
+import javax.swing.table.TableModel;
+
 import org.aps.views.AddDataTable;
 
 public class Table {
@@ -48,32 +50,12 @@ public class Table {
         this.dragEnabled = dragEnabled;
     }
 
-    public JTable create() {
-        String[] columnNames = { "Fauna/Flora", "Grupo", "Familia", "Especie(Simplificado)", "Nome Comum",
-                "Categoria de Ameaça", "Bioma", "Principais Ameaças", "Estados de Ocorrência" };
+    public JTable create(TableModel model) {
 
-        Object[][] data = {
-                { "Flora", "angiospermas", "salicacae", "abatia angeliana", "-", "Vulneravel(VU)", "Mata Atlantica",
-                        "perda de habitat/ degradacao(induzida por humanos)", "pr"
-                },
-                { "Flora", "angiospermas", "salicacae", "abatia angeliana", "-", "Vulneravel(VU)", "Mata Atlantica",
-                        "perda de habitat/ degradacao(induzida por humanos)", "pr"
-                },
-                { null, null, null, null, null, null, null, null, null },
-                { null, null, null, null, null, null, null, null, null },
-                { null, null, null, null, null, null, null, null, null },
-                { null, null, null, null, null, null, null, null, null },
-                { null, null, null, null, null, null, null, null, null },
-                { null, null, null, null, null, null, null, null, null },
-                { null, null, null, null, null, null, null, null, null }
-
-        };
-
-
-        JTable table = new JTable();
-        table.setEnabled(enabled);
-        table.setDragEnabled(dragEnabled);
-        table.setRowHeight(rowHeight);
+        JTable table = new JTable(model);
+        table.setEnabled(getEnabled());
+        table.setDragEnabled(getDragEnabled());
+        table.setRowHeight(getRowHeight());
 
         return table;
     }

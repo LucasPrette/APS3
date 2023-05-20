@@ -1,6 +1,9 @@
 package org.aps.views;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.JButton;
 
 public class Btn extends JButton{
@@ -35,10 +38,12 @@ public class Btn extends JButton{
     }
 
 
-    public JButton newBtn(String txt) {
+    public JButton newBtn(String txt, ActionListener listener) {
         JButton btn = new JButton(txt);
         btn.setPreferredSize(new Dimension(getWidth(), getHeight()));
         btn.setFocusable(getFocusable());
+
+        btn.addActionListener(listener);
         
         return btn;
     }
