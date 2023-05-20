@@ -7,8 +7,15 @@
     <list default="true" id="3233dfa5-70c8-43a9-b511-411a103a5acd" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/aps/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/aps/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/aps/configs/lista-de-especies-ameacas-2020.csv" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/aps/configs/lista-de-especies-ameacas-2020.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/aps/repositories/BiomesRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/aps/repositories/BiomesRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/aps/repositories/EndangeredSpeciesRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/aps/repositories/EndangeredSpeciesRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/aps/repositories/GroupiesRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/aps/repositories/GroupiesRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/aps/repositories/ProtectionLevelsRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/aps/repositories/ProtectionLevelsRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/aps/repositories/StatesRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/aps/repositories/StatesRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/aps/repositories/ThreatCategoriesRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/aps/repositories/ThreatCategoriesRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/aps/repositories/TypesRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/aps/repositories/TypesRepository.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/aps/services/CsvConverterService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/aps/services/CsvConverterService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/aps/views/AddDataTable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/aps/views/AddDataTable.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -110,7 +117,7 @@
       <workItem from="1684285745252" duration="9000" />
       <workItem from="1684413589780" duration="886000" />
       <workItem from="1684459902382" duration="7400000" />
-      <workItem from="1684540263173" duration="1115000" />
+      <workItem from="1684540263173" duration="6362000" />
     </task>
     <servers />
   </component>

@@ -9,7 +9,7 @@ import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.Query;
 import com.google.cloud.firestore.QueryDocumentSnapshot;
 import com.google.cloud.firestore.QuerySnapshot;
-import org.aps.implementations.EndangeredSpecies;
+import org.aps.implementations.*;
 import org.aps.services.FirebaseService;
 
 import java.util.ArrayList;
@@ -22,16 +22,106 @@ public class EndangeredSpeciesRepository {
         new FirebaseService().run();
     }
 
-    public void populate(ArrayList<EndangeredSpecies> data) {
-        EndangeredSpecies current = data.get(0);
+    private List<EndangeredSpecies> injectRefs(List<EndangeredSpecies> endangeredSpeciesList) {
+        // Prefers to get type refs once from Firestore instead of when pre-populating each endangered species
+        ArrayList<Type> types = new TypesRepository().findAll();
+        ArrayList<Biome> biomes = new BiomesRepository().findAll();
+        ArrayList<Group> groups = new GroupiesRepository().findAll();
+        ArrayList<State> states = new StatesRepository().findAll();
+        ArrayList<ProtectionLevel> protectionLevels = new ProtectionLevelsRepository().findAll();
+        ArrayList<ThreatCategory> threatCategories = new ThreatCategoriesRepository().findAll();
 
+        for (EndangeredSpecies endangeredSpecies : endangeredSpeciesList) {
+            for (Type type : types) {
+                if (type.getName().equals(endangeredSpecies.getType().getName())) {
+                    // don't repass all attributes to reduce memory usage
+                    endangeredSpecies.getType().setRef(type.getRef());
+                }
+            }
+
+            for (Biome biome : biomes) {
+                for (int i = 0; i < endangeredSpecies.getBiomes().size(); i++) {
+                    if (biome.getName().equals(endangeredSpecies.getBiomes().get(i).getName())) {
+                        // don't repass all attributes to reduce memory usage
+                        endangeredSpecies.getBiomes().get(i).setRef(biome.getRef());
+                    }
+                }
+            }
+
+            for (Group group : groups) {
+                if (group.getName().equals(endangeredSpecies.getGroup().getName().toLowerCase())) {
+                    // don't repass all attributes to reduce memory usage
+                    endangeredSpecies.getGroup().setRef(group.getRef());
+                }
+            }
+
+            for (State state : states) {
+                for (int i = 0; i < endangeredSpecies.getOccurrenceStates().size(); i++) {
+                    if (state.getUf().toUpperCase().equals(endangeredSpecies.getOccurrenceStates().get(i).getUf().toUpperCase())) {
+                        // don't repass all attributes to reduce memory usage
+                        endangeredSpecies.getOccurrenceStates().get(i).setRef(state.getRef());
+                    }
+                }
+            }
+
+            for (ProtectionLevel protectionLevel : protectionLevels) {
+                if (protectionLevel.getLevel() == endangeredSpecies.getProtectionLevel().getLevel()) {
+                    // don't repass all attributes to reduce memory usage
+                    endangeredSpecies.getProtectionLevel().setRef(protectionLevel.getRef());
+                }
+            }
+
+            for (ThreatCategory threatCategory : threatCategories) {
+                if (threatCategory.getAcronym().equals(endangeredSpecies.getThreatCategory().getAcronym())) {
+                    // don't repass all attributes to reduce memory usage
+                    endangeredSpecies.getThreatCategory().setRef(threatCategory.getRef());
+                }
+            }
+        }
+
+        ArrayList<EndangeredSpecies> result = new ArrayList<EndangeredSpecies>();
+
+        for (EndangeredSpecies current : endangeredSpeciesList) {
+            boolean someWithoutRef = current.getType().getRef() == null
+                    || current.getBiomes().get(0).getRef() == null
+                    || current.getGroup().getRef() == null
+                    || current.getOccurrenceStates().get(0).getRef() == null
+                    || current.getProtectionLevel().getRef() == null
+                    || current.getThreatCategory().getRef() == null;
+
+            if (!someWithoutRef) {
+                result.add(current);
+            } else {
+                System.out.println("======ERROR======");
+                System.out.println(current.getFamily());
+                System.out.println(current.getName());
+                System.out.printf(current.getType().getRef() + " <=>" + current.getType().getName() + "\n");
+                System.out.printf(current.getBiomes().get(0).getRef() + "<=>" + current.getBiomes().get(0).getName()  + "\n");
+                System.out.printf(current.getGroup().getRef() + "<=>" + current.getGroup().getName()  + "\n");
+                System.out.printf(current.getOccurrenceStates().get(0).getRef() + "<=>" + current.getOccurrenceStates().get(0).getUf()  + "\n");
+                System.out.printf(current.getProtectionLevel().getRef() + "<=>" + current.getProtectionLevel().getLevel()  + "\n");
+                System.out.printf(current.getThreatCategory().getRef() + "<=>" + current.getThreatCategory().getAcronym()  + "\n");
+            }
+        }
+
+        return result;
+    }
+
+    public void populate(List<EndangeredSpecies> data) {
+        /**
+         * TODO
+         * - mainThreats
+         */
         try {
-//            QueryDocumentSnapshot docAlreadyExists = Firebase.repository.collection(collection).whereEqualTo("name", current.getName()).get().get().getDocuments().get(0);
-
-//            TODO
-//            if (docAlreadyExists != null) {
+//            QueryDocumentSnapshot docAlreadyExists = FirebaseService.repository.collection(collection).whereEqualTo("name", current.getName()).get().get().getDocuments().get(0);
 //
+//            if (docAlreadyExists != null) {
+//                return;
 //            }
+
+            List<EndangeredSpecies> dataWithRefs = this.injectRefs(data);
+
+            System.out.println(dataWithRefs.size());
 
 //            Map<String, Object> docData = new HashMap<>();
 //
@@ -59,6 +149,7 @@ public class EndangeredSpeciesRepository {
 //            Firebase.repository.collection(collection).document().set(docData);
         } catch (Exception e) {
 //            do nothing
+            System.out.println(e.getMessage());
         }
 
         // https://firebase.google.com/docs/firestore/manage-data/add-data

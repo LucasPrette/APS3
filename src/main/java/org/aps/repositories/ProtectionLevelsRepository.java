@@ -19,7 +19,7 @@ public class ProtectionLevelsRepository {
         new FirebaseService().run();
     }
 
-    public ArrayList<ProtectionLevel> find() {
+    public ArrayList<ProtectionLevel> findAll() {
         try {
             ApiFuture<QuerySnapshot> query = FirebaseService.repository.collection(collection).get();
             List<QueryDocumentSnapshot> documents = query.get().getDocuments();

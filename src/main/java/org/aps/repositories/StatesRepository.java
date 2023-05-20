@@ -19,7 +19,7 @@ public class StatesRepository {
         new FirebaseService().run();
     }
 
-    public ArrayList<State> find() {
+    public ArrayList<State> findAll() {
         try {
             ApiFuture<QuerySnapshot> query = FirebaseService.repository.collection(collection).get();
             List<QueryDocumentSnapshot> documents = query.get().getDocuments();

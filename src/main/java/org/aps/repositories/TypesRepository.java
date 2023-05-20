@@ -19,7 +19,7 @@ public class TypesRepository {
         new FirebaseService().run();
     }
 
-    public ArrayList<Type> find() {
+    public ArrayList<Type> findAll() {
         try {
             ApiFuture<QuerySnapshot> query = FirebaseService.repository.collection(collection).get();
             List<QueryDocumentSnapshot> documents = query.get().getDocuments();

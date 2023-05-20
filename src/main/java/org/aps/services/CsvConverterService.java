@@ -18,8 +18,6 @@ public class CsvConverterService {
     public ArrayList<EndangeredSpecies> csvToJClass() {
         ArrayList<EndangeredSpecies> result = new ArrayList<EndangeredSpecies>();
 
-        int i = 0;
-
         try {
             BufferedReader reader = new BufferedReader(new FileReader(file, StandardCharsets.UTF_8));
             boolean isHeader = true;
@@ -42,13 +40,16 @@ public class CsvConverterService {
                 String family = this.sanitize(attributes[2]);
                 String species = attributes[3];
                 String name = this.sanitize(attributes[4]);
-                String threatCategoryName = this.sanitize(attributes[5]);
-                String threatCategoryAcronym = this.sanitize(attributes[6]);
+                // store only the main threat category
+                String threatCategoryName = this.sanitize(attributes[5].replace("Criticamente em Perigo (CR)/", ""));
+                String threatCategoryAcronym = this.sanitize(attributes[6].replace("CR/", ""));
 
                 ArrayList<Biome> biomes = new ArrayList<Biome>();
 
                 for (String attr : attributes[7].split(",")) {
-                    new Biome(this.sanitize(attr));
+                    Biome biome = new Biome(this.sanitize(attr));
+
+                    biomes.add(biome);
                 }
 
                 ArrayList<String> mainThreats = new ArrayList<String>();
@@ -89,12 +90,9 @@ public class CsvConverterService {
                         occurrenceStates
                 );
 
-                i++;
                 result.add(endangeredSpecies);
             }
         } catch (Exception e) {
-            System.out.println(i);
-            System.out.println(e.getMessage());
             e.printStackTrace();
             
         }

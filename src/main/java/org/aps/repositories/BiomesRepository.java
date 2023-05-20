@@ -19,7 +19,7 @@ public class BiomesRepository {
         new FirebaseService().run();
     }
 
-    public ArrayList<Biome> find() {
+    public ArrayList<Biome> findAll() {
         try {
             ApiFuture<QuerySnapshot> query = FirebaseService.repository.collection(collection).get();
             List<QueryDocumentSnapshot> documents = query.get().getDocuments();

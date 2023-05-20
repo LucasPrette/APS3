@@ -9,17 +9,20 @@ import java.util.ArrayList;
 public class Main {
     private void populate() {
         CsvConverterService csvConverterService = new CsvConverterService();
+        EndangeredSpeciesRepository endangeredSpeciesRepository = new EndangeredSpeciesRepository();
 
         ArrayList<EndangeredSpecies> endangeredSpecies = csvConverterService.csvToJClass();
 
-        System.out.println(endangeredSpecies.size());
+        /**
+         * 0-100 => ok
+         * 100-500 => ok
+         * 500-1200 => ok
+         * 1200-2000 => ok
+         */
+        endangeredSpeciesRepository.populate(endangeredSpecies.subList(0, 2000));
     }
 
     public static void main(String[] args) {
         new Main().populate();
-//        EndangeredSpeciesRepository endangeredSpeciesRepository = new EndangeredSpeciesRepository();
-//
-//        endangeredSpeciesRepository.populate(new ArrayList<EndangeredSpecies>());
-//            System.out.println(endangeredSpeciesRepository.findAll().get(0).getBiomes().get(0).getId());
     }
 }
