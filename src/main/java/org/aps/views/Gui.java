@@ -23,7 +23,7 @@ import org.aps.services.CsvConverterService;
 
 public class Gui {
 
-    Btn btn = new Btn(170, 30, false);
+    Btn btn = new Btn(165, 30, false);
     Lbl lbl = new Lbl(20, 30, 0);
     Table table = new Table(40, false, false);
     TextField textField = new TextField();
@@ -36,7 +36,7 @@ public class Gui {
     public void runGUI() {
         frame.setLayout(new BorderLayout(0, 50));
         
-        frame.setSize(750, 750);
+        frame.setSize(900, 750);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         frame.add(BorderLayout.NORTH, topPanel());
@@ -137,70 +137,90 @@ public class Gui {
         gbc.gridy = 1;
         searchPanel.add(new JComboBox<String>(), gbc);
 
+
         gbc.gridx = 1;
         gbc.gridy = 0;
-        searchPanel.add(lbl.create("Familia"), gbc);
+        searchPanel.add(lbl.create("Grupo"), gbc);
 
         gbc.gridx = 1;
         gbc.gridy = 1;
-        searchPanel.add(new JComboBox<>(), gbc);
+        JComboBox dropDownGroup = new JComboBox<String>();
+        
+        searchPanel.add(dropDownGroup, gbc);
+
 
         gbc.gridx = 2;
         gbc.gridy = 0;
-        searchPanel.add(lbl.create("Especie"), gbc);
+        searchPanel.add(lbl.create("Familia"), gbc);
 
         gbc.gridx = 2;
+        gbc.gridy = 1;
+        searchPanel.add(new JComboBox<>(), gbc);
+
+
+        gbc.gridx = 3;
+        gbc.gridy = 0;
+        searchPanel.add(lbl.create("Especie"), gbc);
+
+        gbc.gridx = 3;
         gbc.gridy = 1;
         JTextField specieTxt = new JTextField();
         searchPanel.add(specieTxt, gbc);
 
-        gbc.gridx = 3;
+
+        gbc.gridx = 4;
         gbc.gridy = 0;
         searchPanel.add(lbl.create("Bioma"), gbc);
 
-        gbc.gridx = 3;
+        gbc.gridx = 4;
         gbc.gridy = 1;
         JTextField biomeTxt = new JTextField();
         searchPanel.add(biomeTxt, gbc);
+
 
         gbc.gridx = 0;
         gbc.gridy = 2;
         searchPanel.add(lbl.create("Categoria ameaca"), gbc);
 
         gbc.gridx = 0;
+        gbc.gridwidth = 2;
         gbc.gridy = 3;
         JTextField threatCategoryTxt = new JTextField();
         searchPanel.add(threatCategoryTxt, gbc);
 
-        gbc.gridx = 1;
+        gbc.gridwidth = 1;
+        gbc.gridx = 2;
         gbc.gridy = 2;
         searchPanel.add(lbl.create("Principais ameacas"), gbc);
 
-        gbc.gridx = 1;
+        gbc.gridx = 2;
         gbc.gridy = 3;
         JTextField mainThreatTxt = new JTextField();
         searchPanel.add(mainThreatTxt, gbc);
 
-        gbc.gridx = 2;
+
+        gbc.gridx = 3;
         gbc.gridy = 2;
         searchPanel.add(lbl.create("Nome Comum"), gbc);
 
-        gbc.gridx = 2;
+        gbc.gridx = 3;
         gbc.gridy = 3;
         JTextField nameTxt = new JTextField();
         searchPanel.add(nameTxt, gbc);
 
-        gbc.gridx = 3;
+
+        gbc.gridx = 4;
         gbc.gridy = 2;
         searchPanel.add(lbl.create("Estado de ocorrencia"), gbc);
 
-        gbc.gridx = 3;
+        gbc.gridx = 4;
         gbc.gridy = 3;
         JTextField occurrenceEstateTxt = new JTextField();
         searchPanel.add(occurrenceEstateTxt, gbc);
 
+
         gbc.fill = GridBagConstraints.VERTICAL;
-        gbc.gridx = 4;
+        gbc.gridx = 5;
         gbc.gridy = 0;
         gbc.gridheight = 2;
 
@@ -218,7 +238,7 @@ public class Gui {
         }), gbc);
 
 
-        gbc.gridx = 4;
+        gbc.gridx = 5;
         gbc.gridy = 2;
         gbc.gridheight = 2;
 
