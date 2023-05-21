@@ -3,6 +3,7 @@ package org.aps.views;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.JComboBox;
@@ -16,6 +17,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.text.html.HTML;
 
+import org.aps.implementations.EndangeredSpecies;
 import org.aps.repositories.EndangeredSpeciesRepository;
 import org.aps.services.CsvConverterService;
 
@@ -65,19 +67,29 @@ public class Gui {
 
         topPanelFrame.add(btn.newBtn("CONECTAR", new ActionListener() {
             public void actionPerformed (ActionEvent e ) {
-                CsvConverterService Json = new CsvConverterService();
-                EndangeredSpeciesRepository endSpeciesRepo = new EndangeredSpeciesRepository();
-
-                endSpeciesRepo.populate(Json.csvToJClass());
 
             }
-        }), gbc); // adds a componet within gbc setting 
+        }), gbc); // adds a component within gbc setting
 
         gbc.gridx = 1;
         gbc.gridy = 0;
         topPanelFrame.add(btn.newBtn("SINCRONIZAR DADOS", new ActionListener() {
             public void actionPerformed (ActionEvent e) {
+                long startTime = System.nanoTime();
+                System.out.println("STARTED");
+                System.out.println(startTime);
 
+                CsvConverterService csvConverterService = new CsvConverterService();
+                EndangeredSpeciesRepository endangeredSpeciesRepository = new EndangeredSpeciesRepository();
+
+                List<EndangeredSpecies> endangeredSpecies = csvConverterService.csvToJClass();
+
+                endangeredSpeciesRepository.populate(endangeredSpecies);
+
+                long endTime = System.nanoTime();
+                System.out.println("FINISHED");
+                System.out.println(endTime);
+                System.out.print("Total: " + (endTime - startTime));
             }
         }), gbc);
 
