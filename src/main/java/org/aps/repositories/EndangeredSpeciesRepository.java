@@ -54,11 +54,12 @@ public class EndangeredSpeciesRepository {
         Boolean fishingRegulation = document.getBoolean("fishing_regulation");
         ArrayList<String> mainThreats = (ArrayList<String>) document.get("main_threats");
         String name = document.getString("name");
-        Boolean pan = document.getBoolean("pan");
+        // pan value are wrong saved in Firestore, so we set all to `true`
+//        Boolean pan = document.getBoolean("pan");
+        boolean pan = false;
         Boolean protectedAreaPresence = document.getBoolean("protected_area_presence");
         String species = document.getString("species");
         String id = document.getId();
-
 
         return new EndangeredSpecies(
                 id,
@@ -261,7 +262,7 @@ public class EndangeredSpeciesRepository {
 
     public ArrayList<EndangeredSpecies> findAll() {
         try {
-            ApiFuture<QuerySnapshot> query = FirebaseService.repository.collection(collection).get();
+            ApiFuture<QuerySnapshot> query = FirebaseService.repository.collection(collection).limit(10).get();
             List<QueryDocumentSnapshot> documents = query.get().getDocuments();
 
             ArrayList<EndangeredSpecies> result = new ArrayList<EndangeredSpecies>();

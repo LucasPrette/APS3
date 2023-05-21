@@ -1,11 +1,14 @@
 package org.aps.views;
 
-import java.util.ArrayList;
-import javax.swing.JTable;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableModel;
-import java.awt.List;
+import org.aps.implementations.Biome;
+import org.aps.implementations.EndangeredSpecies;
+import org.aps.implementations.State;
 
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.table.DefaultTableModel;
+
+// TODO remove class after integrate with Firestore
 class Teste {
     private Boolean type;
     private String grupo;
@@ -129,11 +132,7 @@ class Teste {
 
 public class AddDataTable {
     
-    public DefaultTableModel addRowToJTable() {
-        Teste n = new Teste();
-
-        ArrayList<Teste> endangeredSpecies = n.faker();
-
+    public DefaultTableModel addRowToJTable(List<EndangeredSpecies> endangeredSpeciesList) {
         ArrayList<String> columns = new ArrayList<String>();
         ArrayList<String[]> values = new ArrayList<String[]>();
 
@@ -147,21 +146,42 @@ public class AddDataTable {
         columns.add("Principais ameaças");
         columns.add("Estados de Ocorrências");
 
-        
+        for (EndangeredSpecies endangeredSpecies : endangeredSpeciesList) {
+            String biomes = "";
+            String occurrenceStates = "";
 
-        for (int i = 0; i < 10000; i++) {
+            for (Biome biome : endangeredSpecies.getBiomes()) {
+                biomes += (" " + biome.getName());
+            }
+
+            for (State occurrenceState : endangeredSpecies.getOccurrenceStates()) {
+                occurrenceStates += (" " + occurrenceState.getUf());
+            }
+
+            System.out.printf(
+                    endangeredSpecies.getType().getName(),
+                    endangeredSpecies.getGroup().getName(),
+                    endangeredSpecies.getFamily(),
+                    endangeredSpecies.getSpecies(),
+                    endangeredSpecies.getName(),
+                    endangeredSpecies.getThreatCategory().getName(),
+                    biomes,
+                    String.join(", ", endangeredSpecies.getMainThreats()),
+                    occurrenceStates
+            );
+
             values.add(
                 new String[] 
                 {
-                    String.valueOf(endangeredSpecies.get(i).getType()),
-                    endangeredSpecies.get(i).getGrupo(),
-                    endangeredSpecies.get(i).getFamilia(),
-                    endangeredSpecies.get(i).getSpecie(),
-                    endangeredSpecies.get(i).getName(),
-                    endangeredSpecies.get(i).getCategory(),
-                    endangeredSpecies.get(i).getBioma(),
-                    endangeredSpecies.get(i).getThreat(),
-                    endangeredSpecies.get(i).getOccurrence()
+                        endangeredSpecies.getType().getName(),
+                        endangeredSpecies.getGroup().getName(),
+                        endangeredSpecies.getFamily(),
+                        endangeredSpecies.getSpecies(),
+                        endangeredSpecies.getName(),
+                        endangeredSpecies.getThreatCategory().getName(),
+                        biomes,
+                        String.join(", ", endangeredSpecies.getMainThreats()),
+                        occurrenceStates
                 }
                 );
         }

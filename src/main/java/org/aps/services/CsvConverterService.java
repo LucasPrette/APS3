@@ -61,6 +61,7 @@ public class CsvConverterService {
                 }
 
                 boolean protectedAreaPresence = this.convertStrToBool(attributes[9]);
+                // this value is incorrect
                 boolean pan = this.convertStrToBool(attributes[10]);
                 boolean fishingRegulation = this.convertStrToBool(attributes[11]);
                 ProtectionLevel protectionLevel = new ProtectionLevel(Integer.parseInt(this.sanitize(attributes[12])));

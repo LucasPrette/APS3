@@ -3,8 +3,6 @@ package org.aps.views;
 import javax.swing.JTable;
 import javax.swing.table.TableModel;
 
-import org.aps.views.AddDataTable;
-
 public class Table {
 
     private int rowHeight;

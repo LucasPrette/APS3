@@ -3,6 +3,7 @@ package org.aps.views;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.BorderFactory;
@@ -14,14 +15,10 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableModel;
-import javax.swing.text.html.HTML;
 
 import org.aps.implementations.EndangeredSpecies;
 import org.aps.repositories.EndangeredSpeciesRepository;
 import org.aps.services.CsvConverterService;
-
-import com.google.api.client.util.Data;
 
 
 public class Gui {
@@ -52,7 +49,6 @@ public class Gui {
     JPanel topPanel() {
 
         // top panel adds the main btns: Connect, Sync and Close
-
         JPanel topPanelFrame = new JPanel(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints(); // gbc sets position, size, etc... within its layout
 
@@ -67,7 +63,14 @@ public class Gui {
 
         topPanelFrame.add(btn.newBtn("CONECTAR", new ActionListener() {
             public void actionPerformed (ActionEvent e ) {
+                AddDataTable dataTable = new AddDataTable();
+                EndangeredSpeciesRepository endangeredSpeciesRepository = new EndangeredSpeciesRepository();
 
+                List<EndangeredSpecies> endangeredSpecies = endangeredSpeciesRepository.findAll();
+                System.out.println(endangeredSpecies.size());
+                dtm = dataTable.addRowToJTable(endangeredSpecies);
+                normalTable.setModel(dtm);
+                normalTable.setVisible(true);
             }
         }), gbc); // adds a component within gbc setting
 
@@ -76,8 +79,7 @@ public class Gui {
         topPanelFrame.add(btn.newBtn("SINCRONIZAR DADOS", new ActionListener() {
             public void actionPerformed (ActionEvent e) {
                 long startTime = System.nanoTime();
-                System.out.println("STARTED");
-                System.out.println(startTime);
+                System.out.print("STARTED AT: " + startTime + '\n');
 
                 CsvConverterService csvConverterService = new CsvConverterService();
                 EndangeredSpeciesRepository endangeredSpeciesRepository = new EndangeredSpeciesRepository();
@@ -87,9 +89,8 @@ public class Gui {
                 endangeredSpeciesRepository.populate(endangeredSpecies);
 
                 long endTime = System.nanoTime();
-                System.out.println("FINISHED");
-                System.out.println(endTime);
-                System.out.print("Total: " + (endTime - startTime));
+                System.out.print("FINISHED AT: " + endTime + '\n');
+                System.out.print("DIFF: " + (endTime - startTime));
             }
         }), gbc);
 
@@ -136,7 +137,6 @@ public class Gui {
         gbc.gridy = 1;
         searchPanel.add(new JComboBox<String>(), gbc);
 
-
         gbc.gridx = 1;
         gbc.gridy = 0;
         searchPanel.add(lbl.create("Familia"), gbc);
@@ -144,7 +144,6 @@ public class Gui {
         gbc.gridx = 1;
         gbc.gridy = 1;
         searchPanel.add(new JComboBox<>(), gbc);
-
 
         gbc.gridx = 2;
         gbc.gridy = 0;
@@ -155,7 +154,6 @@ public class Gui {
         JTextField specieTxt = new JTextField();
         searchPanel.add(specieTxt, gbc);
 
-
         gbc.gridx = 3;
         gbc.gridy = 0;
         searchPanel.add(lbl.create("Bioma"), gbc);
@@ -164,7 +162,6 @@ public class Gui {
         gbc.gridy = 1;
         JTextField biomeTxt = new JTextField();
         searchPanel.add(biomeTxt, gbc);
-
 
         gbc.gridx = 0;
         gbc.gridy = 2;
@@ -175,7 +172,6 @@ public class Gui {
         JTextField threatCategoryTxt = new JTextField();
         searchPanel.add(threatCategoryTxt, gbc);
 
-
         gbc.gridx = 1;
         gbc.gridy = 2;
         searchPanel.add(lbl.create("Principais ameacas"), gbc);
@@ -185,7 +181,6 @@ public class Gui {
         JTextField mainThreatTxt = new JTextField();
         searchPanel.add(mainThreatTxt, gbc);
 
-
         gbc.gridx = 2;
         gbc.gridy = 2;
         searchPanel.add(lbl.create("Nome Comum"), gbc);
@@ -194,7 +189,6 @@ public class Gui {
         gbc.gridy = 3;
         JTextField nameTxt = new JTextField();
         searchPanel.add(nameTxt, gbc);
-
 
         gbc.gridx = 3;
         gbc.gridy = 2;
@@ -215,12 +209,11 @@ public class Gui {
         searchPanel.add(btn.newBtn("PESQUISAR", new ActionListener() {
             public void actionPerformed (ActionEvent e) {
                 
-                AddDataTable t = new AddDataTable();
-                dtm = t.addRowToJTable();
-                normalTable.setModel(t.addRowToJTable());
+                AddDataTable dataTable = new AddDataTable();
+//                TODO
+                dtm = dataTable.addRowToJTable(new ArrayList<EndangeredSpecies>());
+                normalTable.setModel(dtm);
                 normalTable.setVisible(true);
-                
-
             }
         }), gbc);
 
@@ -236,8 +229,6 @@ public class Gui {
                     normalTable.setModel(dtm);
                     normalTable.repaint();
                 }
-        
-
             }
         }), gbc);
 
@@ -249,8 +240,4 @@ public class Gui {
         scrollTablePane = new JScrollPane(normalTable);
         frame.add(scrollTablePane);
     }
-
-    // public static void main(String[] args) {
-    //     new Gui().runGUI();
-    // }
 }

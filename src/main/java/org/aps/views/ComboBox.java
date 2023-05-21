@@ -1,7 +1,6 @@
 package org.aps.views;
 
 
-import java.awt.*;
 import java.util.ArrayList;
 
 import javax.swing.JComboBox;
