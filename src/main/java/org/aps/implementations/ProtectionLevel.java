@@ -17,12 +17,6 @@ public class ProtectionLevel {
         this.ref = ref;
     }
 
-    public ProtectionLevel(String id, int level, DocumentReference ref) {
-        this.id = id;
-        this.level = level;
-        this.ref = ref;
-    }
-
     public int getLevel() {
         return this.level;
     }

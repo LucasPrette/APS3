@@ -41,56 +41,6 @@ public class StatesRepository {
         return state;
     }
 
-    public State repositoryMapper(DocumentSnapshot document) {
-        Map<String, Object> data = document.getData();
-        State state = new State();
-
-        for (Map.Entry<String, Object> entry : data.entrySet()) {
-            switch (entry.getKey()) {
-                case "name":
-                    state.setName((String) entry.getValue());
-                    break;
-                case "uf":
-                    state.setUf((String) entry.getValue());
-                    break;
-                case "id":
-                    state.setId((String) entry.getValue());
-                    break;
-                default:
-                    System.out.println("key not mapped " + entry.getKey());
-                    break;
-            }
-        }
-
-        return state;
-    }
-
-    public State repositoryMapper(DocumentReference ref, QueryDocumentSnapshot document) {
-        Map<String, Object> data = document.getData();
-        State state = new State();
-
-        state.setRef(ref);
-
-        for (Map.Entry<String, Object> entry : data.entrySet()) {
-            switch (entry.getKey()) {
-                case "name":
-                    state.setName((String) entry.getValue());
-                    break;
-                case "uf":
-                    state.setUf((String) entry.getValue());
-                    break;
-                case "id":
-                    state.setId((String) entry.getValue());
-                    break;
-                default:
-                    System.out.println("key not mapped " + entry.getKey());
-                    break;
-            }
-        }
-
-        return state;
-    }
-
     public State repositoryMapper(DocumentReference ref, DocumentSnapshot document) {
         Map<String, Object> data = document.getData();
         State state = new State();

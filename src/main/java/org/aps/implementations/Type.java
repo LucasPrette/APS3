@@ -13,12 +13,6 @@ public class Type {
 
     public Type() {}
 
-    public Type(String id, String name, DocumentReference ref) {
-        this.id = id;
-        this.name = name;
-        this.ref = ref;
-    }
-
     public String getName() {
         return name;
     }

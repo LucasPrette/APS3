@@ -41,56 +41,6 @@ public class ThreatCategoriesRepository {
         return threatCategory;
     }
 
-    public ThreatCategory repositoryMapper(DocumentSnapshot document) {
-        Map<String, Object> data = document.getData();
-        ThreatCategory threatCategory = new ThreatCategory();
-
-        for (Map.Entry<String, Object> entry : data.entrySet()) {
-            switch (entry.getKey()) {
-                case "name":
-                    threatCategory.setName((String) entry.getValue());
-                    break;
-                case "acronym":
-                    threatCategory.setAcronym((String) entry.getValue());
-                    break;
-                case "id":
-                    threatCategory.setId((String) entry.getValue());
-                    break;
-                default:
-                    System.out.println("key not mapped " + entry.getKey());
-                    break;
-            }
-        }
-
-        return threatCategory;
-    }
-
-    public ThreatCategory repositoryMapper(DocumentReference ref, QueryDocumentSnapshot document) {
-        Map<String, Object> data = document.getData();
-        ThreatCategory threatCategory = new ThreatCategory();
-
-        threatCategory.setRef(ref);
-
-        for (Map.Entry<String, Object> entry : data.entrySet()) {
-            switch (entry.getKey()) {
-                case "name":
-                    threatCategory.setName((String) entry.getValue());
-                    break;
-                case "acronym":
-                    threatCategory.setAcronym((String) entry.getValue());
-                    break;
-                case "id":
-                    threatCategory.setId((String) entry.getValue());
-                    break;
-                default:
-                    System.out.println("key not mapped " + entry.getKey());
-                    break;
-            }
-        }
-
-        return threatCategory;
-    }
-
     public ThreatCategory repositoryMapper(DocumentReference ref, DocumentSnapshot document) {
         Map<String, Object> data = document.getData();
         ThreatCategory threatCategory = new ThreatCategory();

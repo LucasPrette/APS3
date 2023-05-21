@@ -37,50 +37,6 @@ public class GroupiesRepository {
         return group;
     }
 
-    public Group repositoryMapper(DocumentSnapshot document) {
-        Map<String, Object> data = document.getData();
-        Group group = new Group();
-
-        for (Map.Entry<String, Object> entry : data.entrySet()) {
-            switch (entry.getKey()) {
-                case "name":
-                    group.setName((String) entry.getValue());
-                    break;
-                case "id":
-                    group.setId((String) entry.getValue());
-                    break;
-                default:
-                    System.out.println("key not mapped " + entry.getKey());
-                    break;
-            }
-        }
-
-        return group;
-    }
-
-    public Group repositoryMapper(DocumentReference ref, QueryDocumentSnapshot document) {
-        Map<String, Object> data = document.getData();
-        Group group = new Group();
-
-        group.setRef(ref);
-
-        for (Map.Entry<String, Object> entry : data.entrySet()) {
-            switch (entry.getKey()) {
-                case "name":
-                    group.setName((String) entry.getValue());
-                    break;
-                case "id":
-                    group.setId((String) entry.getValue());
-                    break;
-                default:
-                    System.out.println("key not mapped " + entry.getKey());
-                    break;
-            }
-        }
-
-        return group;
-    }
-
     public Group repositoryMapper(DocumentReference ref, DocumentSnapshot document) {
         Map<String, Object> data = document.getData();
         Group group = new Group();

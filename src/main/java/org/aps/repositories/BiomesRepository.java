@@ -17,29 +17,6 @@ public class BiomesRepository {
         new FirebaseService().run();
     }
 
-    public Biome repositoryMapper(DocumentReference ref, QueryDocumentSnapshot document) {
-        Map<String, Object> data = document.getData();
-        Biome biome = new Biome();
-
-        biome.setRef(ref);
-
-        for (Map.Entry<String, Object> entry : data.entrySet()) {
-            switch (entry.getKey()) {
-                case "name":
-                    biome.setName((String) entry.getValue());
-                    break;
-                case "id":
-                    biome.setId((String) entry.getValue());
-                    break;
-                default:
-                    System.out.println("key not mapped " + entry.getKey());
-                    break;
-            }
-        }
-
-        return biome;
-    }
-
     public Biome repositoryMapper(DocumentReference ref, DocumentSnapshot document) {
         Map<String, Object> data = document.getData();
         Biome biome = new Biome();
@@ -64,27 +41,6 @@ public class BiomesRepository {
     }
 
     public Biome repositoryMapper(QueryDocumentSnapshot document) {
-        Map<String, Object> data = document.getData();
-        Biome biome = new Biome();
-
-        for (Map.Entry<String, Object> entry : data.entrySet()) {
-            switch (entry.getKey()) {
-                case "name":
-                    biome.setName((String) entry.getValue());
-                    break;
-                case "id":
-                    biome.setId((String) entry.getValue());
-                    break;
-                default:
-                    System.out.println("key not mapped " + entry.getKey());
-                    break;
-            }
-        }
-
-        return biome;
-    }
-
-    public Biome repositoryMapper(DocumentSnapshot document) {
         Map<String, Object> data = document.getData();
         Biome biome = new Biome();
 

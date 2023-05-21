@@ -20,40 +20,6 @@ public class EndangeredSpecies {
     private ArrayList<State> occurrenceStates;
 
     public EndangeredSpecies(
-            String id,
-            ArrayList<Biome> biomes,
-            Boolean countryExclusive,
-            String family,
-            boolean fishingRegulation,
-            Group group,
-            ArrayList<String> mainThreats,
-            String name,
-            boolean pan,
-            boolean protectedAreaPresence,
-            ProtectionLevel protectionLevel,
-            String species,
-            ThreatCategory threatCategory,
-            Type type,
-            ArrayList<State> occurrenceStates
-    ) {
-        this.id = id;
-        this.biomes = biomes;
-        this.countryExclusive = countryExclusive;
-        this.family = family;
-        this.fishingRegulation = fishingRegulation;
-        this.group = group;
-        this.mainThreats = mainThreats;
-        this.name = name;
-        this.pan = pan;
-        this.protectionLevel = protectionLevel;
-        this.protectedAreaPresence = protectedAreaPresence;
-        this.species = species;
-        this.threatCategory = threatCategory;
-        this.type = type;
-        this.occurrenceStates = occurrenceStates;
-    }
-
-    public EndangeredSpecies(
             ArrayList<Biome> biomes,
             Boolean countryExclusive,
             String family,

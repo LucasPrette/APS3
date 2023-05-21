@@ -15,13 +15,6 @@ public class ThreatCategory {
 
     public ThreatCategory() {}
 
-    public ThreatCategory(String id, String name, String acronym, DocumentReference ref) {
-        this.id = id;
-        this.name = name;
-        this.acronym = acronym;
-        this.ref = ref;
-    }
-
     public String getName() {
         return name;
     }

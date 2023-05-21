@@ -19,6 +19,7 @@
       <change beforePath="$PROJECT_DIR$/src/main/java/org/aps/repositories/ProtectionLevelsRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/aps/repositories/ProtectionLevelsRepository.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/aps/repositories/StatesRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/aps/repositories/StatesRepository.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/aps/repositories/ThreatCategoriesRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/aps/repositories/ThreatCategoriesRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/aps/repositories/TypesRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/aps/repositories/TypesRepository.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -122,7 +123,7 @@
       <workItem from="1684413589780" duration="886000" />
       <workItem from="1684459902382" duration="7400000" />
       <workItem from="1684540263173" duration="8788000" />
-      <workItem from="1684684350118" duration="9907000" />
+      <workItem from="1684684350118" duration="10218000" />
     </task>
     <servers />
   </component>

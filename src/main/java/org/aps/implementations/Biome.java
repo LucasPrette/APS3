@@ -7,12 +7,6 @@ public class Biome {
     private String name;
     private DocumentReference ref = null;
 
-    public Biome(String id, String name, DocumentReference ref) {
-        this.id = id;
-        this.name = name;
-        this.ref = ref;
-    }
-
     public Biome(String name) {
         this.name = name;
     }

@@ -11,12 +11,6 @@ public class Group {
         this.name = name;
     }
 
-    public Group(String id, String name, DocumentReference ref) {
-        this.id = id;
-        this.name = name;
-        this.ref = ref;
-    }
-
     public Group() {}
 
     public String getId() {

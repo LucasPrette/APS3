@@ -14,13 +14,6 @@ public class State {
 
     public State() {}
 
-    public State(String id, String name, String uf, DocumentReference ref) {
-        this.id = id;
-        this.name = name;
-        this.uf = uf;
-        this.ref = ref;
-    }
-
     public String getName() {
         return this.name;
     }

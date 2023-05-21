@@ -38,50 +38,6 @@ public class TypesRepository {
         return type;
     }
 
-    public Type repositoryMapper(DocumentSnapshot document) {
-        Map<String, Object> data = document.getData();
-        Type type = new Type();
-
-        for (Map.Entry<String, Object> entry : data.entrySet()) {
-            switch (entry.getKey()) {
-                case "name":
-                    type.setName((String) entry.getValue());
-                    break;
-                case "id":
-                    type.setId((String) entry.getValue());
-                    break;
-                default:
-                    System.out.println("key not mapped " + entry.getKey());
-                    break;
-            }
-        }
-
-        return type;
-    }
-
-    public Type repositoryMapper(DocumentReference ref, QueryDocumentSnapshot document) {
-        Map<String, Object> data = document.getData();
-        Type type = new Type();
-
-        type.setRef(ref);
-
-        for (Map.Entry<String, Object> entry : data.entrySet()) {
-            switch (entry.getKey()) {
-                case "name":
-                    type.setName((String) entry.getValue());
-                    break;
-                case "id":
-                    type.setId((String) entry.getValue());
-                    break;
-                default:
-                    System.out.println("key not mapped " + entry.getKey());
-                    break;
-            }
-        }
-
-        return type;
-    }
-
     public Type repositoryMapper(DocumentReference ref, DocumentSnapshot document) {
         Map<String, Object> data = document.getData();
         Type type = new Type();

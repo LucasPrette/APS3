@@ -38,50 +38,6 @@ public class ProtectionLevelsRepository {
         return protectionLevel;
     }
 
-    public ProtectionLevel repositoryMapper(DocumentSnapshot document) {
-        Map<String, Object> data = document.getData();
-        ProtectionLevel protectionLevel = new ProtectionLevel();
-
-        for (Map.Entry<String, Object> entry : data.entrySet()) {
-            switch (entry.getKey()) {
-                case "level":
-                    protectionLevel.setLevel((int) entry.getValue());
-                    break;
-                case "id":
-                    protectionLevel.setId((String) entry.getValue());
-                    break;
-                default:
-                    System.out.println("key not mapped " + entry.getKey());
-                    break;
-            }
-        }
-
-        return protectionLevel;
-    }
-
-    public ProtectionLevel repositoryMapper(DocumentReference ref, QueryDocumentSnapshot document) {
-        Map<String, Object> data = document.getData();
-        ProtectionLevel protectionLevel = new ProtectionLevel();
-
-        protectionLevel.setRef(ref);
-
-        for (Map.Entry<String, Object> entry : data.entrySet()) {
-            switch (entry.getKey()) {
-                case "level":
-                    protectionLevel.setLevel((int) entry.getValue());
-                    break;
-                case "id":
-                    protectionLevel.setId((String) entry.getValue());
-                    break;
-                default:
-                    System.out.println("key not mapped " + entry.getKey());
-                    break;
-            }
-        }
-
-        return protectionLevel;
-    }
-
     public ProtectionLevel repositoryMapper(DocumentReference ref, DocumentSnapshot document) {
         Map<String, Object> data = document.getData();
         ProtectionLevel protectionLevel = new ProtectionLevel();
