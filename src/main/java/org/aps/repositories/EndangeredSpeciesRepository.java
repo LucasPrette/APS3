@@ -352,7 +352,27 @@ public class EndangeredSpeciesRepository {
     public ArrayList<EndangeredSpecies> findAllBySpecie(String specie) {
         try {
             List<QueryDocumentSnapshot> list = FirebaseService.repository.collectionGroup("endangered_species")
-                    .whereEqualTo("specie", specie)
+                    .whereEqualTo("species", specie)
+                    .limit(25)
+                    .get()
+                    .get()
+                    .getDocuments();
+            ArrayList<EndangeredSpecies> result = new ArrayList<EndangeredSpecies>();
+
+            list.forEach(item -> result.add(this.repositoryMapper(item)));
+
+            return result;
+        } catch (ExecutionException | InterruptedException exception) {
+            System.out.println(exception.getMessage());
+        }
+
+        return null;
+    }
+
+    public ArrayList<EndangeredSpecies> findAllByName(String name) {
+        try {
+            List<QueryDocumentSnapshot> list = FirebaseService.repository.collectionGroup("endangered_species")
+                    .whereEqualTo("name", name)
                     .limit(25)
                     .get()
                     .get()
