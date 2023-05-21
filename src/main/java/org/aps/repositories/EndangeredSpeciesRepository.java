@@ -237,7 +237,11 @@ public class EndangeredSpeciesRepository {
 
         try {
             for (EndangeredSpecies doc : docs) {
-                List<QueryDocumentSnapshot> docAlreadyExists = FirebaseService.repository.collection(collection).whereEqualTo("name", doc.getName()).get().get().getDocuments();
+                List<QueryDocumentSnapshot> docAlreadyExists = FirebaseService.repository.collection(collection)
+                        .whereEqualTo("name", doc.getName())
+                        .get()
+                        .get()
+                        .getDocuments();
 
                 if (docAlreadyExists.size() == 0) {
                     result.add(doc);
@@ -314,9 +318,11 @@ public class EndangeredSpeciesRepository {
 
     public ArrayList<EndangeredSpecies> findAllByType(String typeRef) {
         try {
-            System.out.println(FirebaseService.repository.collection(TypesRepository.collection).document(typeRef));
-            Query query = FirebaseService.repository.collectionGroup("endangered_species").whereEqualTo("type", FirebaseService.repository.collection(TypesRepository.collection).document(typeRef));
-            List<QueryDocumentSnapshot> list = query.get().get().getDocuments();
+            List<QueryDocumentSnapshot> list = FirebaseService.repository.collectionGroup("endangered_species")
+                    .whereEqualTo("type", FirebaseService.repository.collection(TypesRepository.collection).document(typeRef))
+                    .get()
+                    .get()
+                    .getDocuments();
             ArrayList<EndangeredSpecies> result = new ArrayList<EndangeredSpecies>();
 
             list.forEach(item -> result.add(this.repositoryMapper(item)));
@@ -331,8 +337,11 @@ public class EndangeredSpeciesRepository {
 
     public ArrayList<EndangeredSpecies> findAllByGroup(String groupRef) {
         try {
-            Query query = FirebaseService.repository.collectionGroup("endangered_species").whereEqualTo("group", FirebaseService.repository.collection(GroupiesRepository.collection).document(groupRef));
-            List<QueryDocumentSnapshot> list = query.get().get().getDocuments();
+            List<QueryDocumentSnapshot> list = FirebaseService.repository.collectionGroup("endangered_species")
+                    .whereEqualTo("group", FirebaseService.repository.collection(GroupiesRepository.collection).document(groupRef))
+                    .get()
+                    .get()
+                    .getDocuments();
             ArrayList<EndangeredSpecies> result = new ArrayList<EndangeredSpecies>();
 
             list.forEach(item -> result.add(this.repositoryMapper(item)));
@@ -347,8 +356,12 @@ public class EndangeredSpeciesRepository {
 
     public ArrayList<EndangeredSpecies> findAllBySpecie(String specie) {
         try {
-            Query query = FirebaseService.repository.collectionGroup("endangered_species").whereEqualTo("specie", specie);
-            List<QueryDocumentSnapshot> list = query.get().get().getDocuments();
+            List<QueryDocumentSnapshot> list = FirebaseService.repository.collectionGroup("endangered_species")
+                    .whereEqualTo("specie", specie)
+                    .limit(25)
+                    .get()
+                    .get()
+                    .getDocuments();
             ArrayList<EndangeredSpecies> result = new ArrayList<EndangeredSpecies>();
 
             list.forEach(item -> result.add(this.repositoryMapper(item)));
@@ -363,8 +376,12 @@ public class EndangeredSpeciesRepository {
 
     public ArrayList<EndangeredSpecies> findAllByFamily(String family) {
         try {
-            Query query = FirebaseService.repository.collectionGroup("endangered_species").whereEqualTo("family", family);
-            List<QueryDocumentSnapshot> list = query.get().get().getDocuments();
+            List<QueryDocumentSnapshot> list = FirebaseService.repository.collectionGroup("endangered_species")
+                    .whereEqualTo("family", family)
+                    .limit(25)
+                    .get()
+                    .get()
+                    .getDocuments();
             ArrayList<EndangeredSpecies> result = new ArrayList<EndangeredSpecies>();
 
             list.forEach(item -> result.add(this.repositoryMapper(item)));
@@ -379,8 +396,15 @@ public class EndangeredSpeciesRepository {
 
     public ArrayList<EndangeredSpecies> findAllByThreatCategory(String threatCategoryRef) {
         try {
-            Query query = FirebaseService.repository.collectionGroup("endangered_species").whereEqualTo("threat_category", FirebaseService.repository.collection(ThreatCategoriesRepository.collection).document(threatCategoryRef));
-            List<QueryDocumentSnapshot> list = query.get().get().getDocuments();
+            List<QueryDocumentSnapshot> list = FirebaseService.repository.collectionGroup("endangered_species")
+                    .whereEqualTo(
+                            "threat_category",
+                            FirebaseService.repository.collection(ThreatCategoriesRepository.collection).document(threatCategoryRef)
+                    )
+                    .limit(25)
+                    .get()
+                    .get()
+                    .getDocuments();
             ArrayList<EndangeredSpecies> result = new ArrayList<EndangeredSpecies>();
 
             list.forEach(item -> result.add(this.repositoryMapper(item)));
@@ -395,8 +419,15 @@ public class EndangeredSpeciesRepository {
 
     public ArrayList<EndangeredSpecies> findAllByBiome(String biomeRef) {
         try {
-            Query query = FirebaseService.repository.collectionGroup("endangered_species").whereEqualTo("biome", FirebaseService.repository.collection(BiomesRepository.collection).document(biomeRef));
-            List<QueryDocumentSnapshot> list = query.get().get().getDocuments();
+            List<QueryDocumentSnapshot> list = FirebaseService.repository.collectionGroup("endangered_species")
+                    .whereEqualTo(
+                            "biome",
+                            FirebaseService.repository.collection(BiomesRepository.collection
+                    ).document(biomeRef))
+                    .limit(25)
+                    .get()
+                    .get()
+                    .getDocuments();
             ArrayList<EndangeredSpecies> result = new ArrayList<EndangeredSpecies>();
 
             list.forEach(item -> result.add(this.repositoryMapper(item)));
@@ -411,8 +442,12 @@ public class EndangeredSpeciesRepository {
 
     public ArrayList<EndangeredSpecies> findAllByMainThreats(String mainThreat) {
         try {
-            Query query = FirebaseService.repository.collectionGroup("endangered_species").whereEqualTo("main_threat", mainThreat);
-            List<QueryDocumentSnapshot> list = query.get().get().getDocuments();
+            List<QueryDocumentSnapshot> list = FirebaseService.repository.collectionGroup("endangered_species")
+                    .whereEqualTo("main_threat", mainThreat)
+                    .limit(25)
+                    .get()
+                    .get()
+                    .getDocuments();
             ArrayList<EndangeredSpecies> result = new ArrayList<EndangeredSpecies>();
 
             list.forEach(item -> result.add(this.repositoryMapper(item)));
@@ -427,8 +462,16 @@ public class EndangeredSpeciesRepository {
 
     public ArrayList<EndangeredSpecies> findAllByOccurrenceStates(String occurrenceStatesRef) {
         try {
-            Query query = FirebaseService.repository.collectionGroup("endangered_species").whereEqualTo("occurrence_states", FirebaseService.repository.collection(GroupiesRepository.collection).document(occurrenceStatesRef));
-            List<QueryDocumentSnapshot> list = query.get().get().getDocuments();
+            List<QueryDocumentSnapshot> list = FirebaseService.repository.collectionGroup("endangered_species")
+                    .whereEqualTo(
+                            "occurrence_states",
+                            FirebaseService.repository.collection(GroupiesRepository.collection
+                    )
+                    .document(occurrenceStatesRef))
+                    .limit(25)
+                    .get()
+                    .get()
+                    .getDocuments();
             ArrayList<EndangeredSpecies> result = new ArrayList<EndangeredSpecies>();
 
             list.forEach(item -> result.add(this.repositoryMapper(item)));
@@ -443,8 +486,12 @@ public class EndangeredSpeciesRepository {
 
     public EndangeredSpecies findByName(String name) {
         try {
-            Query query = FirebaseService.repository.collection(collection).whereEqualTo("name", name).limit(1);
-            List<QueryDocumentSnapshot> list = query.get().get().getDocuments();
+            List<QueryDocumentSnapshot> list = FirebaseService.repository.collection(collection)
+                    .whereEqualTo("name", name)
+                    .limit(1)
+                    .get()
+                    .get()
+                    .getDocuments();
             QueryDocumentSnapshot item = list.get(0);
 
             if (item != null) {
