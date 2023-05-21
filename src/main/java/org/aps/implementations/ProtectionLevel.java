@@ -1,18 +1,20 @@
 package org.aps.implementations;
 
 import com.google.cloud.firestore.DocumentReference;
-import com.google.cloud.firestore.DocumentSnapshot;
-import com.google.cloud.firestore.QueryDocumentSnapshot;
-
-import java.util.Objects;
 
 public class ProtectionLevel {
     private String id;
-    private final int level;
+    private int level;
     private DocumentReference ref;
 
     public ProtectionLevel(int level) {
         this.level = level;
+    }
+
+    public ProtectionLevel() {}
+
+    public ProtectionLevel(DocumentReference ref) {
+        this.ref = ref;
     }
 
     public ProtectionLevel(String id, int level, DocumentReference ref) {
@@ -25,8 +27,16 @@ public class ProtectionLevel {
         return this.level;
     }
 
+    public void setLevel(int level) {
+        this.level = level;
+    }
+
     public String getId() {
         return this.id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public DocumentReference getRef() {

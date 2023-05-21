@@ -7,7 +7,7 @@ import org.aps.services.FirebaseService;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
+import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
 public class ProtectionLevelsRepository {
@@ -18,33 +18,91 @@ public class ProtectionLevelsRepository {
     }
 
     public ProtectionLevel repositoryMapper(QueryDocumentSnapshot document) {
-        int level = Objects.requireNonNull(document.getLong("level")).intValue();
-        String id = document.getId();
-        DocumentReference ref = document.getReference();
+        Map<String, Object> data = document.getData();
+        ProtectionLevel protectionLevel = new ProtectionLevel();
 
-        return new ProtectionLevel(id, level, ref);
+        for (Map.Entry<String, Object> entry : data.entrySet()) {
+            switch (entry.getKey()) {
+                case "level":
+                    protectionLevel.setLevel((int) entry.getValue());
+                    break;
+                case "id":
+                    protectionLevel.setId((String) entry.getValue());
+                    break;
+                default:
+                    System.out.println("key not mapped " + entry.getKey());
+                    break;
+            }
+        }
+
+        return protectionLevel;
     }
 
     public ProtectionLevel repositoryMapper(DocumentSnapshot document) {
-        int level = Objects.requireNonNull(document.getLong("level")).intValue();
-        String id = document.getId();
-        DocumentReference ref = document.getReference();
+        Map<String, Object> data = document.getData();
+        ProtectionLevel protectionLevel = new ProtectionLevel();
 
-        return new ProtectionLevel(id, level, ref);
+        for (Map.Entry<String, Object> entry : data.entrySet()) {
+            switch (entry.getKey()) {
+                case "level":
+                    protectionLevel.setLevel((int) entry.getValue());
+                    break;
+                case "id":
+                    protectionLevel.setId((String) entry.getValue());
+                    break;
+                default:
+                    System.out.println("key not mapped " + entry.getKey());
+                    break;
+            }
+        }
+
+        return protectionLevel;
     }
 
     public ProtectionLevel repositoryMapper(DocumentReference ref, QueryDocumentSnapshot document) {
-        int level = Objects.requireNonNull(document.getLong("level")).intValue();
-        String id = document.getId();
+        Map<String, Object> data = document.getData();
+        ProtectionLevel protectionLevel = new ProtectionLevel();
 
-        return new ProtectionLevel(id, level, ref);
+        protectionLevel.setRef(ref);
+
+        for (Map.Entry<String, Object> entry : data.entrySet()) {
+            switch (entry.getKey()) {
+                case "level":
+                    protectionLevel.setLevel((int) entry.getValue());
+                    break;
+                case "id":
+                    protectionLevel.setId((String) entry.getValue());
+                    break;
+                default:
+                    System.out.println("key not mapped " + entry.getKey());
+                    break;
+            }
+        }
+
+        return protectionLevel;
     }
 
     public ProtectionLevel repositoryMapper(DocumentReference ref, DocumentSnapshot document) {
-        int level = Objects.requireNonNull(document.getLong("level")).intValue();
-        String id = document.getId();
+        Map<String, Object> data = document.getData();
+        ProtectionLevel protectionLevel = new ProtectionLevel();
 
-        return new ProtectionLevel(id, level, ref);
+        protectionLevel.setRef(ref);
+
+        for (Map.Entry<String, Object> entry : data.entrySet()) {
+            switch (entry.getKey()) {
+                case "level":
+                    protectionLevel.setLevel((int) entry.getValue());
+                    break;
+                case "id":
+                    protectionLevel.setId((String) entry.getValue());
+                    break;
+                default:
+                    System.out.println("key not mapped " + entry.getKey());
+                    break;
+            }
+        }
+
+        return protectionLevel;
     }
 
     public ArrayList<ProtectionLevel> findAll() {

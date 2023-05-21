@@ -7,8 +7,6 @@ package org.aps.repositories;
 
 import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.*;
-import com.google.firebase.internal.NonNull;
-import com.google.gson.JsonObject;
 import org.aps.implementations.*;
 import org.aps.services.FirebaseService;
 
@@ -20,24 +18,79 @@ import java.util.concurrent.ExecutionException;
 
 public class EndangeredSpeciesRepository {
     static final String collection = "endangered_species";
+    private final BiomesRepository biomesRepository = new BiomesRepository();
+    private final GroupiesRepository groupiesRepository = new GroupiesRepository();
+    private final TypesRepository typesRepository = new TypesRepository();
+    private final StatesRepository statesRepository = new StatesRepository();
+    private final ThreatCategoriesRepository threatCategoriesRepository = new ThreatCategoriesRepository();
+
     public EndangeredSpeciesRepository() {
         new FirebaseService().run();
     }
 
     public EndangeredSpecies repositoryMapper(QueryDocumentSnapshot document) {
-        ArrayList<DocumentReference> biomesRef = (ArrayList<DocumentReference>) document.get("biome");
-        DocumentReference groupRef = (DocumentReference) document.get("group");
-        ArrayList<DocumentReference> occurrenceStatesRef = (ArrayList<DocumentReference>) document.get("occurrence_states");
-        DocumentReference protectionLevelRef = (DocumentReference) document.get("protection_level");
-        DocumentReference threatCategoryRef = (DocumentReference) document.get("threat_category");
-        DocumentReference typeRef = (DocumentReference) document.get("type");
+        System.out.println("hello");
 
-        BiomesRepository biomesRepository = new BiomesRepository();
-        GroupiesRepository groupiesRepository = new GroupiesRepository();
-        StatesRepository statesRepository = new StatesRepository();
-        ProtectionLevelsRepository protectionLevelsRepository = new ProtectionLevelsRepository();
-        ThreatCategoriesRepository threatCategoriesRepository = new ThreatCategoriesRepository();
-        TypesRepository typesRepository = new TypesRepository();
+        Map<String, Object> data = document.getData();
+        EndangeredSpecies endangeredSpecies = new EndangeredSpecies();
+        ArrayList<DocumentReference> biomesRef = new ArrayList<DocumentReference>();
+        ArrayList<DocumentReference> occurrenceStatesRef = new ArrayList<DocumentReference>();
+        DocumentReference groupRef = null;
+        DocumentReference protectionLevelRef = null;
+        DocumentReference threatCategoryRef = null;
+        DocumentReference typeRef = null;
+
+        for (Map.Entry<String, Object> entry : data.entrySet()) {
+            switch (entry.getKey()) {
+                case "biome":
+                    biomesRef = (ArrayList<DocumentReference>) entry.getValue();
+                    break;
+                case "country_exclusive":
+                    endangeredSpecies.setCountryExclusive((boolean) entry.getValue());
+                    break;
+                case "family":
+                    endangeredSpecies.setFamily((String) entry.getValue());
+                    break;
+                case "fishing_regulation":
+                    endangeredSpecies.setFishingRegulation((boolean) entry.getValue());
+                    break;
+                case "group":
+                    groupRef = (DocumentReference) entry.getValue();
+                    break;
+                case "main_threats":
+                    endangeredSpecies.setMainThreats((ArrayList<String>) entry.getValue());
+                    break;
+                case "name":
+                    endangeredSpecies.setName(entry.getValue().toString());
+                    break;
+                case "occurrence_states":
+                    occurrenceStatesRef = (ArrayList<DocumentReference>) entry.getValue();
+                    break;
+                case "pan":
+                    // ignores for now, because problems when populating the Firestore
+                    break;
+                case "protected_area_presence":
+                    endangeredSpecies.setProtectedAreaPresence((boolean) entry.getValue());
+                    break;
+                case "protection_level":
+                    protectionLevelRef = (DocumentReference) entry.getValue();
+                    break;
+                case "species":
+                    endangeredSpecies.setSpecies(entry.getValue().toString());
+                    break;
+                case "threat_category":
+                    threatCategoryRef = (DocumentReference) entry.getValue();
+                    break;
+                case "type":
+                    typeRef = (DocumentReference) entry.getValue();
+                    break;
+                case "id":
+                    endangeredSpecies.setId((String) entry.getValue());
+                default:
+                    System.out.println("key not mapped " + entry.getKey());
+                    break;
+            }
+        }
 
         ArrayList<Biome> biomes = new ArrayList<Biome>();
         ArrayList<State> occurrenceStates = new ArrayList<State>();
@@ -45,39 +98,19 @@ public class EndangeredSpeciesRepository {
         biomesRef.forEach(ref -> biomes.add(biomesRepository.findByRef(ref)));
         Group group = groupiesRepository.findByRef(groupRef);
         occurrenceStatesRef.forEach(ref -> occurrenceStates.add(statesRepository.findByRef(ref)));
-        ProtectionLevel protectionLevel = protectionLevelsRepository.findByRef(protectionLevelRef);
         ThreatCategory threatCategory = threatCategoriesRepository.findByRef(threatCategoryRef);
         Type type = typesRepository.findByRef(typeRef);
+        // for now, ignores this data structure
+        ProtectionLevel protectionLevel = new ProtectionLevel(protectionLevelRef);
 
-        Boolean countryExclusive = document.getBoolean("country_exclusive");
-        String family = document.getString("family");
-        Boolean fishingRegulation = document.getBoolean("fishing_regulation");
-        ArrayList<String> mainThreats = (ArrayList<String>) document.get("main_threats");
-        String name = document.getString("name");
-        // pan value are wrong saved in Firestore, so we set all to `true`
-//        Boolean pan = document.getBoolean("pan");
-        boolean pan = false;
-        Boolean protectedAreaPresence = document.getBoolean("protected_area_presence");
-        String species = document.getString("species");
-        String id = document.getId();
+        endangeredSpecies.setBiomes(biomes);
+        endangeredSpecies.setGroup(group);
+        endangeredSpecies.setOccurrenceStates(occurrenceStates);
+        endangeredSpecies.setThreatCategory(threatCategory);
+        endangeredSpecies.setType(type);
+        endangeredSpecies.setProtectionLevel(protectionLevel);
 
-        return new EndangeredSpecies(
-                id,
-                biomes,
-                countryExclusive,
-                family,
-                fishingRegulation,
-                group,
-                mainThreats,
-                name,
-                pan,
-                protectedAreaPresence,
-                protectionLevel,
-                species,
-                threatCategory,
-                type,
-                occurrenceStates
-        );
+        return endangeredSpecies;
     }
 
     private List<EndangeredSpecies> injectRefs(List<EndangeredSpecies> endangeredSpeciesList) {

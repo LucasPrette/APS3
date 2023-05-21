@@ -7,6 +7,7 @@ import org.aps.services.FirebaseService;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
 public class GroupiesRepository {
@@ -16,33 +17,91 @@ public class GroupiesRepository {
     }
 
     public Group repositoryMapper(QueryDocumentSnapshot document) {
-        String name = document.getString("name");
-        String id = document.getId();
-        DocumentReference ref = document.getReference();
+        Map<String, Object> data = document.getData();
+        Group group = new Group();
 
-        return new Group(id, name, ref);
+        for (Map.Entry<String, Object> entry : data.entrySet()) {
+            switch (entry.getKey()) {
+                case "name":
+                    group.setName((String) entry.getValue());
+                    break;
+                case "id":
+                    group.setId((String) entry.getValue());
+                    break;
+                default:
+                    System.out.println("key not mapped " + entry.getKey());
+                    break;
+            }
+        }
+
+        return group;
     }
 
     public Group repositoryMapper(DocumentSnapshot document) {
-        String name = document.getString("name");
-        String id = document.getId();
-        DocumentReference ref = document.getReference();
+        Map<String, Object> data = document.getData();
+        Group group = new Group();
 
-        return new Group(id, name, ref);
+        for (Map.Entry<String, Object> entry : data.entrySet()) {
+            switch (entry.getKey()) {
+                case "name":
+                    group.setName((String) entry.getValue());
+                    break;
+                case "id":
+                    group.setId((String) entry.getValue());
+                    break;
+                default:
+                    System.out.println("key not mapped " + entry.getKey());
+                    break;
+            }
+        }
+
+        return group;
     }
 
     public Group repositoryMapper(DocumentReference ref, QueryDocumentSnapshot document) {
-        String name = document.getString("name");
-        String id = document.getId();
+        Map<String, Object> data = document.getData();
+        Group group = new Group();
 
-        return new Group(id, name, ref);
+        group.setRef(ref);
+
+        for (Map.Entry<String, Object> entry : data.entrySet()) {
+            switch (entry.getKey()) {
+                case "name":
+                    group.setName((String) entry.getValue());
+                    break;
+                case "id":
+                    group.setId((String) entry.getValue());
+                    break;
+                default:
+                    System.out.println("key not mapped " + entry.getKey());
+                    break;
+            }
+        }
+
+        return group;
     }
 
     public Group repositoryMapper(DocumentReference ref, DocumentSnapshot document) {
-        String name = document.getString("name");
-        String id = document.getId();
+        Map<String, Object> data = document.getData();
+        Group group = new Group();
 
-        return new Group(id, name, ref);
+        group.setRef(ref);
+
+        for (Map.Entry<String, Object> entry : data.entrySet()) {
+            switch (entry.getKey()) {
+                case "name":
+                    group.setName((String) entry.getValue());
+                    break;
+                case "id":
+                    group.setId((String) entry.getValue());
+                    break;
+                default:
+                    System.out.println("key not mapped " + entry.getKey());
+                    break;
+            }
+        }
+
+        return group;
     }
 
     public ArrayList<Group> findAll() {

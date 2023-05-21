@@ -7,6 +7,7 @@ import org.aps.services.FirebaseService;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
 public class BiomesRepository {
@@ -17,33 +18,91 @@ public class BiomesRepository {
     }
 
     public Biome repositoryMapper(DocumentReference ref, QueryDocumentSnapshot document) {
-        String name = document.getString("name");
-        String id = document.getId();
+        Map<String, Object> data = document.getData();
+        Biome biome = new Biome();
 
-        return new Biome(id, name, ref);
+        biome.setRef(ref);
+
+        for (Map.Entry<String, Object> entry : data.entrySet()) {
+            switch (entry.getKey()) {
+                case "name":
+                    biome.setName((String) entry.getValue());
+                    break;
+                case "id":
+                    biome.setId((String) entry.getValue());
+                    break;
+                default:
+                    System.out.println("key not mapped " + entry.getKey());
+                    break;
+            }
+        }
+
+        return biome;
     }
 
     public Biome repositoryMapper(DocumentReference ref, DocumentSnapshot document) {
-        String name = document.getString("name");
-        String id = document.getId();
+        Map<String, Object> data = document.getData();
+        Biome biome = new Biome();
 
-        return new Biome(id, name, ref);
+        biome.setRef(ref);
+
+        for (Map.Entry<String, Object> entry : data.entrySet()) {
+            switch (entry.getKey()) {
+                case "name":
+                    biome.setName((String) entry.getValue());
+                    break;
+                case "id":
+                    biome.setId((String) entry.getValue());
+                    break;
+                default:
+                    System.out.println("key not mapped " + entry.getKey());
+                    break;
+            }
+        }
+
+        return biome;
     }
 
     public Biome repositoryMapper(QueryDocumentSnapshot document) {
-        String name = document.getString("name");
-        String id = document.getId();
-        DocumentReference ref = document.getReference();
+        Map<String, Object> data = document.getData();
+        Biome biome = new Biome();
 
-        return new Biome(id, name, ref);
+        for (Map.Entry<String, Object> entry : data.entrySet()) {
+            switch (entry.getKey()) {
+                case "name":
+                    biome.setName((String) entry.getValue());
+                    break;
+                case "id":
+                    biome.setId((String) entry.getValue());
+                    break;
+                default:
+                    System.out.println("key not mapped " + entry.getKey());
+                    break;
+            }
+        }
+
+        return biome;
     }
 
     public Biome repositoryMapper(DocumentSnapshot document) {
-        String name = document.getString("name");
-        String id = document.getId();
-        DocumentReference ref = document.getReference();
+        Map<String, Object> data = document.getData();
+        Biome biome = new Biome();
 
-        return new Biome(id, name, ref);
+        for (Map.Entry<String, Object> entry : data.entrySet()) {
+            switch (entry.getKey()) {
+                case "name":
+                    biome.setName((String) entry.getValue());
+                    break;
+                case "id":
+                    biome.setId((String) entry.getValue());
+                    break;
+                default:
+                    System.out.println("key not mapped " + entry.getKey());
+                    break;
+            }
+        }
+
+        return biome;
     }
 
     public ArrayList<Biome> findAll() {

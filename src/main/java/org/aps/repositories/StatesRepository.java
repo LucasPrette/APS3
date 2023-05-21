@@ -7,6 +7,7 @@ import org.aps.services.FirebaseService;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
 public class StatesRepository {
@@ -17,37 +18,103 @@ public class StatesRepository {
     }
 
     public State repositoryMapper(QueryDocumentSnapshot document) {
-        String name = document.getString("name");
-        String uf = document.getString("uf");
-        String id = document.getId();
-        DocumentReference ref = document.getReference();
+        Map<String, Object> data = document.getData();
+        State state = new State();
 
-        return new State(id, name, uf, ref);
+        for (Map.Entry<String, Object> entry : data.entrySet()) {
+            switch (entry.getKey()) {
+                case "name":
+                    state.setName((String) entry.getValue());
+                    break;
+                case "uf":
+                    state.setUf((String) entry.getValue());
+                    break;
+                case "id":
+                    state.setId((String) entry.getValue());
+                    break;
+                default:
+                    System.out.println("key not mapped " + entry.getKey());
+                    break;
+            }
+        }
+
+        return state;
     }
 
     public State repositoryMapper(DocumentSnapshot document) {
-        String name = document.getString("name");
-        String uf = document.getString("uf");
-        String id = document.getId();
-        DocumentReference ref = document.getReference();
+        Map<String, Object> data = document.getData();
+        State state = new State();
 
-        return new State(id, name, uf, ref);
+        for (Map.Entry<String, Object> entry : data.entrySet()) {
+            switch (entry.getKey()) {
+                case "name":
+                    state.setName((String) entry.getValue());
+                    break;
+                case "uf":
+                    state.setUf((String) entry.getValue());
+                    break;
+                case "id":
+                    state.setId((String) entry.getValue());
+                    break;
+                default:
+                    System.out.println("key not mapped " + entry.getKey());
+                    break;
+            }
+        }
+
+        return state;
     }
 
     public State repositoryMapper(DocumentReference ref, QueryDocumentSnapshot document) {
-        String name = document.getString("name");
-        String uf = document.getString("uf");
-        String id = document.getId();
+        Map<String, Object> data = document.getData();
+        State state = new State();
 
-        return new State(id, name, uf, ref);
+        state.setRef(ref);
+
+        for (Map.Entry<String, Object> entry : data.entrySet()) {
+            switch (entry.getKey()) {
+                case "name":
+                    state.setName((String) entry.getValue());
+                    break;
+                case "uf":
+                    state.setUf((String) entry.getValue());
+                    break;
+                case "id":
+                    state.setId((String) entry.getValue());
+                    break;
+                default:
+                    System.out.println("key not mapped " + entry.getKey());
+                    break;
+            }
+        }
+
+        return state;
     }
 
     public State repositoryMapper(DocumentReference ref, DocumentSnapshot document) {
-        String name = document.getString("name");
-        String uf = document.getString("uf");
-        String id = document.getId();
+        Map<String, Object> data = document.getData();
+        State state = new State();
 
-        return new State(id, name, uf, ref);
+        state.setRef(ref);
+
+        for (Map.Entry<String, Object> entry : data.entrySet()) {
+            switch (entry.getKey()) {
+                case "name":
+                    state.setName((String) entry.getValue());
+                    break;
+                case "uf":
+                    state.setUf((String) entry.getValue());
+                    break;
+                case "id":
+                    state.setId((String) entry.getValue());
+                    break;
+                default:
+                    System.out.println("key not mapped " + entry.getKey());
+                    break;
+            }
+        }
+
+        return state;
     }
 
     public ArrayList<State> findAll() {

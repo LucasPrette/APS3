@@ -1,12 +1,10 @@
 package org.aps.implementations;
 
 import com.google.cloud.firestore.DocumentReference;
-import com.google.cloud.firestore.DocumentSnapshot;
-import com.google.cloud.firestore.QueryDocumentSnapshot;
 
 public class Group {
     private String id;
-    private final String name;
+    private String name;
     private DocumentReference ref;
 
     public Group(String name) {
@@ -19,12 +17,22 @@ public class Group {
         this.ref = ref;
     }
 
+    public Group() {}
+
     public String getId() {
         return this.id;
     }
 
+    public void setId(String id) {
+        this.id = id;
+    }
+
     public String getName() {
         return this.name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public DocumentReference getRef() {

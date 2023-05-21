@@ -1,18 +1,18 @@
 package org.aps.implementations;
 
 import com.google.cloud.firestore.DocumentReference;
-import com.google.cloud.firestore.DocumentSnapshot;
-import com.google.cloud.firestore.QueryDocumentSnapshot;
 
 public class State {
     private String id;
     private String name;
-    private final String uf;
+    private String uf;
     private DocumentReference ref;
 
     public State(String uf) {
         this.uf = uf;
     }
+
+    public State() {}
 
     public State(String id, String name, String uf, DocumentReference ref) {
         this.id = id;
@@ -25,12 +25,24 @@ public class State {
         return this.name;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public String getId() {
         return this.id;
     }
 
+    public void setId(String id) {
+        this.id = id;
+    }
+
     public String getUf() {
         return uf;
+    }
+
+    public void setUf(String uf) {
+        this.uf = uf;
     }
 
     public DocumentReference getRef() {

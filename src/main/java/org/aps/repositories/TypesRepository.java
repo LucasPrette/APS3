@@ -7,6 +7,7 @@ import org.aps.services.FirebaseService;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
 public class TypesRepository {
@@ -17,33 +18,91 @@ public class TypesRepository {
     }
 
     public Type repositoryMapper(QueryDocumentSnapshot document) {
-        String name = document.getString("name");
-        String id = document.getId();
-        DocumentReference ref = document.getReference();
+        Map<String, Object> data = document.getData();
+        Type type = new Type();
 
-        return new Type(id, name, ref);
+        for (Map.Entry<String, Object> entry : data.entrySet()) {
+            switch (entry.getKey()) {
+                case "name":
+                    type.setName((String) entry.getValue());
+                    break;
+                case "id":
+                    type.setId((String) entry.getValue());
+                    break;
+                default:
+                    System.out.println("key not mapped " + entry.getKey());
+                    break;
+            }
+        }
+
+        return type;
     }
 
     public Type repositoryMapper(DocumentSnapshot document) {
-        String name = document.getString("name");
-        String id = document.getId();
-        DocumentReference ref = document.getReference();
+        Map<String, Object> data = document.getData();
+        Type type = new Type();
 
-        return new Type(id, name, ref);
+        for (Map.Entry<String, Object> entry : data.entrySet()) {
+            switch (entry.getKey()) {
+                case "name":
+                    type.setName((String) entry.getValue());
+                    break;
+                case "id":
+                    type.setId((String) entry.getValue());
+                    break;
+                default:
+                    System.out.println("key not mapped " + entry.getKey());
+                    break;
+            }
+        }
+
+        return type;
     }
 
     public Type repositoryMapper(DocumentReference ref, QueryDocumentSnapshot document) {
-        String name = document.getString("name");
-        String id = document.getId();
+        Map<String, Object> data = document.getData();
+        Type type = new Type();
 
-        return new Type(id, name, ref);
+        type.setRef(ref);
+
+        for (Map.Entry<String, Object> entry : data.entrySet()) {
+            switch (entry.getKey()) {
+                case "name":
+                    type.setName((String) entry.getValue());
+                    break;
+                case "id":
+                    type.setId((String) entry.getValue());
+                    break;
+                default:
+                    System.out.println("key not mapped " + entry.getKey());
+                    break;
+            }
+        }
+
+        return type;
     }
 
     public Type repositoryMapper(DocumentReference ref, DocumentSnapshot document) {
-        String name = document.getString("name");
-        String id = document.getId();
+        Map<String, Object> data = document.getData();
+        Type type = new Type();
 
-        return new Type(id, name, ref);
+        type.setRef(ref);
+
+        for (Map.Entry<String, Object> entry : data.entrySet()) {
+            switch (entry.getKey()) {
+                case "name":
+                    type.setName((String) entry.getValue());
+                    break;
+                case "id":
+                    type.setId((String) entry.getValue());
+                    break;
+                default:
+                    System.out.println("key not mapped " + entry.getKey());
+                    break;
+            }
+        }
+
+        return type;
     }
 
     public ArrayList<Type> findAll() {

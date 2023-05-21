@@ -7,6 +7,7 @@ import org.aps.services.FirebaseService;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
 public class ThreatCategoriesRepository {
@@ -17,37 +18,103 @@ public class ThreatCategoriesRepository {
     }
 
     public ThreatCategory repositoryMapper(QueryDocumentSnapshot document) {
-        String name = document.getString("name");
-        String acronym = document.getString("acronym");
-        String id = document.getId();
-        DocumentReference ref = document.getReference();
+        Map<String, Object> data = document.getData();
+        ThreatCategory threatCategory = new ThreatCategory();
 
-        return new ThreatCategory(id, name, acronym, ref);
+        for (Map.Entry<String, Object> entry : data.entrySet()) {
+            switch (entry.getKey()) {
+                case "name":
+                    threatCategory.setName((String) entry.getValue());
+                    break;
+                case "acronym":
+                    threatCategory.setAcronym((String) entry.getValue());
+                    break;
+                case "id":
+                    threatCategory.setId((String) entry.getValue());
+                    break;
+                default:
+                    System.out.println("key not mapped " + entry.getKey());
+                    break;
+            }
+        }
+
+        return threatCategory;
     }
 
     public ThreatCategory repositoryMapper(DocumentSnapshot document) {
-        String name = document.getString("name");
-        String acronym = document.getString("acronym");
-        String id = document.getId();
-        DocumentReference ref = document.getReference();
+        Map<String, Object> data = document.getData();
+        ThreatCategory threatCategory = new ThreatCategory();
 
-        return new ThreatCategory(id, name, acronym, ref);
+        for (Map.Entry<String, Object> entry : data.entrySet()) {
+            switch (entry.getKey()) {
+                case "name":
+                    threatCategory.setName((String) entry.getValue());
+                    break;
+                case "acronym":
+                    threatCategory.setAcronym((String) entry.getValue());
+                    break;
+                case "id":
+                    threatCategory.setId((String) entry.getValue());
+                    break;
+                default:
+                    System.out.println("key not mapped " + entry.getKey());
+                    break;
+            }
+        }
+
+        return threatCategory;
     }
 
     public ThreatCategory repositoryMapper(DocumentReference ref, QueryDocumentSnapshot document) {
-        String name = document.getString("name");
-        String acronym = document.getString("acronym");
-        String id = document.getId();
+        Map<String, Object> data = document.getData();
+        ThreatCategory threatCategory = new ThreatCategory();
 
-        return new ThreatCategory(id, name, acronym, ref);
+        threatCategory.setRef(ref);
+
+        for (Map.Entry<String, Object> entry : data.entrySet()) {
+            switch (entry.getKey()) {
+                case "name":
+                    threatCategory.setName((String) entry.getValue());
+                    break;
+                case "acronym":
+                    threatCategory.setAcronym((String) entry.getValue());
+                    break;
+                case "id":
+                    threatCategory.setId((String) entry.getValue());
+                    break;
+                default:
+                    System.out.println("key not mapped " + entry.getKey());
+                    break;
+            }
+        }
+
+        return threatCategory;
     }
 
     public ThreatCategory repositoryMapper(DocumentReference ref, DocumentSnapshot document) {
-        String name = document.getString("name");
-        String acronym = document.getString("acronym");
-        String id = document.getId();
+        Map<String, Object> data = document.getData();
+        ThreatCategory threatCategory = new ThreatCategory();
 
-        return new ThreatCategory(id, name, acronym, ref);
+        threatCategory.setRef(ref);
+
+        for (Map.Entry<String, Object> entry : data.entrySet()) {
+            switch (entry.getKey()) {
+                case "name":
+                    threatCategory.setName((String) entry.getValue());
+                    break;
+                case "acronym":
+                    threatCategory.setAcronym((String) entry.getValue());
+                    break;
+                case "id":
+                    threatCategory.setId((String) entry.getValue());
+                    break;
+                default:
+                    System.out.println("key not mapped " + entry.getKey());
+                    break;
+            }
+        }
+
+        return threatCategory;
     }
 
     public ArrayList<ThreatCategory> findAll() {

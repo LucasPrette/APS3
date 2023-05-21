@@ -1,19 +1,19 @@
 package org.aps.implementations;
 
 import com.google.cloud.firestore.DocumentReference;
-import com.google.cloud.firestore.DocumentSnapshot;
-import com.google.cloud.firestore.QueryDocumentSnapshot;
 
 public class ThreatCategory {
     private String id;
-    private final String name;
-    private final String acronym;
+    private String name;
+    private String acronym;
     private DocumentReference ref;
 
     public ThreatCategory(String name, String acronym) {
         this.name = name;
         this.acronym = acronym;
     }
+
+    public ThreatCategory() {}
 
     public ThreatCategory(String id, String name, String acronym, DocumentReference ref) {
         this.id = id;
@@ -26,12 +26,24 @@ public class ThreatCategory {
         return name;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public String getAcronym() {
         return acronym;
     }
 
+    public void setAcronym(String acronym) {
+        this.acronym = acronym;
+    }
+
     public String getId() {
         return this.id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public DocumentReference getRef() {
