@@ -1,8 +1,3 @@
-/**
- * TODO
- * - verify methods that find in a array of refs or strings
- * - add pagination in search methods
- */
 package org.aps.repositories;
 
 import com.google.api.core.ApiFuture;
