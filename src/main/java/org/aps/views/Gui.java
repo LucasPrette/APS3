@@ -264,13 +264,22 @@ public class Gui {
                     }
                 }
 
+
                 Map<String, Object> filters = new HashMap<String, Object>();
                 ArrayList<String> selectedFilter = new ArrayList<String>();
+
+
 
                 filters.put("type", elementType.getRef());
                 filters.put("group", elementGroup.getRef());
                 filters.put("species", specieTxt.getText());
-                filters.put("biome", elementBiome.getRef());
+                
+                if(elementBiome == null) {
+                    filters.put("biome", "");
+                } else {
+                    filters.put("biome", elementBiome.getRef());
+                }
+
                 filters.put("threatCategory", elementThreatCategory.getRef());
                 filters.put("mainThreats", mainThreatTxt.getText());
                 filters.put("name", nameTxt.getText());
