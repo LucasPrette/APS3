@@ -4,8 +4,7 @@ package org.aps.views;
 import java.util.ArrayList;
 
 import javax.swing.JComboBox;
-
-import com.google.cloud.Identity.Type;
+import org.aps.implementations.*;
 
 public class ComboBox {
     private ArrayList<String> itens;
@@ -43,12 +42,22 @@ public class ComboBox {
         return editable;
     }
 
-    public JComboBox create(ArrayList list) {
+    public JComboBox createType(ArrayList<Type> list) {
         JComboBox<String> comboBox  = new JComboBox<String>();
         for(int i = 0; i < list.size(); i++) {
-            comboBox.addItem(list.get(i).getClass().getName());
+            comboBox.addItem(list.get(i).getName());
         }
-        comboBox.setEditable(getEditable());
+        comboBox.setEditable(false);
+
+        return comboBox;
+    }
+
+    public JComboBox createGroup(ArrayList<Group> list) {
+        JComboBox<String> comboBox = new JComboBox<>();
+        for(int i = 0; i < list.size(); i++) {
+            comboBox.addItem(list.get(i).getName());
+        }
+        comboBox.setEditable(false);
 
         return comboBox;
     }
