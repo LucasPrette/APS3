@@ -5,9 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3233dfa5-70c8-43a9-b511-411a103a5acd" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/aps/views/Btn.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/aps/views/Btn.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/aps/views/ComboBox.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/aps/views/ComboBox.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/aps/views/Gui.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/aps/views/Gui.java" afterDir="false" />
     </list>

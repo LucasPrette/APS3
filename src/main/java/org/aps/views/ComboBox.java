@@ -1,6 +1,7 @@
 package org.aps.views;
 
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import javax.swing.JComboBox;
@@ -57,6 +58,27 @@ public class ComboBox {
         for(int i = 0; i < list.size(); i++) {
             comboBox.addItem(list.get(i).getName());
         }
+        comboBox.setEditable(false);
+
+        return comboBox;
+    }
+
+    public JComboBox createStates(ArrayList<State> list) {
+        JComboBox<String> comboBox = new JComboBox<String>();
+        for(int i = 0; i < list.size(); i++) {
+            comboBox.addItem(list.get(i).getName());
+        }
+        comboBox.setEditable(false);
+
+        return comboBox;
+    }
+
+    public JComboBox createThreatCategories(ArrayList<ThreatCategory> list) {
+        JComboBox<String> comboBox = new JComboBox<String>();
+        for(int i = 0; i < list.size(); i++) {
+            comboBox.addItem(list.get(i).getName());
+        }
+
         comboBox.setEditable(false);
 
         return comboBox;

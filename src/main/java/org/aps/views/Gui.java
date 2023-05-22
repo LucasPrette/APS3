@@ -20,6 +20,8 @@ import javax.swing.text.Document;
 import org.aps.implementations.EndangeredSpecies;
 import org.aps.repositories.EndangeredSpeciesRepository;
 import org.aps.repositories.GroupiesRepository;
+import org.aps.repositories.StatesRepository;
+import org.aps.repositories.ThreatCategoriesRepository;
 import org.aps.repositories.TypesRepository;
 import org.aps.services.CsvConverterService;
 import org.aps.implementations.*;
@@ -46,6 +48,8 @@ public class Gui {
 
     TypesRepository types;
     GroupiesRepository groupies;
+    ThreatCategoriesRepository categories;
+    StatesRepository states;
     
 
 
@@ -203,8 +207,7 @@ public class Gui {
         gbc.gridx = 0;
         gbc.gridwidth = 2;
         gbc.gridy = 3;
-        JTextField threatCategoryTxt = new JTextField();
-        searchPanel.add(threatCategoryTxt, gbc);
+        searchPanel.add(cb.createThreatCategories(categories.findAll()), gbc);
 
         gbc.gridwidth = 1;
         gbc.gridx = 2;
@@ -233,8 +236,7 @@ public class Gui {
 
         gbc.gridx = 4;
         gbc.gridy = 3;
-        JTextField occurrenceEstateTxt = new JTextField();
-        searchPanel.add(occurrenceEstateTxt, gbc);
+        searchPanel.add(cb.createStates(states.findAll()), gbc);
 
 
         gbc.fill = GridBagConstraints.VERTICAL;
