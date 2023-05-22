@@ -19,15 +19,13 @@ public class Btn {
 
     int width, 
     int height,
-    boolean focusable,
-    TextField textField
+    boolean focusable
 
     )
     {
         this.width = width;
         this.height = height;
         this.focusable = focusable;
-        this.textField = textField;
     }
 
 
@@ -43,9 +41,6 @@ public class Btn {
         this.focusable = focusable;
     }
 
-    public TextField getTextField() {
-        return textField;
-    }
 
     public int getWidth() {
         return width;

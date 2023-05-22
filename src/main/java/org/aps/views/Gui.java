@@ -22,6 +22,7 @@ import org.aps.repositories.EndangeredSpeciesRepository;
 import org.aps.repositories.GroupiesRepository;
 import org.aps.repositories.TypesRepository;
 import org.aps.services.CsvConverterService;
+import org.aps.implementations.*;
 
 // import com.google.cloud.firestore.DocumentChange;
 // import com.google.cloud.firestore.DocumentChange.Type;
@@ -151,9 +152,7 @@ public class Gui {
         gbc.gridx = 0;
         gbc.gridy = 1;
 
-        ArrayList<Type> types = new TypesRepository().findAll();
-
-        // searchPanel.add(cb.create(), gbc);
+        searchPanel.add(cb.createType(new TypesRepository().findAll()), gbc);
 
 
         gbc.gridx = 1;
@@ -162,8 +161,8 @@ public class Gui {
 
         gbc.gridx = 1;
         gbc.gridy = 1;
-        JComboBox dropDownGroup = new JComboBox<>();
-        searchPanel.add(dropDownGroup, gbc);
+
+        searchPanel.add(cb.createGroup(new GroupiesRepository().findAll()), gbc);
 
 
         gbc.gridx = 2;
@@ -172,7 +171,9 @@ public class Gui {
 
         gbc.gridx = 2;
         gbc.gridy = 1;
-        searchPanel.add(new JComboBox<>(), gbc);
+        JTextField familyTxt = new JTextField();
+        // add Toretto here
+        searchPanel.add(familyTxt, gbc);
 
 
         gbc.gridx = 3;
