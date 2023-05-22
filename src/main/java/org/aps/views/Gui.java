@@ -15,23 +15,38 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 
 import javax.swing.table.DefaultTableModel;
+import javax.swing.text.Document;
 
 import org.aps.implementations.EndangeredSpecies;
 import org.aps.repositories.EndangeredSpeciesRepository;
+import org.aps.repositories.GroupiesRepository;
+import org.aps.repositories.TypesRepository;
 import org.aps.services.CsvConverterService;
+
+// import com.google.cloud.firestore.DocumentChange;
+// import com.google.cloud.firestore.DocumentChange.Type;
 
 
 public class Gui {
 
     Btn btn = new Btn(165, 30, false);
     Lbl lbl = new Lbl(20, 30, 0);
-    Table table = new Table(40, false, false);
+    ComboBox cb = new ComboBox(0, 0, null, null);
     TextField textField = new TextField();
+
     DefaultTableModel dtm;
     JTable normalTable;
     
+
     JFrame frame = new JFrame();
     JScrollPane scrollTablePane;
+
+    //classes
+
+    TypesRepository types;
+    GroupiesRepository groupies;
+    
+
 
     public void runGUI() {
         frame.setLayout(new BorderLayout(0, 50));
@@ -135,7 +150,10 @@ public class Gui {
 
         gbc.gridx = 0;
         gbc.gridy = 1;
-        searchPanel.add(new JComboBox<String>(), gbc);
+
+        ArrayList<Type> types = new TypesRepository().findAll();
+
+        // searchPanel.add(cb.create(), gbc);
 
 
         gbc.gridx = 1;
@@ -144,8 +162,7 @@ public class Gui {
 
         gbc.gridx = 1;
         gbc.gridy = 1;
-        JComboBox dropDownGroup = new JComboBox<String>();
-        
+        JComboBox dropDownGroup = new JComboBox<>();
         searchPanel.add(dropDownGroup, gbc);
 
 
@@ -228,7 +245,7 @@ public class Gui {
         tableFrame();
         searchPanel.add(btn.newBtn("PESQUISAR", new ActionListener() {
             public void actionPerformed (ActionEvent e) {
-                
+
                 AddDataTable dataTable = new AddDataTable();
 //                TODO
                 dtm = dataTable.addRowToJTable(new ArrayList<EndangeredSpecies>());
