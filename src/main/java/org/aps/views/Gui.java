@@ -257,6 +257,13 @@ public class Gui {
                     }
                 }
 
+                Group elementGroup = null;
+                for(Group element : groupsList) {
+                    if(element.getName() == cbGroups.getSelectedItem()) {
+                        elementGroup = element;
+                    }
+                }
+
                 Map<String, Object> filters = new HashMap<String, Object>();
                 ArrayList<String> selectedFilter = new ArrayList<String>();
 
