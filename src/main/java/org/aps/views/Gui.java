@@ -8,7 +8,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.management.MBeanRegistration;
 import javax.swing.BorderFactory;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -18,7 +17,6 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 
 import javax.swing.table.DefaultTableModel;
-import javax.swing.text.Document;
 
 import org.aps.implementations.EndangeredSpecies;
 import org.aps.implementations.Type;
@@ -26,27 +24,15 @@ import org.aps.repositories.*;
 import org.aps.services.CsvConverterService;
 import org.aps.implementations.*;
 
-// import com.google.cloud.firestore.DocumentChange;
-// import com.google.cloud.firestore.DocumentChange.Type;
-
-
 public class Gui {
-
     Btn btn = new Btn(165, 30, false);
     Lbl lbl = new Lbl(20, 30, 0);
     ComboBox cb = new ComboBox(0, 0, null, null);
     TextField textField = new TextField();
-
     DefaultTableModel dtm;
     JTable normalTable;
-    
-
     JFrame frame = new JFrame();
     JScrollPane scrollTablePane;
-
-
-    
-
 
     public void runGUI() {
         frame.setLayout(new BorderLayout(0, 50));
@@ -129,7 +115,6 @@ public class Gui {
     }
 
     JPanel searchPanel() {
-
         JPanel searchPanel = new JPanel(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
 
@@ -154,7 +139,6 @@ public class Gui {
         JComboBox<String> cbType = cb.createType(typesList);
         searchPanel.add(cbType, gbc);
 
-
         gbc.gridx = 1;
         gbc.gridy = 0;
         searchPanel.add(lbl.create("Grupo"), gbc);
@@ -176,7 +160,6 @@ public class Gui {
         // add Toretto here
         searchPanel.add(familyTxt, gbc);
 
-
         gbc.gridx = 3;
         gbc.gridy = 0;
         searchPanel.add(lbl.create("Especie"), gbc);
@@ -196,7 +179,6 @@ public class Gui {
         ArrayList<Biome> biomesList = new BiomesRepository().findAll();
         JComboBox<String> cbBiome = cb.createBiomes(biomesList);
         searchPanel.add(cbBiome, gbc);
-
 
         gbc.gridx = 0;
         gbc.gridy = 2;
@@ -219,7 +201,6 @@ public class Gui {
         JTextField mainThreatTxt = new JTextField();
         searchPanel.add(mainThreatTxt, gbc);
 
-
         gbc.gridx = 3;
         gbc.gridy = 2;
         searchPanel.add(lbl.create("Nome Comum"), gbc);
@@ -228,7 +209,6 @@ public class Gui {
         gbc.gridy = 3;
         JTextField nameTxt = new JTextField();
         searchPanel.add(nameTxt, gbc);
-
 
         gbc.gridx = 4;
         gbc.gridy = 2;
@@ -246,58 +226,58 @@ public class Gui {
         gbc.gridy = 0;
         gbc.gridheight = 2;
 
-        State elementState;
-        for(State element : statesList) {
-            if(element.getName() == cbStates.getSelectedItem()){
-                elementState = element;
-            }
-        }
-
-        Type elementType = null;
-        for(Type element : typesList) {
-            if(element.getName() == cbType.getSelectedItem()) {
-                elementType = element;
-            }
-        }
-
-        Biome elementBiome = null;
-        for(Biome element : biomesList) {
-            if(element.getName() == cbType.getSelectedItem()) {
-                elementBiome = element;
-            }
-        }
-
-        ThreatCategory elementThreatCategory = null;
-        for(ThreatCategory element : threatList) {
-            if(element.getName() == cbThreats.getSelectedItem()) {
-                elementThreatCategory = element;
-            }
-        }
-
-
         tableFrame();
         searchPanel.add(btn.newBtn("PESQUISAR", new ActionListener() {
-
             public void actionPerformed (ActionEvent e) {
-                Map<String, Object> filters = new HashMap<String, Object>();
-                ArrayList<Object> selectedFilter = new ArrayList<Object>();
+                Biome elementBiome = null;
+                for(Biome element : biomesList) {
+                    if(element.getName() == cbType.getSelectedItem()) {
+                        elementBiome = element;
+                    }
+                }
 
-//                filters.put("type", );
-//                filters.put("group", "");
+                State elementState = null;
+                for(State element : statesList) {
+                    if(element.getName() == cbStates.getSelectedItem()){
+                        elementState = element;
+                    }
+                }
+
+                Type elementType = null;
+                for(Type element : typesList) {
+                    if(element.getName() == cbType.getSelectedItem()) {
+                        elementType = element;
+                    }
+                }
+
+                ThreatCategory elementThreatCategory = null;
+                for(ThreatCategory element : threatList) {
+                    if(element.getName() == cbThreats.getSelectedItem()) {
+                        elementThreatCategory = element;
+                    }
+                }
+
+                Map<String, Object> filters = new HashMap<String, Object>();
+                ArrayList<String> selectedFilter = new ArrayList<String>();
+
+                filters.put("type", elementType.getRef());
+                filters.put("group", elementGroup.getRef());
                 filters.put("species", specieTxt.getText());
-//                filters.put("biome", elementBiome);
-                filters.put("threatCategory", "");
+                filters.put("biome", elementBiome.getRef());
+                filters.put("threatCategory", elementThreatCategory.getRef());
                 filters.put("mainThreats", mainThreatTxt.getText());
                 filters.put("name", nameTxt.getText());
-//                filters.put("occurrenceState", "");
+                filters.put("occurrenceState", elementState.getRef());
 
                 for (Map.Entry<String, Object> filter : filters.entrySet()) {
-                    if (filter.getValue().toString().length() == 0) {
+                    String filterValue = filter.getValue().toString();
+
+                    if (filterValue.length() == 0) {
                         continue;
                     }
 
                     selectedFilter.add(filter.getKey());
-                    selectedFilter.add(filter.getValue());
+                    selectedFilter.add(filterValue);
                     break;
                 }
 
@@ -308,11 +288,13 @@ public class Gui {
                 ArrayList<EndangeredSpecies> endangeredSpecies = new ArrayList<EndangeredSpecies>();
                 EndangeredSpeciesRepository endangeredSpeciesRepository = new EndangeredSpeciesRepository();
 
-                // index 0 is the name of filter
+                // index 0 is the name of filter and the index 1 is the value of filter
                 switch (selectedFilter.get(0)) {
                     case "type":
+                        endangeredSpecies = endangeredSpeciesRepository.findAllByType(selectedFilter.get(1));
                         break;
                     case "group":
+                        endangeredSpecies = endangeredSpeciesRepository.findAllByGroup(selectedFilter.get(1));
                         break;
                     case "species":
                         endangeredSpecies = endangeredSpeciesRepository.findAllBySpecie(selectedFilter.get(1));
@@ -321,6 +303,7 @@ public class Gui {
                         endangeredSpecies = endangeredSpeciesRepository.findAllByBiome(selectedFilter.get(1));
                         break;
                     case "threatCategory":
+                        endangeredSpecies = endangeredSpeciesRepository.findAllByThreatCategory(selectedFilter.get(1));
                         break;
                     case "mainThreats":
                         endangeredSpecies = endangeredSpeciesRepository.findAllByMainThreats(selectedFilter.get(1));
@@ -329,6 +312,7 @@ public class Gui {
                         endangeredSpecies = endangeredSpeciesRepository.findAllByName(selectedFilter.get(1));
                         break;
                     case "occurrenceState":
+                        endangeredSpecies = endangeredSpeciesRepository.findAllByOccurrenceStates(selectedFilter.get(1));
                         break;
                     default:
                         System.out.println("key not mapped");
