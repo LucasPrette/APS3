@@ -54,6 +54,7 @@ public class ComboBox {
     }
 
     public JComboBox createGroup(ArrayList<Group> list) {
+
         JComboBox<String> comboBox = new JComboBox<>();
         for(int i = 0; i < list.size(); i++) {
             comboBox.addItem(list.get(i).getName());
@@ -64,6 +65,7 @@ public class ComboBox {
     }
 
     public JComboBox createStates(ArrayList<State> list) {
+
         JComboBox<String> comboBox = new JComboBox<String>();
         for(int i = 0; i < list.size(); i++) {
             comboBox.addItem(list.get(i).getName());
@@ -74,8 +76,21 @@ public class ComboBox {
     }
 
     public JComboBox createThreatCategories(ArrayList<ThreatCategory> list) {
+
         JComboBox<String> comboBox = new JComboBox<String>();
         for(int i = 0; i < list.size(); i++) {
+            comboBox.addItem(list.get(i).getName());
+        }
+
+        comboBox.setEditable(false);
+
+        return comboBox;
+    }
+
+    public JComboBox createBiomes(ArrayList<Biome> list) {
+
+        JComboBox<String> comboBox = new JComboBox<String>();
+        for (int i = 0; i < list.size(); i++) {
             comboBox.addItem(list.get(i).getName());
         }
 

@@ -22,11 +22,7 @@ import javax.swing.text.Document;
 
 import org.aps.implementations.EndangeredSpecies;
 import org.aps.implementations.Type;
-import org.aps.repositories.EndangeredSpeciesRepository;
-import org.aps.repositories.GroupiesRepository;
-import org.aps.repositories.StatesRepository;
-import org.aps.repositories.ThreatCategoriesRepository;
-import org.aps.repositories.TypesRepository;
+import org.aps.repositories.*;
 import org.aps.services.CsvConverterService;
 import org.aps.implementations.*;
 
@@ -48,12 +44,7 @@ public class Gui {
     JFrame frame = new JFrame();
     JScrollPane scrollTablePane;
 
-    //classes
 
-    TypesRepository types;
-    GroupiesRepository groupies;
-    ThreatCategoriesRepository categories;
-    StatesRepository states;
     
 
 
@@ -159,8 +150,9 @@ public class Gui {
 
         gbc.gridx = 0;
         gbc.gridy = 1;
-
-        searchPanel.add(cb.createType(new TypesRepository().findAll()), gbc);
+        ArrayList<Type> typesList = new TypesRepository().findAll();
+        JComboBox<String> cbType = cb.createType(typesList);
+        searchPanel.add(cbType, gbc);
 
 
         gbc.gridx = 1;
@@ -169,8 +161,9 @@ public class Gui {
 
         gbc.gridx = 1;
         gbc.gridy = 1;
-
-        searchPanel.add(cb.createGroup(new GroupiesRepository().findAll()), gbc);
+        ArrayList<Group> groupsList = new GroupiesRepository().findAll();
+        JComboBox<String> cbGroups = cb.createGroup(groupsList);
+        searchPanel.add(cbGroups, gbc);
 
 
         gbc.gridx = 2;
@@ -200,8 +193,9 @@ public class Gui {
 
         gbc.gridx = 4;
         gbc.gridy = 1;
-        JTextField biomeTxt = new JTextField();
-        searchPanel.add(biomeTxt, gbc);
+        ArrayList<Biome> biomesList = new BiomesRepository().findAll();
+        JComboBox<String> cbBiome = cb.createBiomes(biomesList);
+        searchPanel.add(cbBiome, gbc);
 
 
         gbc.gridx = 0;
@@ -211,7 +205,9 @@ public class Gui {
         gbc.gridx = 0;
         gbc.gridwidth = 2;
         gbc.gridy = 3;
-        searchPanel.add(cb.createThreatCategories(categories.findAll()), gbc);
+        ArrayList<ThreatCategory> threatList = new ThreatCategoriesRepository().findAll();
+        JComboBox<String> cbThreats = cb.createThreatCategories(threatList);
+        searchPanel.add(cbThreats, gbc);
 
         gbc.gridwidth = 1;
         gbc.gridx = 2;
@@ -240,7 +236,9 @@ public class Gui {
 
         gbc.gridx = 4;
         gbc.gridy = 3;
-        searchPanel.add(cb.createStates(states.findAll()), gbc);
+        ArrayList<State> statesList = new StatesRepository().findAll();
+        JComboBox<String> cbStates = cb.createStates(statesList);
+        searchPanel.add(cbStates, gbc);
 
 
         gbc.fill = GridBagConstraints.VERTICAL;
@@ -248,29 +246,58 @@ public class Gui {
         gbc.gridy = 0;
         gbc.gridheight = 2;
 
-        
+        State elementState;
+        for(State element : statesList) {
+            if(element.getName() == cbStates.getSelectedItem()){
+                elementState = element;
+            }
+        }
+
+        Type elementType = null;
+        for(Type element : typesList) {
+            if(element.getName() == cbType.getSelectedItem()) {
+                elementType = element;
+            }
+        }
+
+        Biome elementBiome = null;
+        for(Biome element : biomesList) {
+            if(element.getName() == cbType.getSelectedItem()) {
+                elementBiome = element;
+            }
+        }
+
+        ThreatCategory elementThreatCategory = null;
+        for(ThreatCategory element : threatList) {
+            if(element.getName() == cbThreats.getSelectedItem()) {
+                elementThreatCategory = element;
+            }
+        }
+
+
         tableFrame();
         searchPanel.add(btn.newBtn("PESQUISAR", new ActionListener() {
-            public void actionPerformed (ActionEvent e) {
-                Map<String, String> filters = new HashMap<String, String>();
-                ArrayList<String> selectedFilter = new ArrayList<String>();
 
-//                filters.put("type", "");
+            public void actionPerformed (ActionEvent e) {
+                Map<String, Object> filters = new HashMap<String, Object>();
+                ArrayList<Object> selectedFilter = new ArrayList<Object>();
+
+//                filters.put("type", );
 //                filters.put("group", "");
                 filters.put("species", specieTxt.getText());
-//                filters.put("biome", "");
-//                filters.put("threatCategory", "");
+//                filters.put("biome", elementBiome);
+                filters.put("threatCategory", "");
                 filters.put("mainThreats", mainThreatTxt.getText());
                 filters.put("name", nameTxt.getText());
 //                filters.put("occurrenceState", "");
 
-                for (Map.Entry<String, String> filter : filters.entrySet()) {
-                    if (filter.getValue().trim().length() == 0) {
+                for (Map.Entry<String, Object> filter : filters.entrySet()) {
+                    if (filter.getValue().toString().length() == 0) {
                         continue;
                     }
 
                     selectedFilter.add(filter.getKey());
-                    selectedFilter.add(filter.getValue().trim());
+                    selectedFilter.add(filter.getValue());
                     break;
                 }
 
@@ -291,6 +318,7 @@ public class Gui {
                         endangeredSpecies = endangeredSpeciesRepository.findAllBySpecie(selectedFilter.get(1));
                         break;
                     case "biome":
+                        endangeredSpecies = endangeredSpeciesRepository.findAllByBiome(selectedFilter.get(1));
                         break;
                     case "threatCategory":
                         break;
