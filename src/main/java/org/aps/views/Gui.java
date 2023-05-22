@@ -4,8 +4,11 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import javax.management.MBeanRegistration;
 import javax.swing.BorderFactory;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -18,6 +21,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.text.Document;
 
 import org.aps.implementations.EndangeredSpecies;
+import org.aps.implementations.Type;
 import org.aps.repositories.EndangeredSpeciesRepository;
 import org.aps.repositories.GroupiesRepository;
 import org.aps.repositories.TypesRepository;
@@ -245,10 +249,64 @@ public class Gui {
         tableFrame();
         searchPanel.add(btn.newBtn("PESQUISAR", new ActionListener() {
             public void actionPerformed (ActionEvent e) {
+                Map<String, String> filters = new HashMap<String, String>();
+                ArrayList<String> selectedFilter = new ArrayList<String>();
+
+//                filters.put("type", "");
+//                filters.put("group", "");
+                filters.put("species", specieTxt.getText());
+//                filters.put("biome", "");
+//                filters.put("threatCategory", "");
+                filters.put("mainThreats", mainThreatTxt.getText());
+                filters.put("name", nameTxt.getText());
+//                filters.put("occurrenceState", "");
+
+                for (Map.Entry<String, String> filter : filters.entrySet()) {
+                    if (filter.getValue().trim().length() == 0) {
+                        continue;
+                    }
+
+                    selectedFilter.add(filter.getKey());
+                    selectedFilter.add(filter.getValue().trim());
+                    break;
+                }
+
+                if (selectedFilter.size() == 0) {
+                    return;
+                }
+
+                ArrayList<EndangeredSpecies> endangeredSpecies = new ArrayList<EndangeredSpecies>();
+                EndangeredSpeciesRepository endangeredSpeciesRepository = new EndangeredSpeciesRepository();
+
+                // index 0 is the name of filter
+                switch (selectedFilter.get(0)) {
+                    case "type":
+                        break;
+                    case "group":
+                        break;
+                    case "species":
+                        endangeredSpecies = endangeredSpeciesRepository.findAllBySpecie(selectedFilter.get(1));
+                        break;
+                    case "biome":
+                        break;
+                    case "threatCategory":
+                        break;
+                    case "mainThreats":
+                        endangeredSpecies = endangeredSpeciesRepository.findAllByMainThreats(selectedFilter.get(1));
+                        break;
+                    case "name":
+                        endangeredSpecies = endangeredSpeciesRepository.findAllByName(selectedFilter.get(1));
+                        break;
+                    case "occurrenceState":
+                        break;
+                    default:
+                        System.out.println("key not mapped");
+                        break;
+                }
 
                 AddDataTable dataTable = new AddDataTable();
-//                TODO
-                dtm = dataTable.addRowToJTable(new ArrayList<EndangeredSpecies>());
+
+                dtm = dataTable.addRowToJTable(endangeredSpecies);
                 normalTable.setModel(dtm);
                 normalTable.setVisible(true);
             }
