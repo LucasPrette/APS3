@@ -19,7 +19,9 @@ public class ThreatCategoriesRepository {
 
     public ThreatCategory repositoryMapper(QueryDocumentSnapshot document) {
         Map<String, Object> data = document.getData();
+        DocumentReference ref = document.getReference();
         ThreatCategory threatCategory = new ThreatCategory();
+        threatCategory.setRef(ref);
 
         for (Map.Entry<String, Object> entry : data.entrySet()) {
             switch (entry.getKey()) {

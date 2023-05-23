@@ -19,7 +19,9 @@ public class ProtectionLevelsRepository {
 
     public ProtectionLevel repositoryMapper(QueryDocumentSnapshot document) {
         Map<String, Object> data = document.getData();
+        DocumentReference ref = document.getReference();
         ProtectionLevel protectionLevel = new ProtectionLevel();
+        protectionLevel.setRef(ref);
 
         for (Map.Entry<String, Object> entry : data.entrySet()) {
             switch (entry.getKey()) {

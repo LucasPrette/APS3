@@ -231,8 +231,9 @@ public class Gui {
             public void actionPerformed (ActionEvent e) {
                 Biome elementBiome = null;
                 for(Biome element : biomesList) {
-                    if(element.getName() == cbType.getSelectedItem()) {
+                    if(element.getName() == cbBiome.getSelectedItem()) {
                         elementBiome = element;
+                        break;
                     }
                 }
 
@@ -240,6 +241,7 @@ public class Gui {
                 for(State element : statesList) {
                     if(element.getName() == cbStates.getSelectedItem()){
                         elementState = element;
+                        break;
                     }
                 }
 
@@ -247,6 +249,7 @@ public class Gui {
                 for(Type element : typesList) {
                     if(element.getName() == cbType.getSelectedItem()) {
                         elementType = element;
+                        break;
                     }
                 }
 
@@ -254,6 +257,7 @@ public class Gui {
                 for(ThreatCategory element : threatList) {
                     if(element.getName() == cbThreats.getSelectedItem()) {
                         elementThreatCategory = element;
+                        break;
                     }
                 }
 
@@ -261,6 +265,7 @@ public class Gui {
                 for(Group element : groupsList) {
                     if(element.getName() == cbGroups.getSelectedItem()) {
                         elementGroup = element;
+                        break;
                     }
                 }
 
@@ -273,9 +278,9 @@ public class Gui {
                 filters.put("type", elementType.getRef());
                 filters.put("group", elementGroup.getRef());
                 filters.put("species", specieTxt.getText());
-                
+
                 if(elementBiome == null) {
-                    filters.put("biome", "");
+                    filters.put("biome", " ");
                 } else {
                     filters.put("biome", elementBiome.getRef());
                 }
@@ -286,14 +291,17 @@ public class Gui {
                 filters.put("occurrenceState", elementState.getRef());
 
                 for (Map.Entry<String, Object> filter : filters.entrySet()) {
-                    String filterValue = filter.getValue().toString();
+                    Object filterValue = filter.getValue();
+                    if(filterValue == null) {
+                        filterValue = "";
+                    }
 
-                    if (filterValue.length() == 0) {
+                    if (filterValue.toString().length() == 0) {
                         continue;
                     }
 
                     selectedFilter.add(filter.getKey());
-                    selectedFilter.add(filterValue);
+                    selectedFilter.add(filterValue.toString());
                     break;
                 }
 

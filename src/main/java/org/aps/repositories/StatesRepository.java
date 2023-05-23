@@ -19,7 +19,9 @@ public class StatesRepository {
 
     public State repositoryMapper(QueryDocumentSnapshot document) {
         Map<String, Object> data = document.getData();
+        DocumentReference ref = document.getReference();
         State state = new State();
+        state.setRef(ref);
 
         for (Map.Entry<String, Object> entry : data.entrySet()) {
             switch (entry.getKey()) {

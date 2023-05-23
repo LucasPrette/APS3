@@ -42,7 +42,9 @@ public class BiomesRepository {
 
     public Biome repositoryMapper(QueryDocumentSnapshot document) {
         Map<String, Object> data = document.getData();
+        DocumentReference ref = document.getReference();
         Biome biome = new Biome();
+        biome.setRef(ref);
 
         for (Map.Entry<String, Object> entry : data.entrySet()) {
             switch (entry.getKey()) {
