@@ -18,6 +18,7 @@ import javax.swing.JTextField;
 
 import javax.swing.table.DefaultTableModel;
 
+import com.google.cloud.firestore.DocumentReference;
 import org.aps.implementations.EndangeredSpecies;
 import org.aps.implementations.Type;
 import org.aps.repositories.*;
@@ -276,19 +277,20 @@ public class Gui {
 
 
                 filters.put("type", elementType.getRef());
-                filters.put("group", elementGroup.getRef());
-                filters.put("species", specieTxt.getText());
+//                filters.put("group", elementGroup.getRef());
+//                filters.put("species", specieTxt.getText());
+//                filters.put("species", specieTxt.getText());
 
-                if(elementBiome == null) {
-                    filters.put("biome", " ");
-                } else {
-                    filters.put("biome", elementBiome.getRef());
-                }
+//                if(elementBiome == null) {
+//                    filters.put("biome", " ");
+//                } else {
+//                    filters.put("biome", elementBiome.getRef());
+//                }
 
-                filters.put("threatCategory", elementThreatCategory.getRef());
-                filters.put("mainThreats", mainThreatTxt.getText());
-                filters.put("name", nameTxt.getText());
-                filters.put("occurrenceState", elementState.getRef());
+//                filters.put("threatCategory", elementThreatCategory.getRef());
+//                filters.put("mainThreats", mainThreatTxt.getText());
+//                filters.put("name", nameTxt.getText());
+//                filters.put("occurrenceState", elementState.getRef());
 
                 for (Map.Entry<String, Object> filter : filters.entrySet()) {
                     Object filterValue = filter.getValue();
@@ -317,27 +319,27 @@ public class Gui {
                     case "type":
                         endangeredSpecies = endangeredSpeciesRepository.findAllByType(selectedFilter.get(1));
                         break;
-                    case "group":
-                        endangeredSpecies = endangeredSpeciesRepository.findAllByGroup(selectedFilter.get(1));
-                        break;
-                    case "species":
-                        endangeredSpecies = endangeredSpeciesRepository.findAllBySpecie(selectedFilter.get(1));
-                        break;
-                    case "biome":
-                        endangeredSpecies = endangeredSpeciesRepository.findAllByBiome(selectedFilter.get(1));
-                        break;
-                    case "threatCategory":
-                        endangeredSpecies = endangeredSpeciesRepository.findAllByThreatCategory(selectedFilter.get(1));
-                        break;
-                    case "mainThreats":
-                        endangeredSpecies = endangeredSpeciesRepository.findAllByMainThreats(selectedFilter.get(1));
-                        break;
-                    case "name":
-                        endangeredSpecies = endangeredSpeciesRepository.findAllByName(selectedFilter.get(1));
-                        break;
-                    case "occurrenceState":
-                        endangeredSpecies = endangeredSpeciesRepository.findAllByOccurrenceStates(selectedFilter.get(1));
-                        break;
+//                    case "group":
+//                        endangeredSpecies = endangeredSpeciesRepository.findAllByGroup(selectedFilter.get(1));
+//                        break;
+////                    case "species":
+//                        endangeredSpecies = endangeredSpeciesRepository.findAllBySpecie(selectedFilter.get(1));
+//                        break;
+//                    case "biome":
+//                        endangeredSpecies = endangeredSpeciesRepository.findAllByBiome(selectedFilter.get(1));
+//                        break;
+//                        case "threatCategory":
+//                        endangeredSpecies = endangeredSpeciesRepository.findAllByThreatCategory(selectedFilter.get(1));
+//                        break;
+//                    case "mainThreats":
+//                        endangeredSpecies = endangeredSpeciesRepository.findAllByMainThreats(selectedFilter.get(1));
+//                        break;
+//                    case "name":
+//                        endangeredSpecies = endangeredSpeciesRepository.findAllByName(selectedFilter.get(1));
+//                        break;
+//                    case "occurrenceState":
+//                        endangeredSpecies = endangeredSpeciesRepository.findAllByOccurrenceStates(selectedFilter.get(1));
+//                        break;
                     default:
                         System.out.println("key not mapped");
                         break;

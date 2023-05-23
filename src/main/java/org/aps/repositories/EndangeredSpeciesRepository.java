@@ -311,10 +311,10 @@ public class EndangeredSpeciesRepository {
         return null;
     }
 
-    public ArrayList<EndangeredSpecies> findAllByType(String typeRef) {
+    public ArrayList<EndangeredSpecies> findAllByType(Object typeRef) {
         try {
             List<QueryDocumentSnapshot> list = FirebaseService.repository.collectionGroup("endangered_species")
-                    .whereEqualTo("type", FirebaseService.repository.collection(TypesRepository.collection).document(typeRef))
+                    .whereEqualTo("type", (DocumentReference)typeRef)
                     .get()
                     .get()
                     .getDocuments();
