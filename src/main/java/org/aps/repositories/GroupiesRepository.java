@@ -18,7 +18,9 @@ public class GroupiesRepository {
 
     public Group repositoryMapper(QueryDocumentSnapshot document) {
         Map<String, Object> data = document.getData();
+        DocumentReference ref = document.getReference();
         Group group = new Group();
+        group.setRef(ref);
 
         for (Map.Entry<String, Object> entry : data.entrySet()) {
             switch (entry.getKey()) {

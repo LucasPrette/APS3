@@ -231,8 +231,9 @@ public class Gui {
             public void actionPerformed (ActionEvent e) {
                 Biome elementBiome = null;
                 for(Biome element : biomesList) {
-                    if(element.getName() == cbType.getSelectedItem()) {
+                    if(element.getName() == cbBiome.getSelectedItem()) {
                         elementBiome = element;
+                        break;
                     }
                 }
 
@@ -240,6 +241,7 @@ public class Gui {
                 for(State element : statesList) {
                     if(element.getName() == cbStates.getSelectedItem()){
                         elementState = element;
+                        break;
                     }
                 }
 
@@ -247,6 +249,7 @@ public class Gui {
                 for(Type element : typesList) {
                     if(element.getName() == cbType.getSelectedItem()) {
                         elementType = element;
+                        break;
                     }
                 }
 
@@ -254,30 +257,51 @@ public class Gui {
                 for(ThreatCategory element : threatList) {
                     if(element.getName() == cbThreats.getSelectedItem()) {
                         elementThreatCategory = element;
+                        break;
                     }
                 }
+
+                Group elementGroup = null;
+                for(Group element : groupsList) {
+                    if(element.getName() == cbGroups.getSelectedItem()) {
+                        elementGroup = element;
+                        break;
+                    }
+                }
+
 
                 Map<String, Object> filters = new HashMap<String, Object>();
                 ArrayList<String> selectedFilter = new ArrayList<String>();
 
+
+
                 filters.put("type", elementType.getRef());
                 filters.put("group", elementGroup.getRef());
                 filters.put("species", specieTxt.getText());
-                filters.put("biome", elementBiome.getRef());
+
+                if(elementBiome == null) {
+                    filters.put("biome", " ");
+                } else {
+                    filters.put("biome", elementBiome.getRef());
+                }
+
                 filters.put("threatCategory", elementThreatCategory.getRef());
                 filters.put("mainThreats", mainThreatTxt.getText());
                 filters.put("name", nameTxt.getText());
                 filters.put("occurrenceState", elementState.getRef());
 
                 for (Map.Entry<String, Object> filter : filters.entrySet()) {
-                    String filterValue = filter.getValue().toString();
+                    Object filterValue = filter.getValue();
+                    if(filterValue == null) {
+                        filterValue = "";
+                    }
 
-                    if (filterValue.length() == 0) {
+                    if (filterValue.toString().length() == 0) {
                         continue;
                     }
 
                     selectedFilter.add(filter.getKey());
-                    selectedFilter.add(filterValue);
+                    selectedFilter.add(filterValue.toString());
                     break;
                 }
 

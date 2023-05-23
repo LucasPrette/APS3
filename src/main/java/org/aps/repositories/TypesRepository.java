@@ -19,7 +19,9 @@ public class TypesRepository {
 
     public Type repositoryMapper(QueryDocumentSnapshot document) {
         Map<String, Object> data = document.getData();
+        DocumentReference ref = document.getReference();
         Type type = new Type();
+        type.setRef(ref);
 
         for (Map.Entry<String, Object> entry : data.entrySet()) {
             switch (entry.getKey()) {
