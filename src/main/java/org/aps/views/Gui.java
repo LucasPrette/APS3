@@ -270,40 +270,28 @@ public class Gui {
                     }
                 }
 
-
                 Map<String, Object> filters = new HashMap<String, Object>();
-                ArrayList<String> selectedFilter = new ArrayList<String>();
+                ArrayList<Object> selectedFilter = new ArrayList<Object>();
 
-
-
-                filters.put("type", elementType.getRef());
-//                filters.put("group", elementGroup.getRef());
-//                filters.put("species", specieTxt.getText());
-//                filters.put("species", specieTxt.getText());
-
-//                if(elementBiome == null) {
-//                    filters.put("biome", " ");
-//                } else {
-//                    filters.put("biome", elementBiome.getRef());
-//                }
-
-//                filters.put("threatCategory", elementThreatCategory.getRef());
-//                filters.put("mainThreats", mainThreatTxt.getText());
-//                filters.put("name", nameTxt.getText());
-//                filters.put("occurrenceState", elementState.getRef());
+                filters.put("type", elementType == null ? "" : elementType.getRef());
+                filters.put("group", elementGroup == null ? "" : elementGroup.getRef());
+                filters.put("species", specieTxt.getText());
+                filters.put("species", specieTxt.getText());
+                filters.put("biome", elementBiome == null ? "" : elementBiome.getRef());
+                filters.put("threatCategory", elementThreatCategory == null ? "" : elementThreatCategory.getRef());
+                filters.put("mainThreats", mainThreatTxt.getText());
+                filters.put("name", nameTxt.getText());
+                filters.put("occurrenceState", elementState == null ? "" : elementState.getRef());
 
                 for (Map.Entry<String, Object> filter : filters.entrySet()) {
                     Object filterValue = filter.getValue();
-                    if(filterValue == null) {
-                        filterValue = "";
-                    }
 
-                    if (filterValue.toString().length() == 0) {
+                    if (filterValue == null || filterValue.toString().length() == 0) {
                         continue;
                     }
 
                     selectedFilter.add(filter.getKey());
-                    selectedFilter.add(filterValue.toString());
+                    selectedFilter.add(filterValue);
                     break;
                 }
 
@@ -315,31 +303,31 @@ public class Gui {
                 EndangeredSpeciesRepository endangeredSpeciesRepository = new EndangeredSpeciesRepository();
 
                 // index 0 is the name of filter and the index 1 is the value of filter
-                switch (selectedFilter.get(0)) {
+                switch (selectedFilter.get(0).toString()) {
                     case "type":
-                        endangeredSpecies = endangeredSpeciesRepository.findAllByType(selectedFilter.get(1));
+                        endangeredSpecies = endangeredSpeciesRepository.findAllByType((DocumentReference) selectedFilter.get(1));
                         break;
-//                    case "group":
-//                        endangeredSpecies = endangeredSpeciesRepository.findAllByGroup(selectedFilter.get(1));
-//                        break;
-////                    case "species":
-//                        endangeredSpecies = endangeredSpeciesRepository.findAllBySpecie(selectedFilter.get(1));
-//                        break;
-//                    case "biome":
-//                        endangeredSpecies = endangeredSpeciesRepository.findAllByBiome(selectedFilter.get(1));
-//                        break;
-//                        case "threatCategory":
-//                        endangeredSpecies = endangeredSpeciesRepository.findAllByThreatCategory(selectedFilter.get(1));
-//                        break;
-//                    case "mainThreats":
-//                        endangeredSpecies = endangeredSpeciesRepository.findAllByMainThreats(selectedFilter.get(1));
-//                        break;
-//                    case "name":
-//                        endangeredSpecies = endangeredSpeciesRepository.findAllByName(selectedFilter.get(1));
-//                        break;
-//                    case "occurrenceState":
-//                        endangeredSpecies = endangeredSpeciesRepository.findAllByOccurrenceStates(selectedFilter.get(1));
-//                        break;
+                    case "group":
+                        endangeredSpecies = endangeredSpeciesRepository.findAllByGroup((DocumentReference) selectedFilter.get(1));
+                        break;
+//                    case "species":
+                        endangeredSpecies = endangeredSpeciesRepository.findAllBySpecie((String) selectedFilter.get(1));
+                        break;
+                    case "biome":
+                        endangeredSpecies = endangeredSpeciesRepository.findAllByBiome((DocumentReference) selectedFilter.get(1));
+                        break;
+                        case "threatCategory":
+                        endangeredSpecies = endangeredSpeciesRepository.findAllByThreatCategory((DocumentReference) selectedFilter.get(1));
+                        break;
+                    case "mainThreats":
+                        endangeredSpecies = endangeredSpeciesRepository.findAllByMainThreats((String) selectedFilter.get(1));
+                        break;
+                    case "name":
+                        endangeredSpecies = endangeredSpeciesRepository.findAllByName(selectedFilter.get(1));
+                        break;
+                    case "occurrenceState":
+                        endangeredSpecies = endangeredSpeciesRepository.findAllByOccurrenceStates(selectedFilter.get(1));
+                        break;
                     default:
                         System.out.println("key not mapped");
                         break;
