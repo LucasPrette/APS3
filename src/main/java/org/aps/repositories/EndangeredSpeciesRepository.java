@@ -311,10 +311,11 @@ public class EndangeredSpeciesRepository {
         return null;
     }
 
-    public ArrayList<EndangeredSpecies> findAllByType(Object typeRef) {
+    public ArrayList<EndangeredSpecies> findAllByType(DocumentReference typeRef) {
         try {
+            System.out.println(typeRef);
             List<QueryDocumentSnapshot> list = FirebaseService.repository.collectionGroup("endangered_species")
-                    .whereEqualTo("type", (DocumentReference)typeRef)
+                    .whereEqualTo("type", typeRef)
                     .get()
                     .get()
                     .getDocuments();
@@ -330,10 +331,10 @@ public class EndangeredSpeciesRepository {
         return null;
     }
 
-    public ArrayList<EndangeredSpecies> findAllByGroup(String groupRef) {
+    public ArrayList<EndangeredSpecies> findAllByGroup(DocumentReference groupRef) {
         try {
             List<QueryDocumentSnapshot> list = FirebaseService.repository.collectionGroup("endangered_species")
-                    .whereEqualTo("group", FirebaseService.repository.collection(GroupiesRepository.collection).document(groupRef))
+                    .whereEqualTo("group", groupRef)
                     .get()
                     .get()
                     .getDocuments();
@@ -409,13 +410,10 @@ public class EndangeredSpeciesRepository {
         return null;
     }
 
-    public ArrayList<EndangeredSpecies> findAllByThreatCategory(String threatCategoryRef) {
+    public ArrayList<EndangeredSpecies> findAllByThreatCategory(DocumentReference threatCategoryRef) {
         try {
             List<QueryDocumentSnapshot> list = FirebaseService.repository.collectionGroup("endangered_species")
-                    .whereEqualTo(
-                            "threat_category",
-                            FirebaseService.repository.collection(ThreatCategoriesRepository.collection).document(threatCategoryRef)
-                    )
+                    .whereEqualTo("threat_category", threatCategoryRef)
                     .limit(25)
                     .get()
                     .get()
@@ -432,13 +430,10 @@ public class EndangeredSpeciesRepository {
         return null;
     }
 
-    public ArrayList<EndangeredSpecies> findAllByBiome(String biomeRef) {
+    public ArrayList<EndangeredSpecies> findAllByBiome(DocumentReference biomeRef) {
         try {
             List<QueryDocumentSnapshot> list = FirebaseService.repository.collectionGroup("endangered_species")
-                    .whereEqualTo(
-                            "biome",
-                            FirebaseService.repository.collection(BiomesRepository.collection
-                    ).document(biomeRef))
+                    .whereArrayContains("biome", biomeRef)
                     .limit(25)
                     .get()
                     .get()
@@ -458,7 +453,7 @@ public class EndangeredSpeciesRepository {
     public ArrayList<EndangeredSpecies> findAllByMainThreats(String mainThreat) {
         try {
             List<QueryDocumentSnapshot> list = FirebaseService.repository.collectionGroup("endangered_species")
-                    .whereEqualTo("main_threat", mainThreat)
+                    .whereArrayContains("main_threat", mainThreat)
                     .limit(25)
                     .get()
                     .get()
