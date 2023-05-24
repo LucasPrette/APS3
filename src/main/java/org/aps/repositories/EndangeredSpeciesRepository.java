@@ -455,7 +455,7 @@ public class EndangeredSpeciesRepository {
     public ArrayList<EndangeredSpecies> findAllByMainThreats(String mainThreat) {
         try {
             List<QueryDocumentSnapshot> list = FirebaseService.repository.collectionGroup("endangered_species")
-                    .whereArrayContains("main_threat", mainThreat)
+                    .whereArrayContains("main_threats", mainThreat)
                     .limit(25)
                     .get()
                     .get()
@@ -475,7 +475,7 @@ public class EndangeredSpeciesRepository {
     public ArrayList<EndangeredSpecies> findAllByOccurrenceStates(DocumentReference occurrenceStatesRef) {
         try {
             List<QueryDocumentSnapshot> list = FirebaseService.repository.collectionGroup("endangered_species")
-                    .whereEqualTo("occurrence_states", occurrenceStatesRef)
+                    .whereArrayContains("occurrence_states", occurrenceStatesRef)
                     .limit(25)
                     .get()
                     .get()
