@@ -5,9 +5,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3233dfa5-70c8-43a9-b511-411a103a5acd" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/aps/repositories/BiomesRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/aps/repositories/BiomesRepository.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/aps/repositories/EndangeredSpeciesRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/aps/repositories/EndangeredSpeciesRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/aps/repositories/GroupiesRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/aps/repositories/GroupiesRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/aps/repositories/ProtectionLevelsRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/aps/repositories/ProtectionLevelsRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/aps/repositories/StatesRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/aps/repositories/StatesRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/aps/repositories/ThreatCategoriesRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/aps/repositories/ThreatCategoriesRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/aps/repositories/TypesRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/aps/repositories/TypesRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/aps/views/AddDataTable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/aps/views/AddDataTable.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/aps/views/ComboBox.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/aps/views/ComboBox.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -113,6 +120,7 @@
       <workItem from="1684540263173" duration="8788000" />
       <workItem from="1684684350118" duration="15779000" />
       <workItem from="1684778568992" duration="758000" />
+      <workItem from="1684891232186" duration="3812000" />
     </task>
     <servers />
   </component>
@@ -131,6 +139,29 @@
     </option>
   </component>
   <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/org/aps/views/Gui.java</url>
+          <line>304</line>
+          <option name="timeStamp" value="3" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/org/aps/views/Gui.java</url>
+          <line>338</line>
+          <option name="timeStamp" value="4" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/org/aps/repositories/EndangeredSpeciesRepository.java</url>
+          <line>313</line>
+          <option name="timeStamp" value="12" />
+        </line-breakpoint>
+        <breakpoint enabled="true" type="java-exception">
+          <properties class="java.lang.NullPointerException" package="java.lang" />
+          <option name="timeStamp" value="7" />
+        </breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
     <pin-to-top-manager>
       <pinned-members>
         <PinnedItemInfo parentTag="org.aps.repositories.EndangeredSpeciesRepository" memberName="threatCategoriesRepository" />

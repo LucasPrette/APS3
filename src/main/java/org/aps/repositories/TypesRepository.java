@@ -32,7 +32,7 @@ public class TypesRepository {
                     type.setId((String) entry.getValue());
                     break;
                 default:
-                    System.out.println("key not mapped " + entry.getKey());
+                    System.out.println("key not mapped TypesRepository " + entry.getKey());
                     break;
             }
         }
@@ -55,7 +55,7 @@ public class TypesRepository {
                     type.setId((String) entry.getValue());
                     break;
                 default:
-                    System.out.println("key not mapped " + entry.getKey());
+                    System.out.println("key not mapped TypesRepository " + entry.getKey());
                     break;
             }
         }

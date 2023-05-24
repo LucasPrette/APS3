@@ -35,7 +35,7 @@ public class ThreatCategoriesRepository {
                     threatCategory.setId((String) entry.getValue());
                     break;
                 default:
-                    System.out.println("key not mapped " + entry.getKey());
+                    System.out.println("key not mapped ThreatCategoriesRepository " + entry.getKey());
                     break;
             }
         }
@@ -61,7 +61,7 @@ public class ThreatCategoriesRepository {
                     threatCategory.setId((String) entry.getValue());
                     break;
                 default:
-                    System.out.println("key not mapped " + entry.getKey());
+                    System.out.println("key not mapped ThreatCategoriesRepository " + entry.getKey());
                     break;
             }
         }

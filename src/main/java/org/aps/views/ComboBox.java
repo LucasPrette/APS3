@@ -1,23 +1,20 @@
 package org.aps.views;
 
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import javax.swing.JComboBox;
 import org.aps.implementations.*;
 
 public class ComboBox {
-    private ArrayList<String> itens;
-    private int width;
-    private int height;
-    private Boolean editable;
+    private final int width;
+    private final int height;
+    private final Boolean editable;
 
     public ComboBox
     (
         int width,
         int height,
-        String identifier,
         Boolean editable
     )
     {
@@ -27,24 +24,10 @@ public class ComboBox {
 
     }
 
-    public int getHeight() {
-        return height;
-    }
-
-    public ArrayList<String> getItens() {
-        return itens;
-    }
-
-    public int getWidth() {
-        return width;
-    }
-
-    public Boolean getEditable() {
-        return editable;
-    }
-
     public JComboBox createType(ArrayList<Type> list) {
         JComboBox<String> comboBox  = new JComboBox<String>();
+        comboBox.addItem(""); // default value
+
         for(int i = 0; i < list.size(); i++) {
             comboBox.addItem(list.get(i).getName());
         }
@@ -56,6 +39,8 @@ public class ComboBox {
     public JComboBox createGroup(ArrayList<Group> list) {
 
         JComboBox<String> comboBox = new JComboBox<>();
+        comboBox.addItem(""); // default value
+
         for(int i = 0; i < list.size(); i++) {
             comboBox.addItem(list.get(i).getName());
         }
@@ -67,6 +52,8 @@ public class ComboBox {
     public JComboBox createStates(ArrayList<State> list) {
 
         JComboBox<String> comboBox = new JComboBox<String>();
+        comboBox.addItem(""); // default value
+
         for(int i = 0; i < list.size(); i++) {
             comboBox.addItem(list.get(i).getName());
         }
@@ -78,6 +65,8 @@ public class ComboBox {
     public JComboBox createThreatCategories(ArrayList<ThreatCategory> list) {
 
         JComboBox<String> comboBox = new JComboBox<String>();
+        comboBox.addItem(""); // default value
+
         for(int i = 0; i < list.size(); i++) {
             comboBox.addItem(list.get(i).getName());
         }
@@ -90,6 +79,8 @@ public class ComboBox {
     public JComboBox createBiomes(ArrayList<Biome> list) {
 
         JComboBox<String> comboBox = new JComboBox<String>();
+        comboBox.addItem(""); // default value
+
         for (int i = 0; i < list.size(); i++) {
             comboBox.addItem(list.get(i).getName());
         }
