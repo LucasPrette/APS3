@@ -36,18 +36,6 @@ public class AddDataTable {
                 occurrenceStates += (" " + occurrenceState.getUf());
             }
 
-            System.out.printf(
-                    endangeredSpecies.getType().getName(),
-                    endangeredSpecies.getGroup().getName(),
-                    endangeredSpecies.getFamily(),
-                    endangeredSpecies.getSpecies(),
-                    endangeredSpecies.getName(),
-                    endangeredSpecies.getThreatCategory().getName(),
-                    biomes,
-                    String.join(", ", endangeredSpecies.getMainThreats()),
-                    occurrenceStates
-            );
-
             values.add(
                 new String[] 
                 {

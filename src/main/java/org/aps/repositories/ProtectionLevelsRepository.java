@@ -32,7 +32,7 @@ public class ProtectionLevelsRepository {
                     protectionLevel.setId((String) entry.getValue());
                     break;
                 default:
-                    System.out.println("key not mapped " + entry.getKey());
+                    System.out.println("key not mapped ProtectionLevels " + entry.getKey());
                     break;
             }
         }
@@ -55,7 +55,7 @@ public class ProtectionLevelsRepository {
                     protectionLevel.setId((String) entry.getValue());
                     break;
                 default:
-                    System.out.println("key not mapped " + entry.getKey());
+                    System.out.println("key not mapped ProtectionLevels " + entry.getKey());
                     break;
             }
         }

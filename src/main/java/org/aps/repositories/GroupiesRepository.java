@@ -31,7 +31,7 @@ public class GroupiesRepository {
                     group.setId((String) entry.getValue());
                     break;
                 default:
-                    System.out.println("key not mapped " + entry.getKey());
+                    System.out.println("key not mapped GroupiesRepository " + entry.getKey());
                     break;
             }
         }
@@ -54,7 +54,7 @@ public class GroupiesRepository {
                     group.setId((String) entry.getValue());
                     break;
                 default:
-                    System.out.println("key not mapped " + entry.getKey());
+                    System.out.println("key not mapped GroupiesRepository " + entry.getKey());
                     break;
             }
         }

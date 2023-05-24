@@ -28,7 +28,7 @@ import org.aps.implementations.*;
 public class Gui {
     Btn btn = new Btn(165, 30, false);
     Lbl lbl = new Lbl(20, 30, 0);
-    ComboBox cb = new ComboBox(0, 0, null, null);
+    ComboBox cb = new ComboBox(0, 0, null);
     TextField textField = new TextField();
     DefaultTableModel dtm;
     JTable normalTable;
@@ -69,7 +69,6 @@ public class Gui {
                 EndangeredSpeciesRepository endangeredSpeciesRepository = new EndangeredSpeciesRepository();
 
                 List<EndangeredSpecies> endangeredSpecies = endangeredSpeciesRepository.findAll();
-                System.out.println(endangeredSpecies.size());
                 dtm = dataTable.addRowToJTable(endangeredSpecies);
                 normalTable.setModel(dtm);
                 normalTable.setVisible(true);
@@ -228,20 +227,22 @@ public class Gui {
         gbc.gridheight = 2;
 
         tableFrame();
-        searchPanel.add(btn.newBtn("PESQUISAR", new ActionListener() {
-            public void actionPerformed (ActionEvent e) {
-                Biome elementBiome = null;
+        searchPanel.add(btn.newBtn("PESQUISAR", (event) -> {
+                Biome selectedBiome = null;
+                State selectedState = null;
+                ThreatCategory selectedThreatCategory = null;
+                Group selectedGroup = null;
+
                 for(Biome element : biomesList) {
                     if(element.getName() == cbBiome.getSelectedItem()) {
-                        elementBiome = element;
+                        selectedBiome = element;
                         break;
                     }
                 }
 
-                State elementState = null;
                 for(State element : statesList) {
                     if(element.getName() == cbStates.getSelectedItem()){
-                        elementState = element;
+                        selectedState = element;
                         break;
                     }
                 }
@@ -254,18 +255,16 @@ public class Gui {
                     }
                 }
 
-                ThreatCategory elementThreatCategory = null;
                 for(ThreatCategory element : threatList) {
                     if(element.getName() == cbThreats.getSelectedItem()) {
-                        elementThreatCategory = element;
+                        selectedThreatCategory = element;
                         break;
                     }
                 }
 
-                Group elementGroup = null;
                 for(Group element : groupsList) {
                     if(element.getName() == cbGroups.getSelectedItem()) {
-                        elementGroup = element;
+                        selectedGroup = element;
                         break;
                     }
                 }
@@ -274,19 +273,19 @@ public class Gui {
                 ArrayList<Object> selectedFilter = new ArrayList<Object>();
 
                 filters.put("type", elementType == null ? "" : elementType.getRef());
-                filters.put("group", elementGroup == null ? "" : elementGroup.getRef());
+                filters.put("group", selectedGroup == null ? "" : selectedGroup.getRef());
+                filters.put("family", familyTxt.getText());
                 filters.put("species", specieTxt.getText());
-                filters.put("species", specieTxt.getText());
-                filters.put("biome", elementBiome == null ? "" : elementBiome.getRef());
-                filters.put("threatCategory", elementThreatCategory == null ? "" : elementThreatCategory.getRef());
+                filters.put("biome", selectedBiome == null ? "" : selectedBiome.getRef());
+                filters.put("threatCategory", selectedThreatCategory == null ? "" : selectedThreatCategory.getRef());
                 filters.put("mainThreats", mainThreatTxt.getText());
                 filters.put("name", nameTxt.getText());
-                filters.put("occurrenceState", elementState == null ? "" : elementState.getRef());
+                filters.put("occurrenceState", selectedState == null ? "" : selectedState.getRef());
 
                 for (Map.Entry<String, Object> filter : filters.entrySet()) {
                     Object filterValue = filter.getValue();
 
-                    if (filterValue == null || filterValue.toString().length() == 0) {
+                    if (filterValue.toString().length() == 0) {
                         continue;
                     }
 
@@ -310,7 +309,7 @@ public class Gui {
                     case "group":
                         endangeredSpecies = endangeredSpeciesRepository.findAllByGroup((DocumentReference) selectedFilter.get(1));
                         break;
-//                    case "species":
+                    case "species":
                         endangeredSpecies = endangeredSpeciesRepository.findAllBySpecie((String) selectedFilter.get(1));
                         break;
                     case "biome":
@@ -323,13 +322,15 @@ public class Gui {
                         endangeredSpecies = endangeredSpeciesRepository.findAllByMainThreats((String) selectedFilter.get(1));
                         break;
                     case "name":
-                        endangeredSpecies = endangeredSpeciesRepository.findAllByName(selectedFilter.get(1));
+                        endangeredSpecies = endangeredSpeciesRepository.findAllByName((String) selectedFilter.get(1));
+                    case "family":
+                        endangeredSpecies = endangeredSpeciesRepository.findAllByFamily((String) selectedFilter.get(1));
                         break;
                     case "occurrenceState":
-                        endangeredSpecies = endangeredSpeciesRepository.findAllByOccurrenceStates(selectedFilter.get(1));
+                        endangeredSpecies = endangeredSpeciesRepository.findAllByOccurrenceStates((DocumentReference) selectedFilter.get(1));
                         break;
                     default:
-                        System.out.println("key not mapped");
+                        System.out.println("key not mapped GUI " + selectedFilter.get(0).toString());
                         break;
                 }
 
@@ -339,7 +340,7 @@ public class Gui {
                 normalTable.setModel(dtm);
                 normalTable.setVisible(true);
             }
-        }), gbc);
+        ), gbc);
 
 
         gbc.gridx = 5;
